@@ -2,6 +2,8 @@
 
 A portable, provider-neutral Kiro CLI agent pack. It installs a small team with **Orpheus** as the entrypoint and works independently of other Kiro packs.
 
+> **Note:** oh-my-kiro is an independent community project. It is not affiliated with, endorsed by, or officially connected to Amazon Web Services (AWS), the Kiro IDE, or the Kiro CLI team. "Kiro" is a trademark of Amazon.com, Inc. or its affiliates.
+
 ## Agents
 
 | Agent | Role | Default access |
@@ -104,10 +106,6 @@ python3 -m json.tool agents/orpheus.json
 ```
 
 The test suite uses a temporary home and stub Kiro CLI. It verifies dry-run behavior, coexistence with a foreign agent, ownership-aware updates and uninstall, explicit default-agent changes, and collision protection.
-
-## Disclaimer
-
-oh-my-kiro is an independent community project. It is not affiliated with, endorsed by, or officially connected to Amazon Web Services (AWS), the Kiro IDE, or the Kiro CLI team. "Kiro" is a trademark of Amazon.com, Inc. or its affiliates.
 
 ## Design principles
 
