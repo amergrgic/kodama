@@ -1,0 +1,7 @@
+# Local installer state and verification artifacts
+/.kiro/
+/.oh-my-kiro/
+
+# Common temporary artifacts
+*.log
+.DS_Store
