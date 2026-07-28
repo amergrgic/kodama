@@ -5,6 +5,19 @@ All notable changes to oh-my-kiro will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-07-28
+
+### Added
+
+- One-liner remote install (`curl | bash`, no clone needed)
+- `--alias` flag: adds `orpheus` shell alias to your profile (zsh/bash/fish)
+- `--version` flag to print the installed pack version
+- Automatic update checking via `agentSpawn` hook (cached daily, silent when up to date)
+- Self-update script (`~/.kiro/oh-my-kiro/update.sh`) fetches latest release from GitHub
+- Interactive confirmation prompt on `--uninstall`
+- Version tracking in manifest
+- CONTRIBUTING.md
+
 ## [0.1.0] - 2026-07-28
 
 ### Added
@@ -22,4 +35,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Actions CI workflow
 - MIT license
 
+[0.2.0]: https://github.com/amergrgic/oh-my-kiro/releases/tag/v0.2.0
 [0.1.0]: https://github.com/amergrgic/oh-my-kiro/releases/tag/v0.1.0
