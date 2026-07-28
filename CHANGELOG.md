@@ -5,6 +5,16 @@ All notable changes to kodama will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2026-07-28
+
+### Added
+
+- Inter-agent handoff convention: specialists write structured context to `.kiro/kodama/handoffs/` when chaining tasks
+- Kodama orchestrates handoff-based chains for multi-specialist workflows
+- Handoff writing instructions added to forge, scribe, smith, and artist prompts
+- Project-customization docs updated with handoff convention and example
+- Example `.gitignore` for ephemeral handoff files
+
 ## [0.3.0] - 2026-07-28
 
 ### Added
@@ -50,6 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Actions CI workflow
 - MIT license
 
+[0.4.0]: https://github.com/amergrgic/kodama/releases/tag/v0.4.0
 [0.3.0]: https://github.com/amergrgic/kodama/releases/tag/v0.3.0
 [0.2.1]: https://github.com/amergrgic/kodama/releases/tag/v0.2.1
 [0.2.0]: https://github.com/amergrgic/kodama/releases/tag/v0.2.0

@@ -81,6 +81,40 @@ Do not name a local agent `kodama` unless you intentionally want that repository
 
 Keep `AGENTS.md` brief and factual. It should help an agent orient itself: source layout, test commands, generated-code boundaries, and deployment or review expectations. Avoid duplicating detailed rules that belong in steering or skills.
 
+## Inter-agent handoffs
+
+When Kodama chains multiple specialists on a single task (e.g., forge creates a pipeline, then scribe documents it), it uses handoff files to pass context between them:
+
+```text
+project-root/
+└── .kiro/
+    └── kodama/
+        └── handoffs/
+            └── <topic>.md
+```
+
+Handoff files are structured markdown with predictable sections:
+
+```markdown
+# CI Pipeline
+
+## Files changed
+- `.github/workflows/ci.yml` — test + build + push on PR/merge
+
+## Decisions
+- Used pnpm (matches project lockfile)
+- Multi-stage Docker build, distroless final image
+
+## Context for next agent
+- The pipeline pushes to ECR on merge to main
+- No deploy step yet — only build and push
+
+## Open items
+- Deploy stage deferred pending environment config
+```
+
+Handoffs are ephemeral work-in-progress — add `.kiro/kodama/handoffs/` to your `.gitignore`. They are only written when Kodama explicitly instructs a specialist to produce one; simple one-shot delegations skip them entirely.
+
 ## Steering for infrastructure and documentation specialists
 
 When your project has specific infrastructure or documentation conventions, add steering that guides `kodama-forge` and `kodama-scribe` appropriately:

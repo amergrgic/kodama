@@ -1,0 +1,2 @@
+# Kodama runtime artifacts (ephemeral inter-agent handoffs)
+.kiro/kodama/handoffs/
