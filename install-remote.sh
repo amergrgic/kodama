@@ -45,6 +45,16 @@ curl -fsSL --max-time 30 "$tarball_url" | tar xz -C "$TEMP_DIR" --strip-componen
 
 success "Downloaded"
 
+# Ask about alias if interactive and not already passed as flag
+EXTRA_FLAGS=""
+if [[ -t 0 ]] && [[ ! " $* " =~ " --alias " ]]; then
+  printf '  Add %borpheus%b alias to your shell? [y/N] ' "$BOLD" "$RESET"
+  read -r add_alias
+  if [[ "$add_alias" =~ ^[Yy]$ ]]; then
+    EXTRA_FLAGS="--alias"
+  fi
+fi
+
 # Run setup
 info "Running setup..."
-bash "$TEMP_DIR/setup.sh" "$@"
+bash "$TEMP_DIR/setup.sh" $EXTRA_FLAGS "$@"
