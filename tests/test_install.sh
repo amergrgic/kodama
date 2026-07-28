@@ -53,12 +53,12 @@ path = pathlib.Path(sys.argv[1])
 config = json.loads(path.read_text(encoding="utf-8"))
 assert config["name"] == path.stem
 assert config["prompt"]
-assert "__OMK_PROMPT_DIR__" not in config["prompt"]
+assert "__KODAMA_PROMPT_DIR__" not in config["prompt"]
 assert set(config.get("allowedTools", [])) <= set(config.get("tools", []))
-assert all("__OMK_SKILLS_DIR__" not in resource for resource in config.get("resources", []))
+assert all("__KODAMA_SKILLS_DIR__" not in resource for resource in config.get("resources", []))
 for trigger, commands in config.get("hooks", {}).items():
     for entry in commands:
-        assert "__OMK_STATE_DIR__" not in entry.get("command", "")
+        assert "__KODAMA_STATE_DIR__" not in entry.get("command", "")
 PY
     ;;
   settings)
@@ -101,7 +101,7 @@ assert_file "foreign agent survives dry run" "$HOME_DIR/.kiro/agents/sisyphus.js
 
 printf '%s\n' 'Test: install owns only public-pack files'
 run_installer "$HOME_DIR" > "$BASE/install.log"
-for name in kodama kodama-scout kodama-scholar kodama-sage kodama-artist kodama-smith kodama-critic; do
+for name in kodama kodama-scout kodama-scholar kodama-sage kodama-artist kodama-smith kodama-critic kodama-forge kodama-scribe; do
   assert_file "installs $name" "$HOME_DIR/.kiro/agents/$name.json"
 done
 for name in kodama-behavior kodama-verification kodama-constraints; do
@@ -114,7 +114,7 @@ assert_eq "installs a self-contained Kodama prompt" "true" "$(python3 - "$HOME_D
 import json
 import sys
 config = json.load(open(sys.argv[1], encoding="utf-8"))
-print(str("Kodama" in config["prompt"] and "__OMK_PROMPT_DIR__" not in config["prompt"]).lower())
+print(str("Kodama" in config["prompt"] and "__KODAMA_PROMPT_DIR__" not in config["prompt"]).lower())
 PY
 )"
 assert_eq "renders Kodama skill paths" "true" "$(python3 - "$HOME_DIR/.kiro/agents/kodama.json" "$HOME_DIR/.kiro/skills" <<'PY'

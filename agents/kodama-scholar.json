@@ -6,8 +6,8 @@
   "tools": ["web_search", "web_fetch"],
   "allowedTools": ["web_search", "web_fetch"],
   "resources": [
-    "skill://__OMK_SKILLS_DIR__/kodama-behavior/SKILL.md",
-    "skill://__OMK_SKILLS_DIR__/kodama-constraints/SKILL.md"
+    "skill://__KODAMA_SKILLS_DIR__/kodama-behavior/SKILL.md",
+    "skill://__KODAMA_SKILLS_DIR__/kodama-constraints/SKILL.md"
   ],
   "welcomeMessage": "Scholar ready — what do you need researched?"
 }

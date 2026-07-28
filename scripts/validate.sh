@@ -70,6 +70,25 @@ for path in skill_paths:
         raise SystemExit(f"{path}: frontmatter requires a description")
 
 print(f"validated {len(agent_paths)} agent configurations and {len(skill_paths)} skill definitions")
+
+# Drift check: AGENT_NAMES in setup.sh must match agents/ directory
+import re
+setup_text = (root / "setup.sh").read_text(encoding="utf-8")
+match = re.search(r"AGENT_NAMES=\(\s*(.*?)\s*\)", setup_text, re.DOTALL)
+if not match:
+    raise SystemExit("setup.sh: cannot find AGENT_NAMES array")
+setup_agents = set(match.group(1).split())
+file_agents = {p.stem for p in (root / "agents").glob("*.json")}
+if setup_agents != file_agents:
+    missing_in_setup = file_agents - setup_agents
+    missing_in_dir = setup_agents - file_agents
+    msg = "AGENT_NAMES drift detected:"
+    if missing_in_setup:
+        msg += f" in agents/ but not setup.sh: {sorted(missing_in_setup)}"
+    if missing_in_dir:
+        msg += f" in setup.sh but not agents/: {sorted(missing_in_dir)}"
+    raise SystemExit(msg)
+print("AGENT_NAMES matches agents/ directory")
 PY
 
 printf '\nValidation complete.\n'

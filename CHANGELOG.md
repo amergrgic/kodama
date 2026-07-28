@@ -5,6 +5,18 @@ All notable changes to kodama will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.1] - 2026-07-28
+
+### Fixed
+
+- Renamed all `__OMK_*` placeholders to `__KODAMA_*` across agent configs, setup.sh, and tests
+- Renamed `OMK_VERSION` variable to `KODAMA_VERSION` in setup.sh
+- Added kodama-forge and kodama-scribe to test suite verification (30 tests now)
+
+### Added
+
+- AGENT_NAMES vs `agents/` directory drift check in validate.sh
+
 ## [0.4.0] - 2026-07-28
 
 ### Added
@@ -60,6 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Actions CI workflow
 - MIT license
 
+[0.4.1]: https://github.com/amergrgic/kodama/releases/tag/v0.4.1
 [0.4.0]: https://github.com/amergrgic/kodama/releases/tag/v0.4.0
 [0.3.0]: https://github.com/amergrgic/kodama/releases/tag/v0.3.0
 [0.2.1]: https://github.com/amergrgic/kodama/releases/tag/v0.2.1

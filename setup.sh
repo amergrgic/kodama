@@ -40,7 +40,7 @@ AGENTS_DIR="$KIRO_DIR/agents"
 SKILLS_DIR="$KIRO_DIR/skills"
 STATE_DIR="$KIRO_DIR/kodama"
 MANIFEST="$STATE_DIR/manifest.json"
-OMK_VERSION="0.4.0"
+KODAMA_VERSION="0.4.1"
 
 AGENT_NAMES=(
   kodama
@@ -89,7 +89,7 @@ while [[ $# -gt 0 ]]; do
     --set-default) SET_DEFAULT=true ;;
     --alias) SETUP_ALIAS=true ;;
     --uninstall) UNINSTALL=true ;;
-    --version) echo "kodama $OMK_VERSION"; exit 0 ;;
+    --version) echo "kodama $KODAMA_VERSION"; exit 0 ;;
     --help|-h) usage; exit 0 ;;
     *) fail "unknown option: $1" ;;
   esac
@@ -273,14 +273,14 @@ for name in sys.argv[5:]:
     with (source_dir / f"{name}.json").open(encoding="utf-8") as handle:
         config = json.load(handle)
     config["resources"] = [
-        resource.replace("__OMK_SKILLS_DIR__", skills_dir)
+        resource.replace("__KODAMA_SKILLS_DIR__", skills_dir)
         for resource in config.get("resources", [])
     ]
     # Resolve hook command placeholders
     for trigger, commands in config.get("hooks", {}).items():
         for entry in commands:
             if "command" in entry:
-                entry["command"] = entry["command"].replace("__OMK_STATE_DIR__", state_dir)
+                entry["command"] = entry["command"].replace("__KODAMA_STATE_DIR__", state_dir)
     with (staging_dir / f"{name}.json").open("w", encoding="utf-8") as handle:
         json.dump(config, handle, indent=2)
         handle.write("\n")
@@ -360,7 +360,7 @@ if $SETUP_ALIAS; then
   fi
 fi
 
-python3 - "$MANIFEST" "$previous_default" "$OMK_VERSION" "$AGENTS_DIR" "$SKILLS_DIR" "${AGENT_NAMES[@]}" -- "${SKILL_NAMES[@]}" <<'PY'
+python3 - "$MANIFEST" "$previous_default" "$KODAMA_VERSION" "$AGENTS_DIR" "$SKILLS_DIR" "${AGENT_NAMES[@]}" -- "${SKILL_NAMES[@]}" <<'PY'
 import hashlib
 import json
 import pathlib
@@ -394,7 +394,7 @@ PY
 
 printf '\n%b━━ Done%b\n' "$BOLD" "$RESET"
 printf '\n'
-printf '  Kodama and %d specialists are ready (v%s).\n' "$(( ${#AGENT_NAMES[@]} - 1 ))" "$OMK_VERSION"
+printf '  Kodama and %d specialists are ready (v%s).\n' "$(( ${#AGENT_NAMES[@]} - 1 ))" "$KODAMA_VERSION"
 printf '  Installed independently of other Kiro packs.\n'
 printf '\n'
 printf '  %bStart:%b  kiro-cli chat --agent kodama\n' "$GREEN" "$RESET"

@@ -16,13 +16,13 @@
     "file://README.md",
     "file://AGENTS.md",
     "file://.kiro/steering/**/*.md",
-    "skill://__OMK_SKILLS_DIR__/kodama-behavior/SKILL.md",
-    "skill://__OMK_SKILLS_DIR__/kodama-verification/SKILL.md",
-    "skill://__OMK_SKILLS_DIR__/kodama-constraints/SKILL.md"
+    "skill://__KODAMA_SKILLS_DIR__/kodama-behavior/SKILL.md",
+    "skill://__KODAMA_SKILLS_DIR__/kodama-verification/SKILL.md",
+    "skill://__KODAMA_SKILLS_DIR__/kodama-constraints/SKILL.md"
   ],
   "hooks": {
     "agentSpawn": [
-      { "command": "__OMK_STATE_DIR__/check-update.sh" }
+      { "command": "__KODAMA_STATE_DIR__/check-update.sh" }
     ]
   },
   "welcomeMessage": "Kodama is ready. Tell me what you want to build."

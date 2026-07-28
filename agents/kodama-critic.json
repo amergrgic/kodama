@@ -14,8 +14,8 @@
   "resources": [
     "file://README.md",
     "file://.kiro/steering/**/*.md",
-    "skill://__OMK_SKILLS_DIR__/kodama-verification/SKILL.md",
-    "skill://__OMK_SKILLS_DIR__/kodama-constraints/SKILL.md"
+    "skill://__KODAMA_SKILLS_DIR__/kodama-verification/SKILL.md",
+    "skill://__KODAMA_SKILLS_DIR__/kodama-constraints/SKILL.md"
   ],
   "welcomeMessage": "Critic ready — show me the diff."
 }

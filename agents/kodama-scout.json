@@ -11,8 +11,8 @@
   "resources": [
     "file://README.md",
     "file://.kiro/steering/**/*.md",
-    "skill://__OMK_SKILLS_DIR__/kodama-behavior/SKILL.md",
-    "skill://__OMK_SKILLS_DIR__/kodama-constraints/SKILL.md"
+    "skill://__KODAMA_SKILLS_DIR__/kodama-behavior/SKILL.md",
+    "skill://__KODAMA_SKILLS_DIR__/kodama-constraints/SKILL.md"
   ],
   "welcomeMessage": "Scout ready — point me at the codebase."
 }
