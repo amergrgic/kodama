@@ -313,11 +313,13 @@ for name in "${SKILL_NAMES[@]}"; do
 done
 
 # Install lifecycle scripts
+cp "$SCRIPT_DIR/setup.sh" "$STATE_DIR/setup.sh"
+chmod +x "$STATE_DIR/setup.sh"
 cp "$SCRIPT_DIR/scripts/check-update.sh" "$STATE_DIR/check-update.sh"
 chmod +x "$STATE_DIR/check-update.sh"
 cp "$SCRIPT_DIR/scripts/update.sh" "$STATE_DIR/update.sh"
 chmod +x "$STATE_DIR/update.sh"
-success "Scripts: check-update.sh, update.sh"
+success "Scripts: setup.sh, check-update.sh, update.sh"
 
 previous_default=""
 if [[ -f "$MANIFEST" ]]; then
@@ -395,5 +397,5 @@ printf '  Installed independently of other Kiro packs.\n'
 printf '\n'
 printf '  %bStart:%b  kiro-cli chat --agent orpheus\n' "$GREEN" "$RESET"
 printf '  %bUpdate:%b ~/.kiro/oh-my-kiro/update.sh\n' "$DIM" "$RESET"
-printf '  %bRemove:%b ./setup.sh --uninstall\n' "$DIM" "$RESET"
+printf '  %bRemove:%b ~/.kiro/oh-my-kiro/setup.sh --uninstall\n' "$DIM" "$RESET"
 printf '\n'

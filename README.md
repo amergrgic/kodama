@@ -44,6 +44,7 @@ The installer requires `kiro-cli` and `python3`. It validates every generated ag
 ~/.kiro/agents/omk-*.json
 ~/.kiro/skills/omk-*/SKILL.md
 ~/.kiro/oh-my-kiro/manifest.json
+~/.kiro/oh-my-kiro/setup.sh
 ~/.kiro/oh-my-kiro/check-update.sh
 ~/.kiro/oh-my-kiro/update.sh
 ~/.kiro/oh-my-kiro/backups/<timestamp>/  # on update
@@ -60,10 +61,17 @@ Use the optional lifecycle commands:
 ```bash
 ./setup.sh --dry-run       # preview without writes
 ./setup.sh --set-default   # set chat.defaultAgent to orpheus
+./setup.sh --alias         # add 'orpheus' shell alias
 ./setup.sh --uninstall     # remove only unmodified files owned by this pack
 ```
 
 A first install refuses to overwrite an existing `orpheus` or `omk-*` agent file. Uninstall preserves an agent config that was changed after installation, so customizations are not silently deleted.
+
+A copy of `setup.sh` is installed to `~/.kiro/oh-my-kiro/` so lifecycle commands work without keeping the clone:
+
+```bash
+~/.kiro/oh-my-kiro/setup.sh --uninstall
+```
 
 ## Update
 
