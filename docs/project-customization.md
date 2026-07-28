@@ -81,6 +81,30 @@ Do not name a local agent `kodama` unless you intentionally want that repository
 
 Keep `AGENTS.md` brief and factual. It should help an agent orient itself: source layout, test commands, generated-code boundaries, and deployment or review expectations. Avoid duplicating detailed rules that belong in steering or skills.
 
+## Steering for infrastructure and documentation specialists
+
+When your project has specific infrastructure or documentation conventions, add steering that guides `kodama-forge` and `kodama-scribe` appropriately:
+
+```markdown
+# Infrastructure conventions
+
+- CI runs on GitHub Actions; all workflows live in `.github/workflows/`.
+- Use multi-stage Docker builds; final images must be based on `distroless`.
+- Terraform state is in S3; never use local state.
+- All IaC changes must pass `terraform validate` and `tflint` before review.
+```
+
+```markdown
+# Documentation conventions
+
+- Keep ADRs in `docs/adr/` using the MADR format.
+- Update CHANGELOG.md for every user-facing change (Keep a Changelog format).
+- API docs are generated from OpenAPI specs in `docs/api/`; do not hand-edit.
+- Use American English and sentence-case headings.
+```
+
+These steer forge and scribe without modifying the installed agents. Kodama delegates to them with the project context already loaded.
+
 ## Safety and update behavior
 
 - Do **not** edit `~/.kiro/agents/kodama.json`, `~/.kiro/agents/kodama-*.json`, or `~/.kiro/skills/kodama-*/` directly. Updates may replace those files; use project-local files instead.

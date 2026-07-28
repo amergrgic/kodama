@@ -104,6 +104,8 @@ All agents default to `model: "auto"`. Change an installed agent's `model` field
 | kodama-scholar | Fast (Sonnet, GPT-5.6 Luna) | Research synthesis |
 | kodama-smith | Balanced (Sonnet, GPT-5.6 Terra) | Implementation |
 | kodama-artist | Balanced (Sonnet, GPT-5.6 Terra) | UI implementation |
+| kodama-forge | Balanced (Sonnet, GPT-5.6 Terra) | Infrastructure and pipeline work |
+| kodama-scribe | Fast (Sonnet, GPT-5.6 Luna) | Documentation generation |
 
 The pack intentionally ships no global MCP preset. Add MCP servers through Kiro's normal configuration or customize individual agent configs after installation. Keep credentials and environment-specific integrations outside this repository.
 
@@ -114,7 +116,7 @@ The installer adds three namespaced, on-demand playbooks under `~/.kiro/skills/`
 | Skill | Purpose | Used by |
 |---|---|---|
 | **kodama-behavior** | Task classification, codebase assessment, delegation, parallel work, and failure recovery | kodama, kodama-scout, kodama-scholar, kodama-sage |
-| **kodama-verification** | Success criteria, targeted validation, and evidence-based completion reports | kodama, kodama-sage, kodama-artist, kodama-smith, kodama-critic |
+| **kodama-verification** | Success criteria, targeted validation, and evidence-based completion reports | kodama, kodama-sage, kodama-artist, kodama-smith, kodama-critic, kodama-forge, kodama-scribe |
 | **kodama-constraints** | Scope, security, destructive-action confirmation, and completion guardrails | all agents |
 
 Skills are the only workflow Markdown shipped by the pack. Agent prompts remain self-contained inside their JSON configurations.

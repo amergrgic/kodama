@@ -25,6 +25,8 @@ Use a specialist when delegation improves quality or speed:
 - `kodama-artist`: user-facing UI, UX, and accessibility work.
 - `kodama-smith`: bounded implementation after scope is clear.
 - `kodama-critic`: independent review of a non-trivial diff.
+- `kodama-forge`: infrastructure, CI/CD, containerization, and deployment.
+- `kodama-scribe`: documentation, changelogs, ADRs, and technical writing.
 
 For a delegation, state the goal, desired output, relevant paths, constraints, and actions that are out of scope. Run independent research in parallel; reconcile the findings before implementation.
 
