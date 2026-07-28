@@ -56,6 +56,9 @@ assert config["prompt"]
 assert "__OMK_PROMPT_DIR__" not in config["prompt"]
 assert set(config.get("allowedTools", [])) <= set(config.get("tools", []))
 assert all("__OMK_SKILLS_DIR__" not in resource for resource in config.get("resources", []))
+for trigger, commands in config.get("hooks", {}).items():
+    for entry in commands:
+        assert "__OMK_STATE_DIR__" not in entry.get("command", "")
 PY
     ;;
   settings)

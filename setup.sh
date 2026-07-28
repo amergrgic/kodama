@@ -40,6 +40,7 @@ AGENTS_DIR="$KIRO_DIR/agents"
 SKILLS_DIR="$KIRO_DIR/skills"
 STATE_DIR="$KIRO_DIR/oh-my-kiro"
 MANIFEST="$STATE_DIR/manifest.json"
+OMK_VERSION="0.1.0"
 
 AGENT_NAMES=(
   orpheus
@@ -62,11 +63,12 @@ SET_DEFAULT=false
 
 usage() {
   cat <<'EOF'
-Usage: ./setup.sh [--dry-run] [--set-default] [--uninstall]
+Usage: ./setup.sh [--dry-run] [--set-default] [--uninstall] [--version]
 
   --dry-run      Show what would change without writing files.
   --set-default  Set Kiro CLI's default agent to Orpheus after a successful install.
   --uninstall    Remove only unmodified agent and skill files owned by this pack.
+  --version      Print the pack version and exit.
 
 The setup script never modifies other agent packs or global MCP settings.
 EOF
@@ -82,6 +84,7 @@ while [[ $# -gt 0 ]]; do
     --dry-run) DRY_RUN=true ;;
     --set-default) SET_DEFAULT=true ;;
     --uninstall) UNINSTALL=true ;;
+    --version) echo "oh-my-kiro $OMK_VERSION"; exit 0 ;;
     --help|-h) usage; exit 0 ;;
     *) fail "unknown option: $1" ;;
   esac
@@ -247,7 +250,7 @@ for name in "${SKILL_NAMES[@]}"; do
   cp "$SCRIPT_DIR/skills/$name/SKILL.md" "$STAGING_DIR/skills/$name/SKILL.md"
 done
 
-python3 - "$SCRIPT_DIR/agents" "$STAGING_DIR/agents" "$SKILLS_DIR" "${AGENT_NAMES[@]}" <<'PY'
+python3 - "$SCRIPT_DIR/agents" "$STAGING_DIR/agents" "$SKILLS_DIR" "$STATE_DIR" "${AGENT_NAMES[@]}" <<'PY'
 import json
 import pathlib
 import sys
@@ -255,13 +258,19 @@ import sys
 source_dir = pathlib.Path(sys.argv[1])
 staging_dir = pathlib.Path(sys.argv[2])
 skills_dir = sys.argv[3]
-for name in sys.argv[4:]:
+state_dir = sys.argv[4]
+for name in sys.argv[5:]:
     with (source_dir / f"{name}.json").open(encoding="utf-8") as handle:
         config = json.load(handle)
     config["resources"] = [
         resource.replace("__OMK_SKILLS_DIR__", skills_dir)
         for resource in config.get("resources", [])
     ]
+    # Resolve hook command placeholders
+    for trigger, commands in config.get("hooks", {}).items():
+        for entry in commands:
+            if "command" in entry:
+                entry["command"] = entry["command"].replace("__OMK_STATE_DIR__", state_dir)
     with (staging_dir / f"{name}.json").open("w", encoding="utf-8") as handle:
         json.dump(config, handle, indent=2)
         handle.write("\n")
@@ -295,6 +304,13 @@ for name in "${SKILL_NAMES[@]}"; do
   success "Skill: $name"
 done
 
+# Install lifecycle scripts
+cp "$SCRIPT_DIR/scripts/check-update.sh" "$STATE_DIR/check-update.sh"
+chmod +x "$STATE_DIR/check-update.sh"
+cp "$SCRIPT_DIR/scripts/update.sh" "$STATE_DIR/update.sh"
+chmod +x "$STATE_DIR/update.sh"
+success "Scripts: check-update.sh, update.sh"
+
 previous_default=""
 if [[ -f "$MANIFEST" ]]; then
   previous_default="$(manifest_value previousDefaultAgent)"
@@ -306,17 +322,18 @@ if $SET_DEFAULT; then
   success "Default agent set to orpheus"
 fi
 
-python3 - "$MANIFEST" "$previous_default" "$AGENTS_DIR" "$SKILLS_DIR" "${AGENT_NAMES[@]}" -- "${SKILL_NAMES[@]}" <<'PY'
+python3 - "$MANIFEST" "$previous_default" "$OMK_VERSION" "$AGENTS_DIR" "$SKILLS_DIR" "${AGENT_NAMES[@]}" -- "${SKILL_NAMES[@]}" <<'PY'
 import hashlib
 import json
 import pathlib
 import sys
 
 manifest = pathlib.Path(sys.argv[1])
-agent_dir = pathlib.Path(sys.argv[3])
-skill_dir = pathlib.Path(sys.argv[4])
+version = sys.argv[3]
+agent_dir = pathlib.Path(sys.argv[4])
+skill_dir = pathlib.Path(sys.argv[5])
 separator = sys.argv.index("--")
-agents = sys.argv[5:separator]
+agents = sys.argv[6:separator]
 skills = sys.argv[separator + 1:]
 agent_hashes = {
     name: hashlib.sha256((agent_dir / f"{name}.json").read_bytes()).hexdigest()
@@ -328,6 +345,7 @@ skill_hashes = {
 }
 manifest.write_text(json.dumps({
     "schemaVersion": 1,
+    "version": version,
     "agents": agents,
     "skills": skills,
     "agentHashes": agent_hashes,
@@ -338,9 +356,10 @@ PY
 
 printf '\n%b━━ Done%b\n' "$BOLD" "$RESET"
 printf '\n'
-printf '  Orpheus and %d specialists are ready.\n' "$(( ${#AGENT_NAMES[@]} - 1 ))"
+printf '  Orpheus and %d specialists are ready (v%s).\n' "$(( ${#AGENT_NAMES[@]} - 1 ))" "$OMK_VERSION"
 printf '  Installed independently of other Kiro packs.\n'
 printf '\n'
 printf '  %bStart:%b  kiro-cli chat --agent orpheus\n' "$GREEN" "$RESET"
+printf '  %bUpdate:%b ~/.kiro/oh-my-kiro/update.sh\n' "$DIM" "$RESET"
 printf '  %bRemove:%b ./setup.sh --uninstall\n' "$DIM" "$RESET"
 printf '\n'

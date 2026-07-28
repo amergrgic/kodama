@@ -35,6 +35,8 @@ The installer requires `kiro-cli` and `python3`. It validates every generated ag
 ~/.kiro/agents/omk-*.json
 ~/.kiro/skills/omk-*/SKILL.md
 ~/.kiro/oh-my-kiro/manifest.json
+~/.kiro/oh-my-kiro/check-update.sh
+~/.kiro/oh-my-kiro/update.sh
 ~/.kiro/oh-my-kiro/backups/<timestamp>/  # on update
 ```
 
@@ -53,6 +55,20 @@ Use the optional lifecycle commands:
 ```
 
 A first install refuses to overwrite an existing `orpheus` or `omk-*` agent file. Uninstall preserves an agent config that was changed after installation, so customizations are not silently deleted.
+
+## Update
+
+Orpheus automatically checks for updates when a session starts (cached, once per day). To update manually:
+
+```bash
+~/.kiro/oh-my-kiro/update.sh
+```
+
+This downloads the latest release, backs up your current installation, and re-runs setup. Check your installed version with:
+
+```bash
+./setup.sh --version
+```
 
 ## Configuration
 

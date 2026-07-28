@@ -20,5 +20,10 @@
     "skill://__OMK_SKILLS_DIR__/omk-verification/SKILL.md",
     "skill://__OMK_SKILLS_DIR__/omk-constraints/SKILL.md"
   ],
+  "hooks": {
+    "agentSpawn": [
+      { "command": "__OMK_STATE_DIR__/check-update.sh" }
+    ]
+  },
   "welcomeMessage": "Orpheus is ready. Tell me what you want to build."
 }
