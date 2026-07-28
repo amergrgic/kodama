@@ -24,8 +24,17 @@ kiro-cli chat --agent orpheus
 
 ## Install
 
+One-liner (no clone needed):
+
 ```bash
-./setup.sh
+curl -fsSL https://raw.githubusercontent.com/amergrgic/oh-my-kiro/main/install-remote.sh | bash
+```
+
+Or clone and run locally:
+
+```bash
+git clone https://github.com/amergrgic/oh-my-kiro.git
+cd oh-my-kiro && ./setup.sh
 ```
 
 The installer requires `kiro-cli` and `python3`. It validates every generated agent configuration before writing it, then installs only these files:

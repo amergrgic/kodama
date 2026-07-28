@@ -60,13 +60,15 @@ SKILL_NAMES=(
 DRY_RUN=false
 UNINSTALL=false
 SET_DEFAULT=false
+SETUP_ALIAS=false
 
 usage() {
   cat <<'EOF'
-Usage: ./setup.sh [--dry-run] [--set-default] [--uninstall] [--version]
+Usage: ./setup.sh [--dry-run] [--set-default] [--alias] [--uninstall] [--version]
 
   --dry-run      Show what would change without writing files.
   --set-default  Set Kiro CLI's default agent to Orpheus after a successful install.
+  --alias        Add 'orpheus' shell alias to your profile.
   --uninstall    Remove only unmodified agent and skill files owned by this pack.
   --version      Print the pack version and exit.
 
@@ -83,6 +85,7 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --dry-run) DRY_RUN=true ;;
     --set-default) SET_DEFAULT=true ;;
+    --alias) SETUP_ALIAS=true ;;
     --uninstall) UNINSTALL=true ;;
     --version) echo "oh-my-kiro $OMK_VERSION"; exit 0 ;;
     --help|-h) usage; exit 0 ;;
@@ -212,6 +215,11 @@ uninstall() {
 }
 
 if $UNINSTALL; then
+  if ! $DRY_RUN && [[ -t 0 ]]; then
+    printf '  Are you sure you want to uninstall oh-my-kiro? [y/N] '
+    read -r confirm
+    [[ "$confirm" =~ ^[Yy]$ ]] || { echo "Cancelled."; exit 0; }
+  fi
   uninstall
   exit 0
 fi
@@ -320,6 +328,32 @@ if $SET_DEFAULT; then
   [[ "$current_default" != "orpheus" ]] && previous_default="$current_default"
   kiro-cli settings chat.defaultAgent orpheus
   success "Default agent set to orpheus"
+fi
+
+if $SETUP_ALIAS; then
+  ALIAS_LINE='alias orpheus="kiro-cli chat --agent orpheus"'
+  # Detect shell profile
+  SHELL_PROFILE=""
+  case "${SHELL:-}" in
+    */zsh)  SHELL_PROFILE="$HOME/.zshrc" ;;
+    */bash)
+      if [[ -f "$HOME/.bash_profile" ]]; then
+        SHELL_PROFILE="$HOME/.bash_profile"
+      else
+        SHELL_PROFILE="$HOME/.bashrc"
+      fi
+      ;;
+    */fish) SHELL_PROFILE="$HOME/.config/fish/config.fish" ;;
+  esac
+
+  if [[ -z "$SHELL_PROFILE" ]]; then
+    warn "Could not detect shell profile — add manually: $ALIAS_LINE"
+  elif grep -qF 'alias orpheus=' "$SHELL_PROFILE" 2>/dev/null; then
+    success "Alias already in $SHELL_PROFILE"
+  else
+    printf '\n# oh-my-kiro\n%s\n' "$ALIAS_LINE" >> "$SHELL_PROFILE"
+    success "Added 'orpheus' alias to $SHELL_PROFILE (reload your shell to use it)"
+  fi
 fi
 
 python3 - "$MANIFEST" "$previous_default" "$OMK_VERSION" "$AGENTS_DIR" "$SKILLS_DIR" "${AGENT_NAMES[@]}" -- "${SKILL_NAMES[@]}" <<'PY'
