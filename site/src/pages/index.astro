@@ -1,0 +1,149 @@
+---
+import '../styles/global.css';
+
+const agents = [
+  { name: 'kodama', role: 'Orchestrator', desc: 'Plans, delegates, reconciles, verifies', icon: '🌳' },
+  { name: 'kodama-scout', role: 'Reconnaissance', desc: 'Read-only codebase exploration', icon: '🔍' },
+  { name: 'kodama-scholar', role: 'Research', desc: 'External docs, APIs, libraries', icon: '📚' },
+  { name: 'kodama-sage', role: 'Reasoning', desc: 'Architecture, debugging, tradeoffs', icon: '🧠' },
+  { name: 'kodama-artist', role: 'UI/UX', desc: 'Components, styling, accessibility', icon: '🎨' },
+  { name: 'kodama-smith', role: 'Implementation', desc: 'Code, tests, refactors', icon: '⚒️' },
+  { name: 'kodama-critic', role: 'Review', desc: 'Independent diff review', icon: '🔬' },
+  { name: 'kodama-forge', role: 'Infrastructure', desc: 'CI/CD, Docker, IaC, deploy', icon: '🔥' },
+  { name: 'kodama-scribe', role: 'Documentation', desc: 'READMEs, ADRs, changelogs', icon: '✍️' },
+];
+
+const features = [
+  { title: 'Portable', desc: 'No provider lock-in. Works with any model supported by Kiro CLI.', icon: '📦' },
+  { title: 'Safe by default', desc: 'Implementation tools require approval. Read-only agents stay read-only.', icon: '🛡️' },
+  { title: 'Small roster', desc: '9 purpose-built agents. Clear boundaries, no overlap.', icon: '🎯' },
+  { title: 'Evidence-based', desc: 'Work is reviewed and validated before completion.', icon: '✅' },
+];
+---
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Kodama — A portable, provider-neutral Kiro CLI agent pack" />
+  <title>Kodama — Kiro CLI Agent Pack</title>
+  <link rel="icon" type="image/svg+xml" href="/kodama/favicon.svg" />
+</head>
+
+<body class="bg-zinc-950 text-zinc-100 antialiased">
+
+  <!-- Hero -->
+  <section class="min-h-screen flex flex-col items-center justify-center px-6 text-center">
+    <div class="mb-6 text-6xl">🌳</div>
+    <h1 class="text-5xl sm:text-6xl font-bold tracking-tight bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">
+      kodama
+    </h1>
+    <p class="mt-4 text-lg sm:text-xl text-zinc-400 max-w-2xl">
+      A portable, provider-neutral agent pack for the Kiro CLI.<br />
+      One orchestrator. Eight specialists. Zero lock-in.
+    </p>
+    <div class="mt-8 flex flex-col sm:flex-row gap-4">
+      <a href="#install" class="px-6 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-medium transition-colors">
+        Get started
+      </a>
+      <a href="https://github.com/amergrgic/kodama" class="px-6 py-3 rounded-lg border border-zinc-700 hover:border-zinc-500 text-zinc-300 font-medium transition-colors">
+        View on GitHub
+      </a>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="max-w-5xl mx-auto px-6 py-20">
+    <h2 class="text-3xl font-bold text-center mb-12">Design principles</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      {features.map(f => (
+        <div class="p-6 rounded-xl bg-zinc-900 border border-zinc-800">
+          <div class="text-2xl mb-3">{f.icon}</div>
+          <h3 class="text-lg font-semibold text-zinc-100">{f.title}</h3>
+          <p class="mt-1 text-zinc-400">{f.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Agent Roster -->
+  <section class="max-w-5xl mx-auto px-6 py-20">
+    <h2 class="text-3xl font-bold text-center mb-4">The team</h2>
+    <p class="text-center text-zinc-400 mb-12 max-w-xl mx-auto">
+      Kodama delegates to purpose-built specialists. Each has clear boundaries and minimal permissions.
+    </p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {agents.map(a => (
+        <div class="p-5 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-emerald-800 transition-colors">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="text-xl">{a.icon}</span>
+            <span class="font-mono text-sm text-emerald-400">{a.name}</span>
+          </div>
+          <p class="text-sm text-zinc-500 uppercase tracking-wide mb-1">{a.role}</p>
+          <p class="text-sm text-zinc-400">{a.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Install -->
+  <section id="install" class="max-w-3xl mx-auto px-6 py-20">
+    <h2 class="text-3xl font-bold text-center mb-4">Install</h2>
+    <p class="text-center text-zinc-400 mb-8">
+      One command. Requires <code class="text-zinc-300">kiro-cli</code> and <code class="text-zinc-300">python3</code>.
+    </p>
+
+    <div class="rounded-xl bg-zinc-900 border border-zinc-800 p-6">
+      <p class="text-xs text-zinc-500 uppercase tracking-wide mb-3">Remote install (no clone)</p>
+      <pre class="overflow-x-auto"><code class="text-emerald-400 text-sm">curl -fsSL https://raw.githubusercontent.com/amergrgic/kodama/main/install-remote.sh | bash</code></pre>
+    </div>
+
+    <div class="mt-4 rounded-xl bg-zinc-900 border border-zinc-800 p-6">
+      <p class="text-xs text-zinc-500 uppercase tracking-wide mb-3">Or clone and run locally</p>
+      <pre class="overflow-x-auto"><code class="text-zinc-300 text-sm">git clone https://github.com/amergrgic/kodama.git
+cd kodama && ./setup.sh</code></pre>
+    </div>
+
+    <div class="mt-6 text-center">
+      <p class="text-zinc-500 text-sm">Then start a session:</p>
+      <code class="inline-block mt-2 px-4 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-emerald-400 font-mono text-sm">
+        kiro-cli chat --agent kodama
+      </code>
+      <p class="text-zinc-500 text-sm mt-4">
+        Or install with <code class="text-zinc-300">--alias</code> to just type <code class="text-emerald-400">kodama</code>:
+      </p>
+      <code class="inline-block mt-2 px-4 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 font-mono text-sm">
+        ./setup.sh --alias
+      </code>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="max-w-3xl mx-auto px-6 py-20">
+    <h2 class="text-3xl font-bold text-center mb-4">How it works</h2>
+    <p class="text-center text-zinc-400 mb-8 max-w-xl mx-auto">
+      Kodama classifies your request, delegates to the right specialist(s), reconciles findings, and verifies before reporting completion.
+    </p>
+    <div class="flex flex-col items-center gap-3 text-sm font-mono">
+      <div class="px-4 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300">You → kodama</div>
+      <div class="text-zinc-600">↓</div>
+      <div class="px-4 py-2 rounded-lg bg-zinc-900 border border-emerald-900 text-emerald-400">classify → delegate → parallel work</div>
+      <div class="text-zinc-600">↓</div>
+      <div class="px-4 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300">reconcile → verify → result</div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-zinc-800 py-12 px-6 text-center text-zinc-500 text-sm">
+    <p>
+      kodama is an independent community project. Not affiliated with AWS or the Kiro IDE team.
+    </p>
+    <p class="mt-2">
+      <a href="https://github.com/amergrgic/kodama" class="text-zinc-400 hover:text-emerald-400 transition-colors">GitHub</a>
+      <span class="mx-2">·</span>
+      <a href="https://github.com/amergrgic/kodama/blob/main/LICENSE" class="text-zinc-400 hover:text-emerald-400 transition-colors">MIT License</a>
+    </p>
+  </footer>
+
+</body>
+</html>
