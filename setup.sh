@@ -40,7 +40,7 @@ AGENTS_DIR="$KIRO_DIR/agents"
 SKILLS_DIR="$KIRO_DIR/skills"
 STATE_DIR="$KIRO_DIR/oh-my-kiro"
 MANIFEST="$STATE_DIR/manifest.json"
-OMK_VERSION="0.2.0"
+OMK_VERSION="0.2.1"
 
 AGENT_NAMES=(
   orpheus
