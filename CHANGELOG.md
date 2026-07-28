@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to oh-my-kiro will be documented in this file.
+All notable changes to kodama will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - One-liner remote install (`curl | bash`, no clone needed)
-- `--alias` flag: adds `orpheus` shell alias to your profile (zsh/bash/fish)
+- `--alias` flag: adds `kodama` shell alias to your profile (zsh/bash/fish)
 - `--version` flag to print the installed pack version
 - Automatic update checking via `agentSpawn` hook (cached daily, silent when up to date)
 - Self-update script (`~/.kiro/oh-my-kiro/update.sh`) fetches latest release from GitHub
@@ -29,9 +29,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Orpheus entrypoint agent with multi-step planning and specialist delegation
-- 6 specialist agents: omk-explorer, omk-librarian, omk-oracle, omk-designer, omk-fixer, omk-reviewer
-- 3 reusable skills: omk-behavior, omk-verification, omk-constraints
+- Kodama entrypoint agent with multi-step planning and specialist delegation
+- 6 specialist agents: kodama-scout, kodama-scholar, kodama-sage, kodama-artist, kodama-smith, kodama-critic
+- 3 reusable skills: kodama-behavior, kodama-verification, kodama-constraints
 - Lifecycle manager (`setup.sh`) with dry-run, backup, set-default, and safe uninstall
 - Manifest-based ownership tracking with SHA-256 hashes
 - Collision protection: refuses to overwrite existing agents not owned by this pack

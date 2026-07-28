@@ -17,12 +17,12 @@ banner() {
   printf '%b' "$CYAN"
   cat <<'ART'
 
-     ██████╗ ██╗  ██╗    ███╗   ███╗██╗   ██╗    ██╗  ██╗██╗██████╗  ██████╗
-    ██╔═══██╗██║  ██║    ████╗ ████║╚██╗ ██╔╝    ██║ ██╔╝██║██╔══██╗██╔═══██╗
-    ██║   ██║███████║    ██╔████╔██║ ╚████╔╝     █████╔╝ ██║██████╔╝██║   ██║
-    ██║   ██║██╔══██║    ██║╚██╔╝██║  ╚██╔╝      ██╔═██╗ ██║██╔══██╗██║   ██║
-    ╚██████╔╝██║  ██║    ██║ ╚═╝ ██║   ██║       ██║  ██╗██║██║  ██║╚██████╔╝
-     ╚═════╝ ╚═╝  ╚═╝    ╚═╝     ╚═╝   ╚═╝       ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝ ╚═════╝
+    ██╗  ██╗ ██████╗ ██████╗  █████╗ ███╗   ███╗ █████╗
+    ██║ ██╔╝██╔═══██╗██╔══██╗██╔══██╗████╗ ████║██╔══██╗
+    █████╔╝ ██║   ██║██║  ██║███████║██╔████╔██║███████║
+    ██╔═██╗ ██║   ██║██║  ██║██╔══██║██║╚██╔╝██║██╔══██║
+    ██║  ██╗╚██████╔╝██████╔╝██║  ██║██║ ╚═╝ ██║██║  ██║
+    ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝
 
 ART
   printf '%b' "$RESET"
@@ -43,18 +43,18 @@ MANIFEST="$STATE_DIR/manifest.json"
 OMK_VERSION="0.2.1"
 
 AGENT_NAMES=(
-  orpheus
-  omk-explorer
-  omk-librarian
-  omk-oracle
-  omk-designer
-  omk-fixer
-  omk-reviewer
+  kodama
+  kodama-scout
+  kodama-scholar
+  kodama-sage
+  kodama-artist
+  kodama-smith
+  kodama-critic
 )
 SKILL_NAMES=(
-  omk-behavior
-  omk-verification
-  omk-constraints
+  kodama-behavior
+  kodama-verification
+  kodama-constraints
 )
 
 DRY_RUN=false
@@ -67,8 +67,8 @@ usage() {
 Usage: ./setup.sh [--dry-run] [--set-default] [--alias] [--uninstall] [--version]
 
   --dry-run      Show what would change without writing files.
-  --set-default  Set Kiro CLI's default agent to Orpheus after a successful install.
-  --alias        Add 'orpheus' shell alias to your profile.
+  --set-default  Set Kiro CLI's default agent to Kodama after a successful install.
+  --alias        Add 'kodama' shell alias to your profile.
   --uninstall    Remove only unmodified agent and skill files owned by this pack.
   --version      Print the pack version and exit.
 
@@ -87,7 +87,7 @@ while [[ $# -gt 0 ]]; do
     --set-default) SET_DEFAULT=true ;;
     --alias) SETUP_ALIAS=true ;;
     --uninstall) UNINSTALL=true ;;
-    --version) echo "oh-my-kiro $OMK_VERSION"; exit 0 ;;
+    --version) echo "kodama $OMK_VERSION"; exit 0 ;;
     --help|-h) usage; exit 0 ;;
     *) fail "unknown option: $1" ;;
   esac
@@ -174,12 +174,12 @@ remove_owned_file() {
 
 uninstall() {
   if [[ ! -f "$MANIFEST" ]]; then
-    warn "oh-my-kiro is not installed at $STATE_DIR"
+    warn "kodama is not installed at $STATE_DIR"
     return
   fi
 
   if $DRY_RUN; then
-    info "Would remove unmodified oh-my-kiro agents from $AGENTS_DIR and skills from $SKILLS_DIR"
+    info "Would remove unmodified kodama agents from $AGENTS_DIR and skills from $SKILLS_DIR"
     return
   fi
 
@@ -200,7 +200,7 @@ uninstall() {
   local previous_default current_default
   previous_default="$(manifest_value previousDefaultAgent)"
   current_default="$(kiro-cli settings chat.defaultAgent 2>/dev/null || true)"
-  if [[ "$current_default" == "orpheus" ]]; then
+  if [[ "$current_default" == "kodama" ]]; then
     if [[ -n "$previous_default" ]]; then
       kiro-cli settings chat.defaultAgent "$previous_default"
       info "Restored default agent to $previous_default"
@@ -216,7 +216,7 @@ uninstall() {
 
 if $UNINSTALL; then
   if ! $DRY_RUN && [[ -t 0 ]]; then
-    printf '  Are you sure you want to uninstall oh-my-kiro? [y/N] '
+    printf '  Are you sure you want to uninstall kodama? [y/N] '
     read -r confirm
     [[ "$confirm" =~ ^[Yy]$ ]] || { echo "Cancelled."; exit 0; }
   fi
@@ -238,7 +238,7 @@ if $DRY_RUN; then
   info "Would install agents: ${AGENT_NAMES[*]}"
   info "Would install skills: ${SKILL_NAMES[*]}"
   info "Target: $KIRO_DIR"
-  $SET_DEFAULT && info "Would set default agent to: orpheus"
+  $SET_DEFAULT && info "Would set default agent to: kodama"
   printf '\n'
   success "No files modified"
   exit 0
@@ -327,13 +327,13 @@ if [[ -f "$MANIFEST" ]]; then
 fi
 if $SET_DEFAULT; then
   current_default="$(kiro-cli settings chat.defaultAgent 2>/dev/null || true)"
-  [[ "$current_default" != "orpheus" ]] && previous_default="$current_default"
-  kiro-cli settings chat.defaultAgent orpheus
-  success "Default agent set to orpheus"
+  [[ "$current_default" != "kodama" ]] && previous_default="$current_default"
+  kiro-cli settings chat.defaultAgent kodama
+  success "Default agent set to kodama"
 fi
 
 if $SETUP_ALIAS; then
-  ALIAS_LINE='alias orpheus="kiro-cli chat --agent orpheus"'
+  ALIAS_LINE='alias kodama="kiro-cli chat --agent kodama"'
   # Detect shell profile
   SHELL_PROFILE=""
   case "${SHELL:-}" in
@@ -350,11 +350,11 @@ if $SETUP_ALIAS; then
 
   if [[ -z "$SHELL_PROFILE" ]]; then
     warn "Could not detect shell profile — add manually: $ALIAS_LINE"
-  elif grep -qF 'alias orpheus=' "$SHELL_PROFILE" 2>/dev/null; then
+  elif grep -qF 'alias kodama=' "$SHELL_PROFILE" 2>/dev/null; then
     success "Alias already in $SHELL_PROFILE"
   else
-    printf '\n# oh-my-kiro\n%s\n' "$ALIAS_LINE" >> "$SHELL_PROFILE"
-    success "Added 'orpheus' alias to $SHELL_PROFILE (reload your shell to use it)"
+    printf '\n# kodama\n%s\n' "$ALIAS_LINE" >> "$SHELL_PROFILE"
+    success "Added 'kodama' alias to $SHELL_PROFILE (reload your shell to use it)"
   fi
 fi
 
@@ -392,10 +392,10 @@ PY
 
 printf '\n%b━━ Done%b\n' "$BOLD" "$RESET"
 printf '\n'
-printf '  Orpheus and %d specialists are ready (v%s).\n' "$(( ${#AGENT_NAMES[@]} - 1 ))" "$OMK_VERSION"
+printf '  Kodama and %d specialists are ready (v%s).\n' "$(( ${#AGENT_NAMES[@]} - 1 ))" "$OMK_VERSION"
 printf '  Installed independently of other Kiro packs.\n'
 printf '\n'
-printf '  %bStart:%b  kiro-cli chat --agent orpheus\n' "$GREEN" "$RESET"
+printf '  %bStart:%b  kiro-cli chat --agent kodama\n' "$GREEN" "$RESET"
 printf '  %bUpdate:%b ~/.kiro/oh-my-kiro/update.sh\n' "$DIM" "$RESET"
 printf '  %bRemove:%b ~/.kiro/oh-my-kiro/setup.sh --uninstall\n' "$DIM" "$RESET"
 printf '\n'

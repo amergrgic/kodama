@@ -95,36 +95,36 @@ printf '%s' 'legacy-agent' > "$HOME_DIR/default-agent"
 
 printf '%s\n' 'Test: dry run does not write files'
 run_installer "$HOME_DIR" --dry-run > "$BASE/dry-run.log"
-assert_eq "dry run creates no Orpheus config" "false" "$([[ -e "$HOME_DIR/.kiro/agents/orpheus.json" ]] && echo true || echo false)"
-assert_eq "dry run creates no managed skill" "false" "$([[ -e "$HOME_DIR/.kiro/skills/omk-behavior/SKILL.md" ]] && echo true || echo false)"
+assert_eq "dry run creates no Kodama config" "false" "$([[ -e "$HOME_DIR/.kiro/agents/kodama.json" ]] && echo true || echo false)"
+assert_eq "dry run creates no managed skill" "false" "$([[ -e "$HOME_DIR/.kiro/skills/kodama-behavior/SKILL.md" ]] && echo true || echo false)"
 assert_file "foreign agent survives dry run" "$HOME_DIR/.kiro/agents/sisyphus.json"
 
 printf '%s\n' 'Test: install owns only public-pack files'
 run_installer "$HOME_DIR" > "$BASE/install.log"
-for name in orpheus omk-explorer omk-librarian omk-oracle omk-designer omk-fixer omk-reviewer; do
+for name in kodama kodama-scout kodama-scholar kodama-sage kodama-artist kodama-smith kodama-critic; do
   assert_file "installs $name" "$HOME_DIR/.kiro/agents/$name.json"
 done
-for name in omk-behavior omk-verification omk-constraints; do
+for name in kodama-behavior kodama-verification kodama-constraints; do
   assert_file "installs $name skill" "$HOME_DIR/.kiro/skills/$name/SKILL.md"
 done
 assert_file "preserves foreign internal agent" "$HOME_DIR/.kiro/agents/sisyphus.json"
 assert_file "writes ownership manifest" "$HOME_DIR/.kiro/oh-my-kiro/manifest.json"
 assert_eq "does not create global MCP config" "false" "$([[ -e "$HOME_DIR/.kiro/settings/mcp.json" ]] && echo true || echo false)"
-assert_eq "installs a self-contained Orpheus prompt" "true" "$(python3 - "$HOME_DIR/.kiro/agents/orpheus.json" <<'PY'
+assert_eq "installs a self-contained Kodama prompt" "true" "$(python3 - "$HOME_DIR/.kiro/agents/kodama.json" <<'PY'
 import json
 import sys
 config = json.load(open(sys.argv[1], encoding="utf-8"))
-print(str("Orpheus" in config["prompt"] and "__OMK_PROMPT_DIR__" not in config["prompt"]).lower())
+print(str("Kodama" in config["prompt"] and "__OMK_PROMPT_DIR__" not in config["prompt"]).lower())
 PY
 )"
-assert_eq "renders Orpheus skill paths" "true" "$(python3 - "$HOME_DIR/.kiro/agents/orpheus.json" "$HOME_DIR/.kiro/skills" <<'PY'
+assert_eq "renders Kodama skill paths" "true" "$(python3 - "$HOME_DIR/.kiro/agents/kodama.json" "$HOME_DIR/.kiro/skills" <<'PY'
 import json
 import sys
 config = json.load(open(sys.argv[1], encoding="utf-8"))
 expected = {
-    f"skill://{sys.argv[2]}/omk-behavior/SKILL.md",
-    f"skill://{sys.argv[2]}/omk-verification/SKILL.md",
-    f"skill://{sys.argv[2]}/omk-constraints/SKILL.md",
+    f"skill://{sys.argv[2]}/kodama-behavior/SKILL.md",
+    f"skill://{sys.argv[2]}/kodama-verification/SKILL.md",
+    f"skill://{sys.argv[2]}/kodama-constraints/SKILL.md",
 }
 print(str(expected.issubset(set(config["resources"]))).lower())
 PY
@@ -132,29 +132,29 @@ PY
 
 printf '%s\n' 'Test: install updates owned files and only changes default when requested'
 run_installer "$HOME_DIR" --set-default > "$BASE/update.log"
-assert_eq "sets Orpheus only with opt-in" "orpheus" "$(cat "$HOME_DIR/default-agent")"
-assert_eq "backs up agent on update" "true" "$(find "$HOME_DIR/.kiro/oh-my-kiro/backups" -name orpheus.json -print -quit | grep -q . && echo true || echo false)"
-assert_eq "backs up skill on update" "true" "$(find "$HOME_DIR/.kiro/oh-my-kiro/backups" -path '*/skills/omk-behavior/SKILL.md' -print -quit | grep -q . && echo true || echo false)"
+assert_eq "sets Kodama only with opt-in" "kodama" "$(cat "$HOME_DIR/default-agent")"
+assert_eq "backs up agent on update" "true" "$(find "$HOME_DIR/.kiro/oh-my-kiro/backups" -name kodama.json -print -quit | grep -q . && echo true || echo false)"
+assert_eq "backs up skill on update" "true" "$(find "$HOME_DIR/.kiro/oh-my-kiro/backups" -path '*/skills/kodama-behavior/SKILL.md' -print -quit | grep -q . && echo true || echo false)"
 
 printf '%s\n' 'Test: uninstall preserves modified skills and removes unmodified owned files'
-printf '\nLocal customization\n' >> "$HOME_DIR/.kiro/skills/omk-constraints/SKILL.md"
+printf '\nLocal customization\n' >> "$HOME_DIR/.kiro/skills/kodama-constraints/SKILL.md"
 run_installer "$HOME_DIR" --uninstall > "$BASE/uninstall.log"
-assert_eq "removes Orpheus config" "false" "$([[ -e "$HOME_DIR/.kiro/agents/orpheus.json" ]] && echo true || echo false)"
-assert_eq "removes unmodified behavior skill" "false" "$([[ -e "$HOME_DIR/.kiro/skills/omk-behavior/SKILL.md" ]] && echo true || echo false)"
-assert_file "preserves modified constraints skill" "$HOME_DIR/.kiro/skills/omk-constraints/SKILL.md"
+assert_eq "removes Kodama config" "false" "$([[ -e "$HOME_DIR/.kiro/agents/kodama.json" ]] && echo true || echo false)"
+assert_eq "removes unmodified behavior skill" "false" "$([[ -e "$HOME_DIR/.kiro/skills/kodama-behavior/SKILL.md" ]] && echo true || echo false)"
+assert_file "preserves modified constraints skill" "$HOME_DIR/.kiro/skills/kodama-constraints/SKILL.md"
 assert_file "preserves foreign agent on uninstall" "$HOME_DIR/.kiro/agents/sisyphus.json"
 assert_eq "restores previous default" "legacy-agent" "$(cat "$HOME_DIR/default-agent")"
 
 printf '%s\n' 'Test: foreign-name collision is rejected without overwrite'
 COLLISION_HOME="$BASE/collision"
 mkdir -p "$COLLISION_HOME/.kiro/agents"
-printf '%s\n' '{"name":"orpheus","prompt":"foreign"}' > "$COLLISION_HOME/.kiro/agents/orpheus.json"
+printf '%s\n' '{"name":"kodama","prompt":"foreign"}' > "$COLLISION_HOME/.kiro/agents/kodama.json"
 if run_installer "$COLLISION_HOME" > "$BASE/collision.log" 2>&1; then
   assert_eq "collision install exits non-zero" "false" "true"
 else
   assert_eq "collision install exits non-zero" "true" "true"
 fi
-assert_eq "collision file is not overwritten" "foreign" "$(python3 - "$COLLISION_HOME/.kiro/agents/orpheus.json" <<'PY'
+assert_eq "collision file is not overwritten" "foreign" "$(python3 - "$COLLISION_HOME/.kiro/agents/kodama.json" <<'PY'
 import json
 import sys
 print(json.load(open(sys.argv[1], encoding="utf-8"))["prompt"])

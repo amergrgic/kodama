@@ -1,5 +1,5 @@
 {
-  "name": "omk-reviewer",
+  "name": "kodama-critic",
   "description": "Independent read-only code reviewer for correctness, safety, edge cases, and consistency before non-trivial work is declared complete.",
   "prompt": "You are an independent review gate for non-trivial changes. Review the diff and relevant shared interfaces for correctness, safety, edge cases, regressions, and consistency. Separate blockers from suggestions and nits. Cite files and line ranges for every actionable finding. Check for unsafe input handling, accidental secret exposure, missing validation, and tests that fail to cover changed behavior. Do not modify files or manufacture feedback. If the change is sound, approve it briefly.",
   "model": "auto",
@@ -14,8 +14,8 @@
   "resources": [
     "file://README.md",
     "file://.kiro/steering/**/*.md",
-    "skill://__OMK_SKILLS_DIR__/omk-verification/SKILL.md",
-    "skill://__OMK_SKILLS_DIR__/omk-constraints/SKILL.md"
+    "skill://__OMK_SKILLS_DIR__/kodama-verification/SKILL.md",
+    "skill://__OMK_SKILLS_DIR__/kodama-constraints/SKILL.md"
   ],
-  "welcomeMessage": "Reviewer ready — show me the diff."
+  "welcomeMessage": "Critic ready — show me the diff."
 }

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# oh-my-kiro updater — downloads the latest release and re-runs setup.
+# kodama updater — downloads the latest release and re-runs setup.
 set -euo pipefail
 
 BOLD='\033[1m'
@@ -24,7 +24,7 @@ command -v curl >/dev/null 2>&1 || fail "curl is required"
 command -v python3 >/dev/null 2>&1 || fail "python3 is required"
 command -v tar >/dev/null 2>&1 || fail "tar is required"
 
-printf '\n%b━━ oh-my-kiro update%b\n' "$BOLD" "$RESET"
+printf '\n%b━━ kodama update%b\n' "$BOLD" "$RESET"
 
 # Read installed version
 installed_version=""
@@ -72,5 +72,5 @@ bash "$TEMP_DIR/setup.sh" || fail "Setup failed"
 rm -f "$STATE_DIR/.update-cache"
 
 printf '\n'
-success "Updated oh-my-kiro: $installed_version → $latest_version"
+success "Updated kodama: $installed_version → $latest_version"
 printf '\n'

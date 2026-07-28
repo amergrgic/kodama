@@ -1,6 +1,6 @@
 # Project-local customization
 
-Use project-local files to teach Orpheus about a repository without editing the globally installed `orpheus` or `omk-*` agents. Commit these files when they describe shared team conventions; keep personal preferences in `~/.kiro/steering/` instead.
+Use project-local files to teach Kodama about a repository without editing the globally installed `kodama` or `kodama-*` agents. Commit these files when they describe shared team conventions; keep personal preferences in `~/.kiro/steering/` instead.
 
 ## Supported layout
 
@@ -22,7 +22,7 @@ A copyable version is available in [`examples/project-customization/`](../exampl
 
 ## Steering: persistent project rules
 
-Put short, shared rules in `.kiro/steering/*.md`: coding conventions, required checks, architecture boundaries, or review expectations. Orpheus and the installed `omk-*` agents load workspace steering through their configured resources.
+Put short, shared rules in `.kiro/steering/*.md`: coding conventions, required checks, architecture boundaries, or review expectations. Kodama and the installed `kodama-*` agents load workspace steering through their configured resources.
 
 Keep steering focused. It is present on every turn, so move detailed workflows into a skill instead.
 
@@ -55,7 +55,7 @@ Project-local skills are discovered through Kiro's normal default resource inher
 
 ## Local agents: add a repository-specific specialist
 
-Add a uniquely named JSON config under `.kiro/agents/` for a project-specific task. Local agents take precedence over global agents with the same filename, so choose a new name such as `project-reviewer` instead of replacing `orpheus`.
+Add a uniquely named JSON config under `.kiro/agents/` for a project-specific task. Local agents take precedence over global agents with the same filename, so choose a new name such as `project-reviewer` instead of replacing `kodama`.
 
 ```json
 {
@@ -75,7 +75,7 @@ Run it directly when useful:
 kiro-cli chat --agent project-reviewer
 ```
 
-Do not name a local agent `orpheus` unless you intentionally want that repository to replace the globally installed entrypoint.
+Do not name a local agent `kodama` unless you intentionally want that repository to replace the globally installed entrypoint.
 
 ## AGENTS.md: repository map and fast-start instructions
 
@@ -83,7 +83,7 @@ Keep `AGENTS.md` brief and factual. It should help an agent orient itself: sourc
 
 ## Safety and update behavior
 
-- Do **not** edit `~/.kiro/agents/orpheus.json`, `~/.kiro/agents/omk-*.json`, or `~/.kiro/skills/omk-*/` directly. Updates may replace those files; use project-local files instead.
+- Do **not** edit `~/.kiro/agents/kodama.json`, `~/.kiro/agents/kodama-*.json`, or `~/.kiro/skills/kodama-*/` directly. Updates may replace those files; use project-local files instead.
 - Treat `.kiro/agents/*.json` as executable configuration: it can grant tools and load resources. Review it before trusting a repository.
 - Keep credentials, tokens, and machine-specific paths out of committed local configuration.
 - Do not add write-capable or network-capable tools to a project agent unless the team has reviewed the impact.

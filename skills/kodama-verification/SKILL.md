@@ -1,5 +1,5 @@
 ---
-name: omk-verification
+name: kodama-verification
 description: Define measurable success criteria and collect targeted test, build, lint, type-check, or smoke-test evidence before claiming work is complete.
 ---
 

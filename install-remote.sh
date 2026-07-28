@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# oh-my-kiro remote installer — curl -fsSL https://raw.githubusercontent.com/amergrgic/oh-my-kiro/main/install-remote.sh | bash
+# kodama remote installer — curl -fsSL https://raw.githubusercontent.com/amergrgic/oh-my-kiro/main/install-remote.sh | bash
 set -euo pipefail
 
 REPO="amergrgic/oh-my-kiro"
@@ -22,7 +22,7 @@ command -v tar >/dev/null 2>&1 || fail "tar is required"
 command -v python3 >/dev/null 2>&1 || fail "python3 is required"
 command -v kiro-cli >/dev/null 2>&1 || fail "kiro-cli is required (https://kiro.dev)"
 
-printf '\n%b━━ oh-my-kiro remote install%b\n\n' "$BOLD" "$RESET"
+printf '\n%b━━ kodama remote install%b\n\n' "$BOLD" "$RESET"
 
 # Try latest release first, fall back to main branch
 info "Fetching latest release..."
@@ -48,7 +48,7 @@ success "Downloaded"
 # Ask about alias if interactive and not already passed as flag
 EXTRA_FLAGS=""
 if [[ -t 0 ]] && [[ ! " $* " =~ " --alias " ]]; then
-  printf '  Add %borpheus%b alias to your shell? [y/N] ' "$BOLD" "$RESET"
+  printf '  Add %bkodama%b alias to your shell? [y/N] ' "$BOLD" "$RESET"
   read -r add_alias
   if [[ "$add_alias" =~ ^[Yy]$ ]]; then
     EXTRA_FLAGS="--alias"

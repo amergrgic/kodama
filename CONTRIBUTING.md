@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for your interest in oh-my-kiro! Here's how to help.
+Thanks for your interest in kodama! Here's how to help.
 
 ## Quick start
 
@@ -23,7 +23,7 @@ The validation suite requires only `bash` and `python3`. It uses a stub Kiro CLI
 
 1. Create `agents/<name>.json` with `name`, `description`, `prompt`, `model`, `tools`, `allowedTools`, and `resources`.
 2. Add the name to `AGENT_NAMES` in `setup.sh`.
-3. Reference any skills via `skill://__OMK_SKILLS_DIR__/<skill>/SKILL.md`.
+3. Reference any skills via `skill://__KODAMA_SKILLS_DIR__/<skill>/SKILL.md`.
 4. Run validation.
 
 ## Modifying a skill
@@ -35,7 +35,7 @@ Edit the Markdown under `skills/<name>/SKILL.md`. Keep the YAML frontmatter — 
 - Agents use `model: "auto"` — don't hardcode provider-specific model IDs.
 - `allowedTools` must be a subset of `tools`.
 - Keep prompts self-contained inside the agent JSON (no external prompt files).
-- Use `__OMK_SKILLS_DIR__` and `__OMK_STATE_DIR__` as placeholders — the installer resolves them.
+- Use `__KODAMA_SKILLS_DIR__` and `__KODAMA_STATE_DIR__` as placeholders — the installer resolves them.
 - Don't add dependencies beyond `bash` and `python3`.
 
 ## Commit messages
@@ -43,7 +43,7 @@ Edit the Markdown under `skills/<name>/SKILL.md`. Keep the YAML frontmatter — 
 Keep them short and descriptive. No strict format required, but prefer imperative mood:
 
 ```
-Add omk-debugger agent for runtime inspection
+Add kodama-debugger agent for runtime inspection
 Fix uninstall skipping modified skills
 ```
 
@@ -51,7 +51,7 @@ Fix uninstall skipping modified skills
 
 Maintainers handle releases:
 
-1. Bump `OMK_VERSION` in `setup.sh`.
+1. Bump `KODAMA_VERSION` in `setup.sh`.
 2. Add an entry to `CHANGELOG.md`.
 3. Commit, tag (`v<version>`), push.
 4. Create a GitHub Release from the tag.

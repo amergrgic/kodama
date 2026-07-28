@@ -1,5 +1,5 @@
 ---
-name: omk-constraints
+name: kodama-constraints
 description: Enforce non-negotiable safety, scope, security, and quality constraints for implementation and review work.
 ---
 

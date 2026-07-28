@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# oh-my-kiro update checker — designed to run as an agentSpawn hook.
+# kodama update checker — designed to run as an agentSpawn hook.
 # Outputs a notice ONLY if a newer version is available.
 # Silent on success (up to date), silent on failure (network issues).
 # Caches results for 24 hours to avoid slowing down every session.
@@ -30,7 +30,7 @@ if [[ -f "$CACHE_FILE" ]]; then
     # Use cached result
     cached_version="$(cat "$CACHE_FILE")"
     if [[ -n "$cached_version" && "$cached_version" != "$installed_version" ]]; then
-      echo "oh-my-kiro update available: $installed_version → $cached_version. Run: ~/.kiro/oh-my-kiro/update.sh"
+      echo "kodama update available: $installed_version → $cached_version. Run: ~/.kiro/oh-my-kiro/update.sh"
     fi
     exit 0
   fi
@@ -49,5 +49,5 @@ printf '%s' "$latest_version" > "$CACHE_FILE"
 
 # Only notify if versions differ
 if [[ "$latest_version" != "$installed_version" ]]; then
-  echo "oh-my-kiro update available: $installed_version → $latest_version. Run: ~/.kiro/oh-my-kiro/update.sh"
+  echo "kodama update available: $installed_version → $latest_version. Run: ~/.kiro/oh-my-kiro/update.sh"
 fi

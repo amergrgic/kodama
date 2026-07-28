@@ -1,5 +1,5 @@
 ---
-name: omk-behavior
+name: kodama-behavior
 description: Classify requests, assess unfamiliar codebases, delegate work safely, and recover from failed attempts. Use for multi-step, ambiguous, or parallelizable work.
 ---
 
@@ -19,12 +19,12 @@ description: Classify requests, assess unfamiliar codebases, delegate work safel
 
 Use a specialist when delegation improves quality or speed:
 
-- `omk-explorer`: repository structure, established patterns, dependencies, and tests.
-- `omk-librarian`: current external documentation and examples.
-- `omk-oracle`: hard debugging, architecture, and high-impact tradeoffs.
-- `omk-designer`: user-facing UI, UX, and accessibility work.
-- `omk-fixer`: bounded implementation after scope is clear.
-- `omk-reviewer`: independent review of a non-trivial diff.
+- `kodama-scout`: repository structure, established patterns, dependencies, and tests.
+- `kodama-scholar`: current external documentation and examples.
+- `kodama-sage`: hard debugging, architecture, and high-impact tradeoffs.
+- `kodama-artist`: user-facing UI, UX, and accessibility work.
+- `kodama-smith`: bounded implementation after scope is clear.
+- `kodama-critic`: independent review of a non-trivial diff.
 
 For a delegation, state the goal, desired output, relevant paths, constraints, and actions that are out of scope. Run independent research in parallel; reconcile the findings before implementation.
 
