@@ -40,7 +40,7 @@ AGENTS_DIR="$KIRO_DIR/agents"
 SKILLS_DIR="$KIRO_DIR/skills"
 STATE_DIR="$KIRO_DIR/kodama"
 MANIFEST="$STATE_DIR/manifest.json"
-OMK_VERSION="0.2.1"
+OMK_VERSION="0.3.0"
 
 AGENT_NAMES=(
   kodama
@@ -50,6 +50,8 @@ AGENT_NAMES=(
   kodama-artist
   kodama-smith
   kodama-critic
+  kodama-forge
+  kodama-scribe
 )
 SKILL_NAMES=(
   kodama-behavior

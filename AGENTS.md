@@ -20,6 +20,8 @@ This is the kodama agent pack repository. Kodama is the entrypoint; the `kodama-
 | kodama-artist | — | UI, UX, accessibility implementation |
 | kodama-smith | — | Bounded implementation and tests |
 | kodama-critic | — | Independent diff review |
+| kodama-forge | — | Infrastructure, CI/CD, deployment |
+| kodama-scribe | — | Documentation and technical writing |
 
 ## Conventions
 

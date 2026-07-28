@@ -15,6 +15,8 @@ A portable, provider-neutral Kiro CLI agent pack. It installs a small team with 
 | **kodama-artist** | UI, UX, accessibility, and interaction implementation | Write/shell require approval |
 | **kodama-smith** | Bounded implementation, tests, and straightforward refactors | Write/shell require approval |
 | **kodama-critic** | Independent diff review before non-trivial work is complete | Read-only; Git inspection shell commands only |
+| **kodama-forge** | Infrastructure, CI/CD, containerization, and deployment | Write/shell require approval |
+| **kodama-scribe** | Documentation, changelogs, ADRs, and technical writing | Write/shell require approval |
 
 The `kodama-` prefix keeps companion agents distinct from generic names that may already be installed by another pack. Only the primary entrypoint is unprefixed:
 
