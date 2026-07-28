@@ -5,10 +5,10 @@
 # Caches results for 24 hours to avoid slowing down every session.
 set -euo pipefail
 
-STATE_DIR="${KIRO_DIR:-$HOME/.kiro}/oh-my-kiro"
+STATE_DIR="${KIRO_DIR:-$HOME/.kiro}/kodama"
 MANIFEST="$STATE_DIR/manifest.json"
 CACHE_FILE="$STATE_DIR/.update-cache"
-REPO="amergrgic/oh-my-kiro"
+REPO="amergrgic/kodama"
 CACHE_MAX_AGE=86400  # 24 hours in seconds
 
 # Bail silently if not installed
@@ -30,7 +30,7 @@ if [[ -f "$CACHE_FILE" ]]; then
     # Use cached result
     cached_version="$(cat "$CACHE_FILE")"
     if [[ -n "$cached_version" && "$cached_version" != "$installed_version" ]]; then
-      echo "kodama update available: $installed_version → $cached_version. Run: ~/.kiro/oh-my-kiro/update.sh"
+      echo "kodama update available: $installed_version → $cached_version. Run: ~/.kiro/kodama/update.sh"
     fi
     exit 0
   fi
@@ -49,5 +49,5 @@ printf '%s' "$latest_version" > "$CACHE_FILE"
 
 # Only notify if versions differ
 if [[ "$latest_version" != "$installed_version" ]]; then
-  echo "kodama update available: $installed_version → $latest_version. Run: ~/.kiro/oh-my-kiro/update.sh"
+  echo "kodama update available: $installed_version → $latest_version. Run: ~/.kiro/kodama/update.sh"
 fi

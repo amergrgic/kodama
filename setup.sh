@@ -38,7 +38,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 KIRO_DIR="${KIRO_DIR:-$HOME/.kiro}"
 AGENTS_DIR="$KIRO_DIR/agents"
 SKILLS_DIR="$KIRO_DIR/skills"
-STATE_DIR="$KIRO_DIR/oh-my-kiro"
+STATE_DIR="$KIRO_DIR/kodama"
 MANIFEST="$STATE_DIR/manifest.json"
 OMK_VERSION="0.2.1"
 
@@ -396,6 +396,6 @@ printf '  Kodama and %d specialists are ready (v%s).\n' "$(( ${#AGENT_NAMES[@]} 
 printf '  Installed independently of other Kiro packs.\n'
 printf '\n'
 printf '  %bStart:%b  kiro-cli chat --agent kodama\n' "$GREEN" "$RESET"
-printf '  %bUpdate:%b ~/.kiro/oh-my-kiro/update.sh\n' "$DIM" "$RESET"
-printf '  %bRemove:%b ~/.kiro/oh-my-kiro/setup.sh --uninstall\n' "$DIM" "$RESET"
+printf '  %bUpdate:%b ~/.kiro/kodama/update.sh\n' "$DIM" "$RESET"
+printf '  %bRemove:%b ~/.kiro/kodama/setup.sh --uninstall\n' "$DIM" "$RESET"
 printf '\n'

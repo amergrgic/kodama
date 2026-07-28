@@ -27,14 +27,14 @@ kiro-cli chat --agent kodama
 One-liner (no clone needed):
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/amergrgic/oh-my-kiro/main/install-remote.sh | bash
+curl -fsSL https://raw.githubusercontent.com/amergrgic/kodama/main/install-remote.sh | bash
 ```
 
 Or clone and run locally:
 
 ```bash
-git clone https://github.com/amergrgic/oh-my-kiro.git
-cd oh-my-kiro && ./setup.sh
+git clone https://github.com/amergrgic/kodama.git
+cd kodama && ./setup.sh
 ```
 
 The installer requires `kiro-cli` and `python3`. It validates every generated agent configuration before writing it, then installs only these files:
@@ -43,11 +43,11 @@ The installer requires `kiro-cli` and `python3`. It validates every generated ag
 ~/.kiro/agents/kodama.json
 ~/.kiro/agents/kodama-*.json
 ~/.kiro/skills/kodama-*/SKILL.md
-~/.kiro/oh-my-kiro/manifest.json
-~/.kiro/oh-my-kiro/setup.sh
-~/.kiro/oh-my-kiro/check-update.sh
-~/.kiro/oh-my-kiro/update.sh
-~/.kiro/oh-my-kiro/backups/<timestamp>/  # on update
+~/.kiro/kodama/manifest.json
+~/.kiro/kodama/setup.sh
+~/.kiro/kodama/check-update.sh
+~/.kiro/kodama/update.sh
+~/.kiro/kodama/backups/<timestamp>/  # on update
 ```
 
 It does **not** modify:
@@ -67,10 +67,10 @@ Use the optional lifecycle commands:
 
 A first install refuses to overwrite an existing `kodama` or `kodama-*` agent file. Uninstall preserves an agent config that was changed after installation, so customizations are not silently deleted.
 
-A copy of `setup.sh` is installed to `~/.kiro/oh-my-kiro/` so lifecycle commands work without keeping the clone:
+A copy of `setup.sh` is installed to `~/.kiro/kodama/` so lifecycle commands work without keeping the clone:
 
 ```bash
-~/.kiro/oh-my-kiro/setup.sh --uninstall
+~/.kiro/kodama/setup.sh --uninstall
 ```
 
 ## Update
@@ -78,7 +78,7 @@ A copy of `setup.sh` is installed to `~/.kiro/oh-my-kiro/` so lifecycle commands
 Kodama automatically checks for updates when a session starts (cached, once per day). To update manually:
 
 ```bash
-~/.kiro/oh-my-kiro/update.sh
+~/.kiro/kodama/update.sh
 ```
 
 This downloads the latest release, backs up your current installation, and re-runs setup. Check your installed version with:

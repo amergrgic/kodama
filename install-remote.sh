@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# kodama remote installer — curl -fsSL https://raw.githubusercontent.com/amergrgic/oh-my-kiro/main/install-remote.sh | bash
+# kodama remote installer — curl -fsSL https://raw.githubusercontent.com/amergrgic/kodama/main/install-remote.sh | bash
 set -euo pipefail
 
-REPO="amergrgic/oh-my-kiro"
+REPO="amergrgic/kodama"
 BRANCH="main"
 
 BOLD='\033[1m'

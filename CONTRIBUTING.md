@@ -5,8 +5,8 @@ Thanks for your interest in kodama! Here's how to help.
 ## Quick start
 
 ```bash
-git clone git@github.com:amergrgic/oh-my-kiro.git
-cd oh-my-kiro
+git clone git@github.com:amergrgic/kodama.git
+cd kodama
 ./scripts/validate.sh
 ```
 

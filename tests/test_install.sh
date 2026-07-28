@@ -108,7 +108,7 @@ for name in kodama-behavior kodama-verification kodama-constraints; do
   assert_file "installs $name skill" "$HOME_DIR/.kiro/skills/$name/SKILL.md"
 done
 assert_file "preserves foreign internal agent" "$HOME_DIR/.kiro/agents/sisyphus.json"
-assert_file "writes ownership manifest" "$HOME_DIR/.kiro/oh-my-kiro/manifest.json"
+assert_file "writes ownership manifest" "$HOME_DIR/.kiro/kodama/manifest.json"
 assert_eq "does not create global MCP config" "false" "$([[ -e "$HOME_DIR/.kiro/settings/mcp.json" ]] && echo true || echo false)"
 assert_eq "installs a self-contained Kodama prompt" "true" "$(python3 - "$HOME_DIR/.kiro/agents/kodama.json" <<'PY'
 import json
@@ -133,8 +133,8 @@ PY
 printf '%s\n' 'Test: install updates owned files and only changes default when requested'
 run_installer "$HOME_DIR" --set-default > "$BASE/update.log"
 assert_eq "sets Kodama only with opt-in" "kodama" "$(cat "$HOME_DIR/default-agent")"
-assert_eq "backs up agent on update" "true" "$(find "$HOME_DIR/.kiro/oh-my-kiro/backups" -name kodama.json -print -quit | grep -q . && echo true || echo false)"
-assert_eq "backs up skill on update" "true" "$(find "$HOME_DIR/.kiro/oh-my-kiro/backups" -path '*/skills/kodama-behavior/SKILL.md' -print -quit | grep -q . && echo true || echo false)"
+assert_eq "backs up agent on update" "true" "$(find "$HOME_DIR/.kiro/kodama/backups" -name kodama.json -print -quit | grep -q . && echo true || echo false)"
+assert_eq "backs up skill on update" "true" "$(find "$HOME_DIR/.kiro/kodama/backups" -path '*/skills/kodama-behavior/SKILL.md' -print -quit | grep -q . && echo true || echo false)"
 
 printf '%s\n' 'Test: uninstall preserves modified skills and removes unmodified owned files'
 printf '\nLocal customization\n' >> "$HOME_DIR/.kiro/skills/kodama-constraints/SKILL.md"

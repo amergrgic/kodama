@@ -1,6 +1,6 @@
 # Local installer state and verification artifacts
 /.kiro/
-/.oh-my-kiro/
+/.kodama/
 
 # Common temporary artifacts
 *.log

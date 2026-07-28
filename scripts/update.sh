@@ -15,9 +15,9 @@ success() { printf '  %b✓%b %s\n' "$GREEN" "$RESET" "$1"; }
 warn()    { printf '  %b⚠%b %s\n' "$YELLOW" "$RESET" "$1"; }
 fail()    { printf '  %b✗ %s%b\n' "$RED" "$*" "$RESET" >&2; exit 1; }
 
-STATE_DIR="${KIRO_DIR:-$HOME/.kiro}/oh-my-kiro"
+STATE_DIR="${KIRO_DIR:-$HOME/.kiro}/kodama"
 MANIFEST="$STATE_DIR/manifest.json"
-REPO="amergrgic/oh-my-kiro"
+REPO="amergrgic/kodama"
 
 # Check prerequisites
 command -v curl >/dev/null 2>&1 || fail "curl is required"

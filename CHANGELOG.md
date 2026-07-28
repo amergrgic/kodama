@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Remote installer asks interactively about shell alias
-- `setup.sh` installed to `~/.kiro/oh-my-kiro/` so uninstall works without keeping the clone
+- `setup.sh` installed to `~/.kiro/kodama/` so uninstall works without keeping the clone
 
 ## [0.2.0] - 2026-07-28
 
@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `--alias` flag: adds `kodama` shell alias to your profile (zsh/bash/fish)
 - `--version` flag to print the installed pack version
 - Automatic update checking via `agentSpawn` hook (cached daily, silent when up to date)
-- Self-update script (`~/.kiro/oh-my-kiro/update.sh`) fetches latest release from GitHub
+- Self-update script (`~/.kiro/kodama/update.sh`) fetches latest release from GitHub
 - Interactive confirmation prompt on `--uninstall`
 - Version tracking in manifest
 - CONTRIBUTING.md
@@ -36,12 +36,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Manifest-based ownership tracking with SHA-256 hashes
 - Collision protection: refuses to overwrite existing agents not owned by this pack
 - Automatic update checking via `agentSpawn` hook (cached, silent when up to date)
-- Self-update script (`~/.kiro/oh-my-kiro/update.sh`) fetches latest release from GitHub
+- Self-update script (`~/.kiro/kodama/update.sh`) fetches latest release from GitHub
 - Project-local customization support (steering, skills, agents, AGENTS.md)
 - Validation suite with installer lifecycle tests and shell/JSON/skill checks
 - GitHub Actions CI workflow
 - MIT license
 
-[0.2.1]: https://github.com/amergrgic/oh-my-kiro/releases/tag/v0.2.1
-[0.2.0]: https://github.com/amergrgic/oh-my-kiro/releases/tag/v0.2.0
-[0.1.0]: https://github.com/amergrgic/oh-my-kiro/releases/tag/v0.1.0
+[0.2.1]: https://github.com/amergrgic/kodama/releases/tag/v0.2.1
+[0.2.0]: https://github.com/amergrgic/kodama/releases/tag/v0.2.0
+[0.1.0]: https://github.com/amergrgic/kodama/releases/tag/v0.1.0
