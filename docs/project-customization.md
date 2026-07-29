@@ -113,7 +113,7 @@ Handoff files are structured markdown with predictable sections:
 - Deploy stage deferred pending environment config
 ```
 
-Handoffs are ephemeral work-in-progress — add `.kiro/kodama/handoffs/` to your `.gitignore`. They are only written when Kodama explicitly instructs a specialist to produce one; simple one-shot delegations skip them entirely.
+Handoffs are ephemeral work-in-progress — add `.kiro/kodama/handoffs/` to your `.gitignore`. They are only written when Kodama explicitly instructs a specialist to produce one; simple one-shot delegations skip them entirely. Kodama automatically deletes handoff files after the full task completes.
 
 ## Steering for infrastructure and documentation specialists
 
