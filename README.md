@@ -1,6 +1,6 @@
 <div align="center">
 
-<p style="font-size: 4em; margin: 0;">🌳</p>
+<img src="https://em-content.zobj.net/source/apple/391/deciduous-tree_1f333.png" width="80" />
 
 # kodama
 
