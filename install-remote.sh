@@ -47,9 +47,9 @@ success "Downloaded"
 
 # Ask about alias if interactive and not already passed as flag
 EXTRA_FLAGS=""
-if [[ -t 0 ]] && [[ ! " $* " =~ " --alias " ]]; then
+if [[ -t 1 ]] && [[ ! " $* " =~ " --alias " ]]; then
   printf '  Add %bkodama%b alias to your shell? [y/N] ' "$BOLD" "$RESET"
-  read -r add_alias
+  read -r add_alias < /dev/tty
   if [[ "$add_alias" =~ ^[Yy]$ ]]; then
     EXTRA_FLAGS="--alias"
   fi
