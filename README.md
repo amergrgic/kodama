@@ -1,7 +1,8 @@
 <div align="center">
 
-<h1>🌳</h1>
-<h1>kodama</h1>
+<p style="font-size: 4em; margin: 0;">🌳</p>
+
+# kodama
 
 **A portable, provider-neutral Kiro CLI agent pack**
 
