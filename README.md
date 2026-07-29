@@ -1,8 +1,26 @@
+<div align="center">
+
+```
+    🌳
+   ╱ ╲
+  ╱   ╲
+ ╱     ╲
+╱───────╲
+    ║
+```
+
 # kodama
 
-A portable, provider-neutral Kiro CLI agent pack. It installs a small team with **Kodama** as the entrypoint and works independently of other Kiro packs.
+**A portable, provider-neutral Kiro CLI agent pack**
 
-> **Note:** kodama is an independent community project. It is not affiliated with, endorsed by, or officially connected to Amazon Web Services (AWS), the Kiro IDE, or the Kiro CLI team. "Kiro" is a trademark of Amazon.com, Inc. or its affiliates.
+One orchestrator. Eight specialists. Zero lock-in.
+
+[![GitHub release](https://img.shields.io/github/v/release/amergrgic/kodama)](https://github.com/amergrgic/kodama/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
+
+</div>
+
+> **Note:** kodama is an independent community project. It is not officially affiliated with, endorsed by, or officially connected to Amazon Web Services (AWS), the Kiro IDE, or the Kiro CLI team. "Kiro" is a trademark of Amazon.com, Inc. or its affiliates.
 
 ## Agents
 
