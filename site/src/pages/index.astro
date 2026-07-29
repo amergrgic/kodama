@@ -134,18 +134,61 @@ cd kodama && ./setup.sh</code></pre>
     </div>
   </section>
 
-  <!-- How it works -->
-  <section class="max-w-3xl mx-auto px-6 py-20">
-    <h2 class="text-3xl font-bold text-center mb-4">How it works</h2>
+  <!-- Comparison -->
+  <section class="max-w-5xl mx-auto px-6 py-20">
+    <h2 class="text-3xl font-bold text-center mb-4">In action</h2>
     <p class="text-center text-zinc-400 mb-8 max-w-xl mx-auto">
-      Kodama classifies your request, delegates to the right specialist(s), reconciles findings, and verifies before reporting completion.
+      Same prompt. Different approach.
     </p>
-    <div class="flex flex-col items-center gap-3 text-sm font-mono">
-      <div class="px-4 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300">You → kodama</div>
-      <div class="text-zinc-600">↓</div>
-      <div class="px-4 py-2 rounded-lg bg-zinc-900 border border-emerald-900 text-emerald-400">classify → delegate → parallel work</div>
-      <div class="text-zinc-600">↓</div>
-      <div class="px-4 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300">reconcile → verify → result</div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      
+      <!-- Normal Kiro -->
+      <div class="rounded-xl bg-zinc-950 border border-zinc-800 p-5 font-mono text-sm">
+        <p class="text-xs text-zinc-500 uppercase tracking-wide mb-4">Default Kiro agent</p>
+        <div class="mb-4">
+          <span class="text-blue-400">You:</span>
+          <span class="text-zinc-300"> Create an Express API with /health, tests, Dockerfile, and README.</span>
+        </div>
+        <div class="space-y-2 text-zinc-400">
+          <div class="animate-line" style="--delay: 0.5s">Writing Express app…</div>
+          <div class="animate-line" style="--delay: 1.2s">Adding /health route…</div>
+          <div class="animate-line" style="--delay: 1.9s">Writing tests…</div>
+          <div class="animate-line text-zinc-600" style="--delay: 2.6s">— forgot the Dockerfile —</div>
+          <div class="animate-line" style="--delay: 3.3s">Writing README…</div>
+          <div class="animate-line text-zinc-600" style="--delay: 4.0s">— README is generic, doesn't mention /health —</div>
+          <div class="animate-line text-zinc-600" style="--delay: 4.7s">— no review, no validation —</div>
+        </div>
+        <div class="border-t border-zinc-800 mt-4 pt-4">
+          <div class="animate-line text-yellow-500" style="--delay: 5.4s">⚠ Dockerfile missing</div>
+          <div class="animate-line text-yellow-500" style="--delay: 5.8s">⚠ README incomplete</div>
+          <div class="animate-line text-yellow-500" style="--delay: 6.2s">⚠ No review step</div>
+          <div class="animate-line text-zinc-500 mt-2" style="--delay: 6.8s">You: "You forgot the Dockerfile…"</div>
+        </div>
+      </div>
+
+      <!-- Kodama -->
+      <div class="rounded-xl bg-zinc-950 border border-emerald-900 p-5 font-mono text-sm">
+        <p class="text-xs text-emerald-500 uppercase tracking-wide mb-4">Kodama</p>
+        <div class="mb-4">
+          <span class="text-blue-400">You:</span>
+          <span class="text-zinc-300"> Create an Express API with /health, tests, Dockerfile, and README.</span>
+        </div>
+        <div class="space-y-2 text-zinc-400">
+          <div class="animate-line" style="--delay: 0.5s"><span class="text-emerald-400">scout</span>  Checking workspace…</div>
+          <div class="animate-line" style="--delay: 1.2s"><span class="text-emerald-400">smith</span>  Express app + /health + tests…</div>
+          <div class="animate-line" style="--delay: 1.9s"><span class="text-emerald-400">forge</span>  Multi-stage Dockerfile…</div>
+          <div class="animate-line" style="--delay: 2.6s"><span class="text-emerald-400">scribe</span> README with API docs…</div>
+          <div class="animate-line" style="--delay: 3.3s"><span class="text-emerald-400">critic</span> Reviewing all changes…</div>
+        </div>
+        <div class="border-t border-zinc-800 mt-4 pt-4">
+          <div class="animate-line text-emerald-400" style="--delay: 4.2s">✓ 4 tests passing</div>
+          <div class="animate-line text-emerald-400" style="--delay: 4.6s">✓ Docker build succeeds</div>
+          <div class="animate-line text-emerald-400" style="--delay: 5.0s">✓ README covers /health endpoint</div>
+          <div class="animate-line text-emerald-400" style="--delay: 5.4s">✓ Critic: no issues</div>
+          <div class="animate-line text-zinc-300 mt-2" style="--delay: 5.8s">Done. Nothing forgotten.</div>
+        </div>
+      </div>
+
     </div>
   </section>
 
