@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+@keyframes gradientShift {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+.animate-gradient {
+  animation: gradientShift 3s linear infinite;
+}
+
 @keyframes fadeInLine {
   from {
     opacity: 0;
