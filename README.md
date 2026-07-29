@@ -1,14 +1,6 @@
 <div align="center">
 
-```
-    🌳
-   ╱ ╲
-  ╱   ╲
- ╱     ╲
-╱───────╲
-    ║
-```
-
+# 🌳
 # kodama
 
 **A portable, provider-neutral Kiro CLI agent pack**
