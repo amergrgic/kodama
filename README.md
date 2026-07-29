@@ -146,7 +146,11 @@ The test suite uses a temporary home and stub Kiro CLI. It verifies dry-run beha
 
 ## Design principles
 
-- **Portable:** no provider-specific, company-internal, or cloud-vendor dependencies.
+- **Portable:** no provider-specific or cloud-vendor dependencies.
 - **Safe by default:** implementation tools are available but not auto-approved.
 - **Small roster:** Kodama delegates to purpose-built companions instead of accumulating broad privileges.
 - **Evidence-based:** non-trivial work is reviewed and validated before it is declared complete.
+
+## Inspiration
+
+Kodama is inspired by the "oh-my" family of agent packs — [oh-my-claude-code](https://github.com/anthropics/oh-my-claude-code), [oh-my-opencode-slim](https://github.com/nicobailon/oh-my-opencode-slim), and similar projects that bring structured multi-agent workflows to CLI coding tools. Kodama adapts this pattern for the Kiro CLI ecosystem with a focus on portability and provider neutrality.
