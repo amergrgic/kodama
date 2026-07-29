@@ -153,4 +153,4 @@ The test suite uses a temporary home and stub Kiro CLI. It verifies dry-run beha
 
 ## Inspiration
 
-Kodama is inspired by the "oh-my" family of agent packs — [oh-my-claudecode](https://github.com/yeachan-heo/oh-my-claudecode), [oh-my-opencode-slim](https://github.com/nicobailon/oh-my-opencode-slim), and similar projects that bring structured multi-agent workflows to CLI coding tools. Kodama adapts this pattern for the Kiro CLI ecosystem with a focus on portability and provider neutrality.
+Kodama is inspired by the "oh-my" family of agent packs — [oh-my-claudecode](https://github.com/yeachan-heo/oh-my-claudecode), [oh-my-opencode-slim](https://github.com/alvinunreal/oh-my-opencode-slim), and similar projects that bring structured multi-agent workflows to CLI coding tools. Kodama adapts this pattern for the Kiro CLI ecosystem with a focus on portability and provider neutrality.
