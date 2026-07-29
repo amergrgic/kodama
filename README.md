@@ -106,7 +106,7 @@ Each file under `agents/` is a self-contained Kiro JSON configuration with an in
 
 All agents default to `model: "auto"`. Change an installed agent's `model` field to any model ID supported by your Kiro setup. Recommended profiles for users who want to tune:
 
-> **Note:** Updates overwrite installed agent configs. If you customize the `model` field, you'll need to re-apply it after running `update.sh`. Your previous configs are backed up to `~/.kiro/kodama/backups/<timestamp>/`.
+> **Tip:** Instead of editing installed agent configs (which get overwritten on update), create a project-level override in `.kiro/agents/` — see the [project-local customization guide](docs/project-customization.md).
 
 | Agent | Profile | Why |
 |---|---|---|
