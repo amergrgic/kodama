@@ -5,6 +5,19 @@ All notable changes to kodama will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.1] - 2026-07-30
+
+### Fixed
+
+- Installed `setup.sh` no longer crashes when running `--set-default` or `--alias` without source files
+- Lifecycle commands (`--set-default`, `--alias`, `--uninstall`, `--version`) work directly from `~/.kiro/kodama/setup.sh`
+- Full reinstall directs users to `update.sh`
+
+### Changed
+
+- Primary install URL is now `https://dl.getkodama.dev`
+- Landing site served from `getkodama.dev`
+
 ## [0.5.0] - 2026-07-29
 
 ### Added
@@ -79,6 +92,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Actions CI workflow
 - MIT license
 
+[0.5.1]: https://github.com/amergrgic/kodama/releases/tag/v0.5.1
 [0.5.0]: https://github.com/amergrgic/kodama/releases/tag/v0.5.0
 [0.4.1]: https://github.com/amergrgic/kodama/releases/tag/v0.4.1
 [0.4.0]: https://github.com/amergrgic/kodama/releases/tag/v0.4.0
