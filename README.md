@@ -40,6 +40,12 @@ kiro-cli chat --agent kodama
 One-liner (no clone needed):
 
 ```bash
+curl -fsSL https://dl.getkodama.dev | bash
+```
+
+Or directly from GitHub:
+
+```bash
 curl -fsSL https://raw.githubusercontent.com/amergrgic/kodama/main/install-remote.sh | bash
 ```
 
