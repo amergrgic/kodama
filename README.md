@@ -9,6 +9,7 @@
 One orchestrator. Eight specialists. Zero lock-in.
 
 [![GitHub release](https://img.shields.io/github/v/release/amergrgic/kodama)](https://github.com/amergrgic/kodama/releases)
+[![CI](https://github.com/amergrgic/kodama/actions/workflows/validate.yml/badge.svg)](https://github.com/amergrgic/kodama/actions/workflows/validate.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
 
 </div>
