@@ -4,8 +4,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://amergrgic.github.io',
-  base: '/kodama',
+  site: 'https://getkodama.dev',
+  base: '/',
   vite: {
     plugins: [tailwindcss()]
   }
