@@ -226,6 +226,42 @@ if $UNINSTALL; then
   exit 0
 fi
 
+# Lifecycle-only mode: when run from the installed copy (~/.kiro/kodama/setup.sh)
+# without source files, only support --set-default, --alias, and --uninstall.
+if [[ ! -d "$SCRIPT_DIR/agents" ]]; then
+  if $SET_DEFAULT; then
+    kiro-cli settings chat.defaultAgent kodama
+    success "Default agent set to kodama"
+  fi
+  if $SETUP_ALIAS; then
+    ALIAS_LINE='alias kodama="kiro-cli chat --agent kodama"'
+    SHELL_PROFILE=""
+    case "${SHELL:-}" in
+      */zsh)  SHELL_PROFILE="$HOME/.zshrc" ;;
+      */bash)
+        if [[ -f "$HOME/.bash_profile" ]]; then
+          SHELL_PROFILE="$HOME/.bash_profile"
+        else
+          SHELL_PROFILE="$HOME/.bashrc"
+        fi
+        ;;
+      */fish) SHELL_PROFILE="$HOME/.config/fish/config.fish" ;;
+    esac
+    if [[ -z "$SHELL_PROFILE" ]]; then
+      warn "Could not detect shell profile — add manually: $ALIAS_LINE"
+    elif grep -qF 'alias kodama=' "$SHELL_PROFILE" 2>/dev/null; then
+      success "Alias already in $SHELL_PROFILE"
+    else
+      printf '\n# kodama\n%s\n' "$ALIAS_LINE" >> "$SHELL_PROFILE"
+      success "Added 'kodama' alias to $SHELL_PROFILE (reload your shell to use it)"
+    fi
+  fi
+  if ! $SET_DEFAULT && ! $SETUP_ALIAS; then
+    info "To reinstall or update, run: ~/.kiro/kodama/update.sh"
+  fi
+  exit 0
+fi
+
 if [[ ! -f "$MANIFEST" ]]; then
   for name in "${AGENT_NAMES[@]}"; do
     [[ -e "$AGENTS_DIR/$name.json" ]] && fail "refusing to overwrite existing agent '$name' at $AGENTS_DIR/$name.json"
