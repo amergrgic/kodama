@@ -33,6 +33,12 @@ One orchestrator. Eight specialists. Zero lock-in.
 The `kodama-` prefix keeps companion agents distinct from generic names that may already be installed by another pack. Only the primary entrypoint is unprefixed:
 
 ```bash
+kodama
+```
+
+Or equivalently, without the shell alias:
+
+```bash
 kiro-cli chat --agent kodama
 ```
 
@@ -57,7 +63,7 @@ git clone https://github.com/amergrgic/kodama.git
 cd kodama && ./setup.sh
 ```
 
-The installer requires `kiro-cli` and `python3`. It validates every generated agent configuration before writing it, then installs only these files:
+The installer requires `kiro-cli` and `python3`. It validates every generated agent configuration before writing it, adds a `kodama` shell alias by default, and installs only these files:
 
 ```text
 ~/.kiro/agents/kodama.json
@@ -81,7 +87,7 @@ Use the optional lifecycle commands:
 ```bash
 ./setup.sh --dry-run       # preview without writes
 ./setup.sh --set-default   # set chat.defaultAgent to kodama
-./setup.sh --alias         # add 'kodama' shell alias
+./setup.sh --no-alias      # skip adding shell alias (added by default on fresh install)
 ./setup.sh --uninstall     # remove only unmodified files owned by this pack
 ```
 
@@ -92,6 +98,20 @@ A copy of `setup.sh` is installed to `~/.kiro/kodama/` so lifecycle commands wor
 ```bash
 ~/.kiro/kodama/setup.sh --uninstall
 ```
+
+## CLI
+
+The installer adds a `kodama` alias to your shell by default. Use it as a unified entrypoint:
+
+```bash
+kodama                    # start a chat session
+kodama stats              # usage insights
+kodama update             # self-update
+kodama version            # print version
+kodama help               # show subcommands
+```
+
+To skip the alias on install, use `--no-alias`. If you installed before v0.6.0, run `~/.kiro/kodama/setup.sh --alias` to migrate your existing alias.
 
 ## Update
 
@@ -106,6 +126,49 @@ This downloads the latest release, backs up your current installation, and re-ru
 ```bash
 ./setup.sh --version
 ```
+
+## Usage Insights
+
+Kodama includes opt-in, local-only telemetry to help you understand your usage patterns. No data leaves your machine.
+
+Enable tracking:
+
+```bash
+kodama stats --enable
+```
+
+View your stats:
+
+```bash
+kodama stats              # last 30 days
+kodama stats --period 7   # last week
+kodama stats --json       # machine-readable output
+```
+
+Example output:
+
+```
+━━ Kodama Usage (last 30 days) ━━
+
+  Sessions
+    Total:        47
+    Avg duration: 8m 32s
+    Completed:    41 (87%)
+
+  Agent Activity
+    kodama-smith    38 spawns  │████████████████████░│ 81%
+    kodama-scout    31 spawns  │████████████████░░░░░│ 66%
+    kodama-critic   22 spawns  │███████████░░░░░░░░░░│ 47%
+    ...
+```
+
+Disable at any time:
+
+```bash
+kodama stats --disable
+```
+
+Only agent names, timestamps, and session metadata are recorded. Prompts, code, file contents, and file paths are never captured. Data is stored in `~/.kiro/kodama/telemetry/` and automatically rotated (max ~5 MB).
 
 ## Configuration
 

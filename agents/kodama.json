@@ -22,7 +22,8 @@
   ],
   "hooks": {
     "agentSpawn": [
-      { "command": "__KODAMA_STATE_DIR__/check-update.sh" }
+      { "command": "__KODAMA_STATE_DIR__/check-update.sh" },
+      { "command": "__KODAMA_STATE_DIR__/kodama-telemetry-emit.sh agent_spawn kodama" }
     ]
   },
   "welcomeMessage": "Kodama is ready. Tell me what you want to build."

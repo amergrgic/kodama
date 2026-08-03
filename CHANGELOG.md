@@ -5,6 +5,27 @@ All notable changes to kodama will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2026-08-03
+
+### Added
+
+- **CLI wrapper** (`kodama.sh`): unified entrypoint with subcommands — `kodama stats`, `kodama update`, `kodama version`, `kodama help`
+- **Usage insights** (`kodama stats`): opt-in, local-only telemetry tracking agent spawns, sessions, and delegations. No data leaves your machine.
+- Shell alias now installs by default on fresh installs (use `--no-alias` to skip)
+- All specialist agents emit telemetry events via `agentSpawn` hooks (zero cost when disabled)
+- `kodama stats --enable/--disable/--status/--json/--period N` for full control over tracking
+- Automatic log rotation (max ~5 MB) and 90-day age purge
+
+### Changed
+
+- Shell alias now points to the wrapper (`$HOME/.kiro/kodama/kodama.sh`) instead of directly to `kiro-cli`
+- `update.sh` automatically migrates old aliases and adds the alias if missing
+- `install-remote.sh` alias prompt defaults to Yes
+
+### Fixed
+
+- Empty array expansion in stats script under `set -u`
+
 ## [0.5.1] - 2026-07-30
 
 ### Fixed
@@ -92,6 +113,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Actions CI workflow
 - MIT license
 
+[0.6.0]: https://github.com/amergrgic/kodama/releases/tag/v0.6.0
 [0.5.1]: https://github.com/amergrgic/kodama/releases/tag/v0.5.1
 [0.5.0]: https://github.com/amergrgic/kodama/releases/tag/v0.5.0
 [0.4.1]: https://github.com/amergrgic/kodama/releases/tag/v0.4.1

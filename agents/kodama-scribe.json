@@ -15,5 +15,10 @@
     "skill://__KODAMA_SKILLS_DIR__/kodama-verification/SKILL.md",
     "skill://__KODAMA_SKILLS_DIR__/kodama-constraints/SKILL.md"
   ],
+  "hooks": {
+    "agentSpawn": [
+      { "command": "__KODAMA_STATE_DIR__/kodama-telemetry-emit.sh agent_spawn kodama-scribe" }
+    ]
+  },
   "welcomeMessage": "Scribe ready — documentation and technical writing mode active."
 }

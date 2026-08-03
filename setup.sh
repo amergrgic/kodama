@@ -40,7 +40,7 @@ AGENTS_DIR="$KIRO_DIR/agents"
 SKILLS_DIR="$KIRO_DIR/skills"
 STATE_DIR="$KIRO_DIR/kodama"
 MANIFEST="$STATE_DIR/manifest.json"
-KODAMA_VERSION="0.5.1"
+KODAMA_VERSION="0.6.0"
 
 AGENT_NAMES=(
   kodama
@@ -63,14 +63,16 @@ DRY_RUN=false
 UNINSTALL=false
 SET_DEFAULT=false
 SETUP_ALIAS=false
+SKIP_ALIAS=false
 
 usage() {
   cat <<'EOF'
-Usage: ./setup.sh [--dry-run] [--set-default] [--alias] [--uninstall] [--version]
+Usage: ./setup.sh [--dry-run] [--set-default] [--alias] [--no-alias] [--uninstall] [--version]
 
   --dry-run      Show what would change without writing files.
   --set-default  Set Kiro CLI's default agent to Kodama after a successful install.
-  --alias        Add 'kodama' shell alias to your profile.
+  --alias        Add 'kodama' shell alias to your profile (auto on fresh install).
+  --no-alias     Skip adding the shell alias on fresh installs.
   --uninstall    Remove only unmodified agent and skill files owned by this pack.
   --version      Print the pack version and exit.
 
@@ -88,6 +90,7 @@ while [[ $# -gt 0 ]]; do
     --dry-run) DRY_RUN=true ;;
     --set-default) SET_DEFAULT=true ;;
     --alias) SETUP_ALIAS=true ;;
+    --no-alias) SKIP_ALIAS=true ;;
     --uninstall) UNINSTALL=true ;;
     --version) echo "kodama $KODAMA_VERSION"; exit 0 ;;
     --help|-h) usage; exit 0 ;;
@@ -234,7 +237,7 @@ if [[ ! -d "$SCRIPT_DIR/agents" ]]; then
     success "Default agent set to kodama"
   fi
   if $SETUP_ALIAS; then
-    ALIAS_LINE='alias kodama="kiro-cli chat --agent kodama"'
+    ALIAS_LINE="alias kodama=\"\$HOME/.kiro/kodama/kodama.sh\""
     SHELL_PROFILE=""
     case "${SHELL:-}" in
       */zsh)  SHELL_PROFILE="$HOME/.zshrc" ;;
@@ -249,6 +252,10 @@ if [[ ! -d "$SCRIPT_DIR/agents" ]]; then
     esac
     if [[ -z "$SHELL_PROFILE" ]]; then
       warn "Could not detect shell profile — add manually: $ALIAS_LINE"
+    elif grep -qF 'alias kodama="kiro-cli chat --agent kodama"' "$SHELL_PROFILE" 2>/dev/null; then
+      sed -i.bak 's|alias kodama="kiro-cli chat --agent kodama"|alias kodama="$HOME/.kiro/kodama/kodama.sh"|' "$SHELL_PROFILE"
+      rm -f "${SHELL_PROFILE}.bak"
+      success "Updated alias in $SHELL_PROFILE to use wrapper"
     elif grep -qF 'alias kodama=' "$SHELL_PROFILE" 2>/dev/null; then
       success "Alias already in $SHELL_PROFILE"
     else
@@ -262,7 +269,9 @@ if [[ ! -d "$SCRIPT_DIR/agents" ]]; then
   exit 0
 fi
 
+IS_FRESH_INSTALL=false
 if [[ ! -f "$MANIFEST" ]]; then
+  IS_FRESH_INSTALL=true
   for name in "${AGENT_NAMES[@]}"; do
     [[ -e "$AGENTS_DIR/$name.json" ]] && fail "refusing to overwrite existing agent '$name' at $AGENTS_DIR/$name.json"
   done
@@ -359,6 +368,15 @@ cp "$SCRIPT_DIR/scripts/update.sh" "$STATE_DIR/update.sh"
 chmod +x "$STATE_DIR/update.sh"
 success "Scripts: setup.sh, check-update.sh, update.sh"
 
+cp "$SCRIPT_DIR/scripts/kodama.sh" "$STATE_DIR/kodama.sh"
+chmod +x "$STATE_DIR/kodama.sh"
+cp "$SCRIPT_DIR/scripts/kodama-telemetry.py" "$STATE_DIR/kodama-telemetry.py"
+cp "$SCRIPT_DIR/scripts/kodama-telemetry-emit.sh" "$STATE_DIR/kodama-telemetry-emit.sh"
+chmod +x "$STATE_DIR/kodama-telemetry-emit.sh"
+cp "$SCRIPT_DIR/scripts/kodama-stats.sh" "$STATE_DIR/kodama-stats.sh"
+chmod +x "$STATE_DIR/kodama-stats.sh"
+success "Scripts: kodama.sh, kodama-telemetry.py, kodama-telemetry-emit.sh, kodama-stats.sh"
+
 previous_default=""
 if [[ -f "$MANIFEST" ]]; then
   previous_default="$(manifest_value previousDefaultAgent)"
@@ -371,8 +389,38 @@ if $SET_DEFAULT; then
 fi
 
 if $SETUP_ALIAS; then
-  ALIAS_LINE='alias kodama="kiro-cli chat --agent kodama"'
+  ALIAS_LINE="alias kodama=\"\$HOME/.kiro/kodama/kodama.sh\""
   # Detect shell profile
+  SHELL_PROFILE=""
+  case "${SHELL:-}" in
+    */zsh)  SHELL_PROFILE="$HOME/.zshrc" ;;
+    */bash)
+      if [[ -f "$HOME/.bash_profile" ]]; then
+        SHELL_PROFILE="$HOME/.bash_profile"
+      else
+        SHELL_PROFILE="$HOME/.bashrc"
+      fi
+      ;;
+    */fish) SHELL_PROFILE="$HOME/.config/fish/config.fish" ;;
+  esac
+
+  if [[ -z "$SHELL_PROFILE" ]]; then
+    warn "Could not detect shell profile — add manually: $ALIAS_LINE"
+  elif grep -qF 'alias kodama="kiro-cli chat --agent kodama"' "$SHELL_PROFILE" 2>/dev/null; then
+    sed -i.bak 's|alias kodama="kiro-cli chat --agent kodama"|alias kodama="$HOME/.kiro/kodama/kodama.sh"|' "$SHELL_PROFILE"
+    rm -f "${SHELL_PROFILE}.bak"
+    success "Updated alias in $SHELL_PROFILE to use wrapper"
+  elif grep -qF 'alias kodama=' "$SHELL_PROFILE" 2>/dev/null; then
+    success "Alias already in $SHELL_PROFILE"
+  else
+    printf '\n# kodama\n%s\n' "$ALIAS_LINE" >> "$SHELL_PROFILE"
+    success "Added 'kodama' alias to $SHELL_PROFILE (reload your shell to use it)"
+  fi
+fi
+
+# Auto-add alias on fresh install unless --no-alias
+if ! $SETUP_ALIAS && ! $SKIP_ALIAS && $IS_FRESH_INSTALL; then
+  ALIAS_LINE="alias kodama=\"\$HOME/.kiro/kodama/kodama.sh\""
   SHELL_PROFILE=""
   case "${SHELL:-}" in
     */zsh)  SHELL_PROFILE="$HOME/.zshrc" ;;
@@ -433,7 +481,7 @@ printf '\n'
 printf '  Kodama and %d specialists are ready (v%s).\n' "$(( ${#AGENT_NAMES[@]} - 1 ))" "$KODAMA_VERSION"
 printf '  Installed independently of other Kiro packs.\n'
 printf '\n'
-printf '  %bStart:%b  kiro-cli chat --agent kodama\n' "$GREEN" "$RESET"
+printf '  %bStart:%b  kodama\n' "$GREEN" "$RESET"
 printf '  %bUpdate:%b ~/.kiro/kodama/update.sh\n' "$DIM" "$RESET"
 printf '  %bRemove:%b ~/.kiro/kodama/setup.sh --uninstall\n' "$DIM" "$RESET"
 printf '\n'

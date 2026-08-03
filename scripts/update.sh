@@ -73,4 +73,28 @@ rm -f "$STATE_DIR/.update-cache"
 
 printf '\n'
 success "Updated kodama: $installed_version → $latest_version"
+
+# Check if old-style alias exists in shell profile
+SHELL_PROFILE=""
+case "${SHELL:-}" in
+  */zsh)  SHELL_PROFILE="$HOME/.zshrc" ;;
+  */bash)
+    if [[ -f "$HOME/.bash_profile" ]]; then
+      SHELL_PROFILE="$HOME/.bash_profile"
+    else
+      SHELL_PROFILE="$HOME/.bashrc"
+    fi
+    ;;
+  */fish) SHELL_PROFILE="$HOME/.config/fish/config.fish" ;;
+esac
+
+if [[ -n "$SHELL_PROFILE" ]] && grep -qF 'alias kodama="kiro-cli chat --agent kodama"' "$SHELL_PROFILE" 2>/dev/null; then
+  sed -i.bak 's|alias kodama="kiro-cli chat --agent kodama"|alias kodama="$HOME/.kiro/kodama/kodama.sh"|' "$SHELL_PROFILE"
+  rm -f "${SHELL_PROFILE}.bak"
+  success "Updated alias in $SHELL_PROFILE (reload your shell to use subcommands)"
+elif [[ -n "$SHELL_PROFILE" ]] && ! grep -qF 'alias kodama=' "$SHELL_PROFILE" 2>/dev/null; then
+  printf '\n# kodama\nalias kodama="$HOME/.kiro/kodama/kodama.sh"\n' >> "$SHELL_PROFILE"
+  success "Added 'kodama' alias to $SHELL_PROFILE (reload your shell to use it)"
+fi
+
 printf '\n'

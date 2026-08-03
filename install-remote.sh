@@ -45,13 +45,13 @@ curl -fsSL --max-time 30 "$tarball_url" | tar xz -C "$TEMP_DIR" --strip-componen
 
 success "Downloaded"
 
-# Ask about alias if interactive and not already passed as flag
+# Ask about alias if interactive
 EXTRA_FLAGS=""
-if [[ -e /dev/tty ]] && [[ ! " $* " =~ " --alias " ]]; then
-  printf '  Add %bkodama%b alias to your shell? [y/N] ' "$BOLD" "$RESET" > /dev/tty
+if [[ -e /dev/tty ]]; then
+  printf '  Add %bkodama%b alias to your shell? [Y/n] ' "$BOLD" "$RESET" > /dev/tty
   read -r add_alias < /dev/tty
-  if [[ "$add_alias" =~ ^[Yy]$ ]]; then
-    EXTRA_FLAGS="--alias"
+  if [[ "$add_alias" =~ ^[Nn]$ ]]; then
+    EXTRA_FLAGS="--no-alias"
   fi
 fi
 
