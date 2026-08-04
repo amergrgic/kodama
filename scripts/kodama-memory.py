@@ -87,11 +87,13 @@ def detect_project_root():
     except (OSError, subprocess.TimeoutExpired):
         pass
 
-    # 4. Walk up looking for .kiro/
+    # 4. Walk up looking for .kiro/ that contains project-level content
+    #    (skip ~/.kiro which is the global kiro installation directory)
     cwd = Path.cwd().resolve()
     current = cwd
     while True:
-        if (current / ".kiro").is_dir():
+        kiro_dir = current / ".kiro"
+        if kiro_dir.is_dir() and current != Path.home():
             return current
         parent = current.parent
         if parent == current:
