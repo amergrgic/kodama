@@ -40,7 +40,7 @@ AGENTS_DIR="$KIRO_DIR/agents"
 SKILLS_DIR="$KIRO_DIR/skills"
 STATE_DIR="$KIRO_DIR/kodama"
 MANIFEST="$STATE_DIR/manifest.json"
-KODAMA_VERSION="0.6.1"
+KODAMA_VERSION="0.6.2"
 
 AGENT_NAMES=(
   kodama
@@ -264,7 +264,7 @@ if [[ ! -d "$SCRIPT_DIR/agents" ]]; then
     fi
   fi
   if ! $SET_DEFAULT && ! $SETUP_ALIAS; then
-    info "To reinstall or update, run: ~/.kiro/kodama/update.sh"
+    info "To reinstall or update, run: kodama update"
   fi
   exit 0
 fi
@@ -375,7 +375,9 @@ cp "$SCRIPT_DIR/scripts/kodama-telemetry-emit.sh" "$STATE_DIR/kodama-telemetry-e
 chmod +x "$STATE_DIR/kodama-telemetry-emit.sh"
 cp "$SCRIPT_DIR/scripts/kodama-stats.sh" "$STATE_DIR/kodama-stats.sh"
 chmod +x "$STATE_DIR/kodama-stats.sh"
-success "Scripts: kodama.sh, kodama-telemetry.py, kodama-telemetry-emit.sh, kodama-stats.sh"
+cp "$SCRIPT_DIR/scripts/kodama-doctor.sh" "$STATE_DIR/kodama-doctor.sh"
+chmod +x "$STATE_DIR/kodama-doctor.sh"
+success "Scripts: kodama.sh, kodama-telemetry.py, kodama-telemetry-emit.sh, kodama-stats.sh, kodama-doctor.sh"
 
 previous_default=""
 if [[ -f "$MANIFEST" ]]; then
@@ -482,6 +484,6 @@ printf '  Kodama and %d specialists are ready (v%s).\n' "$(( ${#AGENT_NAMES[@]} 
 printf '  Installed independently of other Kiro packs.\n'
 printf '\n'
 printf '  %bStart:%b  kodama\n' "$GREEN" "$RESET"
-printf '  %bUpdate:%b ~/.kiro/kodama/update.sh\n' "$DIM" "$RESET"
-printf '  %bRemove:%b ~/.kiro/kodama/setup.sh --uninstall\n' "$DIM" "$RESET"
+printf '  %bUpdate:%b kodama update\n' "$DIM" "$RESET"
+printf '  %bRemove:%b kodama uninstall\n' "$DIM" "$RESET"
 printf '\n'

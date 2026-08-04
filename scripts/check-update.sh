@@ -30,7 +30,7 @@ if [[ -f "$CACHE_FILE" ]]; then
     # Use cached result
     cached_version="$(cat "$CACHE_FILE")"
     if [[ -n "$cached_version" && "$cached_version" != "$installed_version" ]]; then
-      echo "kodama update available: $installed_version → $cached_version. Run: ~/.kiro/kodama/update.sh"
+      echo "kodama update available: $installed_version → $cached_version. Run: kodama update"
     fi
     exit 0
   fi
@@ -49,5 +49,5 @@ printf '%s' "$latest_version" > "$CACHE_FILE"
 
 # Only notify if versions differ
 if [[ "$latest_version" != "$installed_version" ]]; then
-  echo "kodama update available: $installed_version → $latest_version. Run: ~/.kiro/kodama/update.sh"
+  echo "kodama update available: $installed_version → $latest_version. Run: kodama update"
 fi

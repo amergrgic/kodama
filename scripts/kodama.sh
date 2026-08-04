@@ -5,12 +5,18 @@ set -euo pipefail
 STATE_DIR="${KIRO_DIR:-$HOME/.kiro}/kodama"
 
 case "${1:-}" in
+  doctor)
+    exec "$STATE_DIR/kodama-doctor.sh"
+    ;;
   stats)
     shift
     exec "$STATE_DIR/kodama-stats.sh" "$@"
     ;;
   update)
     exec "$STATE_DIR/update.sh"
+    ;;
+  uninstall)
+    exec "$STATE_DIR/setup.sh" --uninstall
     ;;
   version)
     exec "$STATE_DIR/setup.sh" --version
@@ -20,8 +26,10 @@ case "${1:-}" in
 Usage: kodama [subcommand] [options]
 
 Subcommands:
+  doctor      Check installation health
   stats       Show usage insights (local-only telemetry)
   update      Update kodama to the latest release
+  uninstall   Remove kodama and all owned files
   version     Print the installed version
   help        Show this help
 

@@ -118,13 +118,13 @@ To skip the alias on install, use `--no-alias`. If you installed before v0.6.0, 
 Kodama automatically checks for updates when a session starts (cached, once per day). To update manually:
 
 ```bash
-~/.kiro/kodama/update.sh
+kodama update
 ```
 
 This downloads the latest release, backs up your current installation, and re-runs setup. Check your installed version with:
 
 ```bash
-./setup.sh --version
+kodama version
 ```
 
 ## Usage Insights
