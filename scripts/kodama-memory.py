@@ -51,10 +51,22 @@ def detect_project_root():
     """Detect the project root directory.
 
     Strategy:
-    1. git rev-parse --show-toplevel (preferred)
-    2. Walk up from CWD looking for .kiro/ directory
-    3. Fall back to CWD
+    1. Read cached project root from STATE_DIR/.project-root (set by context hook)
+    2. git rev-parse --show-toplevel (preferred)
+    3. Walk up from CWD looking for .kiro/ directory
+    4. Fall back to CWD
     """
+    # Check cached project root (written by the context hook at session start)
+    state_dir = Path(os.environ.get("KIRO_DIR", Path.home() / ".kiro")) / "kodama"
+    cache_file = state_dir / ".project-root"
+    if cache_file.exists():
+        try:
+            cached = cache_file.read_text(encoding="utf-8").strip()
+            if cached and Path(cached).is_dir():
+                return Path(cached)
+        except OSError:
+            pass
+
     # Try git
     try:
         result = subprocess.run(
@@ -152,6 +164,12 @@ def cmd_context():
     root = detect_project_root()
     mem = memory_dir(root)
     context_path = mem / CONTEXT_FILE
+
+    # Cache the detected project root so that subsequent write calls (which may
+    # run from a different CWD) can find the correct project.
+    state_dir = Path(os.environ.get("KIRO_DIR", Path.home() / ".kiro")) / "kodama"
+    state_dir.mkdir(parents=True, exist_ok=True)
+    (state_dir / ".project-root").write_text(str(root), encoding="utf-8")
 
     # Priority order for budget allocation
     priority_order = ["facts", "conventions", "failures", "decisions", "architecture", "sessions"]
