@@ -98,13 +98,8 @@ def detect_project_root():
             break
         current = parent
 
-    # 5. Fail closed — do not fall back to CWD
-    print(
-        f"  {YELLOW}⚠{RESET} Could not detect project root. "
-        "Set KODAMA_PROJECT_ROOT or run from within a git repository.",
-        file=sys.stderr,
-    )
-    sys.exit(1)
+    # 5. Fall back to CWD (least surprising default)
+    return cwd
 
 
 def memory_dir(project_root=None):
