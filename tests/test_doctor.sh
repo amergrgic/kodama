@@ -37,14 +37,29 @@ assert_file() {
 AGENT_NAMES=(kodama kodama-scout kodama-scholar kodama-sage kodama-artist kodama-smith kodama-critic kodama-forge kodama-scribe)
 SKILL_NAMES=(kodama-behavior kodama-verification kodama-constraints)
 
+# Create a stub kiro-cli so doctor doesn't fail on missing prerequisite
+FAKE_BIN="$BASE/bin"
+mkdir -p "$FAKE_BIN"
+cat > "$FAKE_BIN/kiro-cli" <<'SH'
+#!/usr/bin/env bash
+echo "kiro-cli 0.0.0-stub"
+SH
+chmod +x "$FAKE_BIN/kiro-cli"
+export PATH="$FAKE_BIN:$PATH"
+
 # Helper: set up a minimal healthy installation in KIRO_DIR
 setup_healthy() {
   local kiro_dir="$1"
   local state_dir="$kiro_dir/kodama"
   local agents_dir="$kiro_dir/agents"
   local skills_dir="$kiro_dir/skills"
+  local home_dir="${2:-$BASE/default-home}"  # fake HOME for alias check
 
   mkdir -p "$agents_dir" "$skills_dir" "$state_dir"
+
+  # Create a shell profile with the wrapper alias so alias check passes
+  mkdir -p "$home_dir"
+  printf '\n# kodama\nalias kodama="$HOME/.kiro/kodama/kodama.sh"\n' > "$home_dir/.bashrc"
 
   # Create minimal agent JSON files
   for name in "${AGENT_NAMES[@]}"; do
@@ -108,12 +123,14 @@ PY
 # Helper: run doctor with an isolated KIRO_DIR, suppress color codes
 run_doctor() {
   local kiro_dir="$1"
-  KIRO_DIR="$kiro_dir" bash "$DOCTOR" 2>&1 || true
+  local home_dir="${2:-$BASE/fakehome}"
+  HOME="$home_dir" SHELL="/bin/bash" KIRO_DIR="$kiro_dir" bash "$DOCTOR" 2>&1 || true
 }
 
 run_doctor_exit() {
   local kiro_dir="$1"
-  KIRO_DIR="$kiro_dir" bash "$DOCTOR" > /dev/null 2>&1
+  local home_dir="${2:-$BASE/fakehome}"
+  HOME="$home_dir" SHELL="/bin/bash" KIRO_DIR="$kiro_dir" bash "$DOCTOR" > /dev/null 2>&1
   echo $?
 }
 
@@ -121,11 +138,12 @@ run_doctor_exit() {
 printf '%s\n' 'Test: healthy installation — all checks pass'
 # ──────────────────────────────────────────────────────────────────────────────
 HEALTHY_DIR="$BASE/healthy"
-mkdir -p "$HEALTHY_DIR"
-setup_healthy "$HEALTHY_DIR"
+HEALTHY_HOME="$BASE/healthy-home"
+mkdir -p "$HEALTHY_DIR" "$HEALTHY_HOME"
+setup_healthy "$HEALTHY_DIR" "$HEALTHY_HOME"
 
-output="$(run_doctor "$HEALTHY_DIR")"
-exit_code="$(KIRO_DIR="$HEALTHY_DIR" bash "$DOCTOR" > /dev/null 2>&1; echo $?)"
+output="$(run_doctor "$HEALTHY_DIR" "$HEALTHY_HOME")"
+exit_code="$(HOME="$HEALTHY_HOME" SHELL="/bin/bash" KIRO_DIR="$HEALTHY_DIR" bash "$DOCTOR" > /dev/null 2>&1; echo $?)"
 assert_eq "healthy install exits 0" "0" "$exit_code"
 
 has_all_passed="$([[ "$output" == *"All checks passed"* ]] && echo true || echo false)"
