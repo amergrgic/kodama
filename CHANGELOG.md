@@ -5,6 +5,14 @@ All notable changes to kodama will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.0] - 2026-08-04
+
+### Added
+
+- **Kiro Crew App** — Kodama is now packaged as a Crew App with `app.json` manifest for one-click install from the App Store
+- Memory layer detects Crew and defers to Crew's native memory system when running inside it
+- README documents both install paths: Crew App Store (recommended) and standalone
+
 ## [0.7.6] - 2026-08-04
 
 ### Changed
@@ -195,6 +203,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Actions CI workflow
 - MIT license
 
+[0.8.0]: https://github.com/amergrgic/kodama/releases/tag/v0.8.0
 [0.7.6]: https://github.com/amergrgic/kodama/releases/tag/v0.7.6
 [0.7.5]: https://github.com/amergrgic/kodama/releases/tag/v0.7.5
 [0.7.4]: https://github.com/amergrgic/kodama/releases/tag/v0.7.4

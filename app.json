@@ -1,0 +1,38 @@
+{
+  "name": "kodama",
+  "version": "0.8.0",
+  "displayName": "Kodama",
+  "description": "A portable, provider-neutral multi-agent pack. One orchestrator, eight specialists, zero lock-in.",
+  "author": "amergrgic",
+  "license": "MIT",
+  "tags": ["agents", "multi-agent", "orchestration", "delegation", "code-review"],
+  "agents": [
+    "agents/kodama.json",
+    "agents/kodama-scout.json",
+    "agents/kodama-scholar.json",
+    "agents/kodama-sage.json",
+    "agents/kodama-artist.json",
+    "agents/kodama-smith.json",
+    "agents/kodama-critic.json",
+    "agents/kodama-forge.json",
+    "agents/kodama-scribe.json"
+  ],
+  "skills": [
+    "skills/kodama-behavior",
+    "skills/kodama-verification",
+    "skills/kodama-constraints"
+  ],
+  "highlights": [
+    "9 purpose-built agents with clear permission boundaries",
+    "Structured delegation with success criteria and feedback loops",
+    "Project memory persists across sessions automatically",
+    "Safe by default — read-only agents stay read-only",
+    "Provider-neutral — works with any model"
+  ],
+  "dependencies": {
+    "commands": ["python3"]
+  },
+  "platform": {
+    "os": ["macos", "linux"]
+  }
+}

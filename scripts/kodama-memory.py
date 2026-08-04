@@ -174,6 +174,20 @@ def get_header(content):
 
 def cmd_context():
     """Generate context.md from all memory files within budget."""
+    # If running inside Kiro Crew, skip Kodama's memory — Crew has its own.
+    crew_dir = Path(os.environ.get("KIRO_DIR", Path.home() / ".kiro")) / "crew"
+    if (crew_dir / "config.json").exists():
+        # Crew is installed. Generate a minimal context pointing to Crew's memory.
+        root = detect_project_root()
+        mem = memory_dir(root)
+        if mem is not None:
+            mem.mkdir(parents=True, exist_ok=True)
+            (mem / CONTEXT_FILE).write_text(
+                "# Project Memory\n\nManaged by Kiro Crew. Use Crew's memory system.\n",
+                encoding="utf-8",
+            )
+        return
+
     root = detect_project_root()
     mem = memory_dir(root)
     if mem is None:
@@ -241,6 +255,11 @@ def cmd_context():
 
 def cmd_write(category, entry):
     """Append an entry to a category file after privacy checks."""
+    # Skip writes when Crew is managing memory
+    crew_dir = Path(os.environ.get("KIRO_DIR", Path.home() / ".kiro")) / "crew"
+    if (crew_dir / "config.json").exists():
+        return
+
     if category not in CATEGORIES:
         print(f"  {YELLOW}⚠{RESET} Unknown category: {category}", file=sys.stderr)
         print(f"  Valid categories: {', '.join(CATEGORIES)}", file=sys.stderr)
