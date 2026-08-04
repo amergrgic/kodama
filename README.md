@@ -106,6 +106,7 @@ The installer adds a `kodama` alias to your shell by default. Use it as a unifie
 ```bash
 kodama                    # start a chat session
 kodama stats              # usage insights
+kodama memory             # view project memory
 kodama update             # self-update
 kodama version            # print version
 kodama help               # show subcommands
@@ -169,6 +170,32 @@ kodama stats --disable
 ```
 
 Only agent names, timestamps, and session metadata are recorded. Prompts, code, file contents, and file paths are never captured. Data is stored in `~/.kiro/kodama/telemetry/` and automatically rotated (max ~5 MB).
+
+## Project Memory
+
+Kodama remembers what it learns about your project across sessions. Facts about your stack, decisions made, failed approaches, and team conventions accumulate in `.kiro/kodama/memory/` and are loaded automatically at session start.
+
+Memory is written by agents during sessions — no manual setup needed. After a few sessions, Kodama knows your test runner, build tool, architecture boundaries, and past mistakes without re-discovering them.
+
+View what's stored:
+
+```bash
+kodama memory
+```
+
+Reset if needed:
+
+```bash
+kodama memory reset
+```
+
+Check for accidentally stored secrets:
+
+```bash
+kodama memory audit
+```
+
+Memory files can be committed to your repo (shared team knowledge) or added to `.gitignore` (personal). Only concise natural-language descriptions are stored — never code, file contents, or credentials.
 
 ## Configuration
 

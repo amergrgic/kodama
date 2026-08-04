@@ -13,6 +13,7 @@ run "Installer lifecycle tests" bash "$ROOT/tests/test_install.sh"
 run "Project-local customization tests" bash "$ROOT/tests/test_project_customization.sh"
 run "Telemetry tests" bash "$ROOT/tests/test_telemetry.sh"
 run "Doctor tests" bash "$ROOT/tests/test_doctor.sh"
+run "Memory tests" bash "$ROOT/tests/test_memory.sh"
 run "Shell syntax" bash -n \
   "$ROOT/setup.sh" \
   "$ROOT/scripts/check-update.sh" \
@@ -25,6 +26,7 @@ run "Shell syntax" bash -n \
   "$ROOT/tests/test_project_customization.sh" \
   "$ROOT/tests/test_telemetry.sh" \
   "$ROOT/tests/test_doctor.sh" \
+  "$ROOT/tests/test_memory.sh" \
   "$ROOT/scripts/validate.sh"
 
 printf '\n==> Agent JSON and skill metadata\n'

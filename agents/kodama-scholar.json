@@ -7,7 +7,8 @@
   "allowedTools": ["web_search", "web_fetch"],
   "resources": [
     "skill://__KODAMA_SKILLS_DIR__/kodama-behavior/SKILL.md",
-    "skill://__KODAMA_SKILLS_DIR__/kodama-constraints/SKILL.md"
+    "skill://__KODAMA_SKILLS_DIR__/kodama-constraints/SKILL.md",
+    "file://.kiro/kodama/memory/context.md"
   ],
   "hooks": {
     "agentSpawn": [

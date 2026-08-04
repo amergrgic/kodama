@@ -21,12 +21,17 @@ case "${1:-}" in
   version)
     exec "$STATE_DIR/setup.sh" --version
     ;;
+  memory)
+    shift
+    exec python3 "$STATE_DIR/kodama-memory.py" "${1:-show}" "${@:2}"
+    ;;
   help|--help|-h)
     cat <<'EOF'
 Usage: kodama [subcommand] [options]
 
 Subcommands:
   doctor      Check installation health
+  memory      Show or manage project memory
   stats       Show usage insights (local-only telemetry)
   update      Update kodama to the latest release
   uninstall   Remove kodama and all owned files
@@ -38,6 +43,7 @@ Any flags not matching a subcommand are passed through to kiro-cli.
 
 Examples:
   kodama                  Start a chat session
+  kodama memory             Show project memory
   kodama stats            Show agent usage for the last 30 days
   kodama stats --json     Machine-readable usage data
   kodama stats --enable   Enable usage tracking

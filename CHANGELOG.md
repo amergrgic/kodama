@@ -5,6 +5,19 @@ All notable changes to kodama will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2026-08-04
+
+### Added
+
+- **Project memory** — persistent, per-project knowledge that accumulates across sessions
+- Memory categories: facts, decisions, failures, conventions, architecture, sessions
+- `kodama memory` command to view, reset, or audit stored memory
+- Agents write memory when discovering project structure, recording failures, or noting conventions
+- Memory loaded automatically at session start via agentSpawn hook (4KB context budget)
+- Privacy filter rejects secrets, tokens, and credential patterns from memory writes
+- Auto-compaction enforces size limits (50 entries per file, 20 session entries)
+- `kodama memory audit` scans for accidentally stored secrets
+
 ## [0.6.2] - 2026-08-04
 
 ### Added
@@ -131,6 +144,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Actions CI workflow
 - MIT license
 
+[0.7.0]: https://github.com/amergrgic/kodama/releases/tag/v0.7.0
 [0.6.2]: https://github.com/amergrgic/kodama/releases/tag/v0.6.2
 [0.6.1]: https://github.com/amergrgic/kodama/releases/tag/v0.6.1
 [0.6.0]: https://github.com/amergrgic/kodama/releases/tag/v0.6.0
