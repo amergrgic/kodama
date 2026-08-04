@@ -226,29 +226,10 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-# 9. Update cache
+# 9. Update check
 # ---------------------------------------------------------------------------
-section "Update cache"
-
-UPDATE_CACHE="$STATE_DIR/.update-cache"
-if [[ -f "$UPDATE_CACHE" ]]; then
-  if [[ "$(uname)" == "Darwin" ]]; then
-    cache_mtime="$(stat -f '%m' "$UPDATE_CACHE")"
-  else
-    cache_mtime="$(stat -c '%Y' "$UPDATE_CACHE")"
-  fi
-  now="$(date +%s)"
-  age_secs=$(( now - cache_mtime ))
-  age_hours=$(( age_secs / 3600 ))
-  age_days=$(( age_secs / 86400 ))
-  if [[ $age_days -gt 0 ]]; then
-    pass "Last checked: ${age_days}d ago"
-  else
-    pass "Last checked: ${age_hours}h ago"
-  fi
-else
-  warn_check "No update cache found — updates have never been checked"
-fi
+section "Update check"
+pass "Updates checked on every session start"
 
 # ---------------------------------------------------------------------------
 # 10. Stale session

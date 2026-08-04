@@ -68,9 +68,6 @@ curl -fsSL --max-time 30 "$tarball_url" | tar xz -C "$TEMP_DIR" --strip-componen
 info "Installing..."
 bash "$TEMP_DIR/setup.sh" || fail "Setup failed"
 
-# Clear update cache
-rm -f "$STATE_DIR/.update-cache"
-
 printf '\n'
 success "Updated kodama: $installed_version → $latest_version"
 
