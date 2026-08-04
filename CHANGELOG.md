@@ -5,6 +5,18 @@ All notable changes to kodama will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.1] - 2026-08-04
+
+### Changed
+
+- Orchestrator prompt: structured delegation contract (goal, context, constraints, success criteria), safe parallelism rules, explicit feedback/retry loops, routing tie-breakers
+- Critic prompt: structured 7-dimension review rubric with severity levels (blocker/warning/suggestion)
+- Scout prompt: structured evidence report format with confidence levels and uncertainty disclosure
+- Scholar prompt: source prioritization, version-pinning, structured research output
+- Artist prompt: accessibility checklist (keyboard, ARIA, WCAG AA, responsive, states)
+- Forge prompt: mandatory dry-run/validation before apply, blast radius analysis for production changes
+- Smith prompt: broken-test ownership, convention-following heuristic, scope-uncertainty escalation
+
 ## [0.7.0] - 2026-08-04
 
 ### Added
@@ -144,6 +156,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Actions CI workflow
 - MIT license
 
+[0.7.1]: https://github.com/amergrgic/kodama/releases/tag/v0.7.1
 [0.7.0]: https://github.com/amergrgic/kodama/releases/tag/v0.7.0
 [0.6.2]: https://github.com/amergrgic/kodama/releases/tag/v0.6.2
 [0.6.1]: https://github.com/amergrgic/kodama/releases/tag/v0.6.1
