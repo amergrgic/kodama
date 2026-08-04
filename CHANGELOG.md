@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **Kiro Crew App** — Kodama is now packaged as a Crew App with `app.json` manifest for one-click install from the App Store
+- **Kiro Crew App** — Kodama is now packaged as a Crew App with `app.json` manifest for install via `kirocrew app install`
 - Memory layer detects Crew and defers to Crew's native memory system when running inside it
 - README documents both install paths: Crew App Store (recommended) and standalone
 

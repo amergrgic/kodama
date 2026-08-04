@@ -16,7 +16,8 @@ One orchestrator. Eight specialists. Zero lock-in.
 
 > **Note:** kodama is an independent community project. It is not officially affiliated with, endorsed by, or officially connected to Amazon Web Services (AWS), the Kiro IDE, or the Kiro CLI team. "Kiro" is a trademark of Amazon.com, Inc. or its affiliates.
 
-> **New:** Kodama is available as a [Kiro Crew App](https://kiro.dev/crew/). Install from the App Store for automatic updates and Crew memory integration.
+> **New:** Kodama is a [Kiro Crew App](https://kiro.dev/crew/). App Store listing pending review — install by cloning the repo locally.
+
 
 ## Agents
 
@@ -46,15 +47,19 @@ kiro-cli chat --agent kodama
 
 ## Install
 
-### Via Kiro Crew App Store (recommended)
+### Via Kiro Crew (recommended)
 
-If you use [Kiro Crew](https://kiro.dev/crew/), install from the App Store with one click — or via CLI:
+If you use [Kiro Crew](https://kiro.dev/crew/), install by cloning the repo:
 
 ```bash
-kirocrew app install kodama
+git clone https://github.com/amergrgic/kodama.git
+kirocrew app install ./kodama
+kirocrew app enable kodama
 ```
 
 This installs all 9 agents and 3 skills. No setup script needed.
+
+> App Store listing is pending review. Once approved, install with: `kirocrew app install kodama`
 
 ### Standalone (without Crew)
 
