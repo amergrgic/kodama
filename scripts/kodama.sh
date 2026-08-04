@@ -4,6 +4,10 @@ set -euo pipefail
 
 STATE_DIR="${KIRO_DIR:-$HOME/.kiro}/kodama"
 
+# Detect and export the project root so memory commands target the right project.
+# This persists for the lifetime of this process and any child (kiro-cli session).
+export KODAMA_PROJECT_ROOT="${KODAMA_PROJECT_ROOT:-$(git rev-parse --show-toplevel 2>/dev/null || pwd -P)}"
+
 case "${1:-}" in
   doctor)
     exec "$STATE_DIR/kodama-doctor.sh"

@@ -47,31 +47,34 @@ def is_secret(text):
 
 # --- Project root detection ------------------------------------------------
 
+# Module-level override set by --project flag (per-invocation, no persistence)
+_project_override = None
+
+
 def detect_project_root():
     """Detect the project root directory.
 
-    Strategy:
-    1. Read --project argument if provided (passed by orchestrator)
-    2. Read cached project root from STATE_DIR/.project-root (set by context hook)
+    Strategy (first match wins):
+    1. Module-level override from --project argument
+    2. KODAMA_PROJECT_ROOT environment variable (set by kodama.sh wrapper)
     3. git rev-parse --show-toplevel
     4. Walk up from CWD looking for .kiro/ directory
-    5. Fall back to CWD
+    5. Fail closed — print error and exit (never write to a random directory)
     """
-    # Check cached project root (written by the context hook at session start)
-    # This is acceptable for single-session use; concurrent sessions on
-    # different projects may conflict, but the orchestrator should pass --project
-    # explicitly in that case.
-    state_dir = Path(os.environ.get("KIRO_DIR", Path.home() / ".kiro")) / "kodama"
-    cache_file = state_dir / ".project-root"
-    if cache_file.exists():
-        try:
-            cached = cache_file.read_text(encoding="utf-8").strip()
-            if cached and Path(cached).is_dir():
-                return Path(cached)
-        except OSError:
-            pass
+    # 1. Explicit --project override for this invocation
+    if _project_override is not None:
+        p = Path(_project_override).resolve()
+        if p.is_dir():
+            return p
 
-    # Try git
+    # 2. Environment variable (set by the wrapper at session start)
+    env_root = os.environ.get("KODAMA_PROJECT_ROOT", "").strip()
+    if env_root:
+        p = Path(env_root)
+        if p.is_dir():
+            return p
+
+    # 3. Git root
     try:
         result = subprocess.run(
             ["git", "rev-parse", "--show-toplevel"],
@@ -84,7 +87,7 @@ def detect_project_root():
     except (OSError, subprocess.TimeoutExpired):
         pass
 
-    # Walk up looking for .kiro/
+    # 4. Walk up looking for .kiro/
     cwd = Path.cwd().resolve()
     current = cwd
     while True:
@@ -95,8 +98,13 @@ def detect_project_root():
             break
         current = parent
 
-    # Fall back to CWD
-    return cwd
+    # 5. Fail closed — do not fall back to CWD
+    print(
+        f"  {YELLOW}⚠{RESET} Could not detect project root. "
+        "Set KODAMA_PROJECT_ROOT or run from within a git repository.",
+        file=sys.stderr,
+    )
+    sys.exit(1)
 
 
 def memory_dir(project_root=None):
@@ -168,12 +176,6 @@ def cmd_context():
     root = detect_project_root()
     mem = memory_dir(root)
     context_path = mem / CONTEXT_FILE
-
-    # Cache the detected project root so that subsequent write calls (which may
-    # run from a different CWD) can find the correct project.
-    state_dir = Path(os.environ.get("KIRO_DIR", Path.home() / ".kiro")) / "kodama"
-    state_dir.mkdir(parents=True, exist_ok=True)
-    (state_dir / ".project-root").write_text(str(root), encoding="utf-8")
 
     # Priority order for budget allocation
     priority_order = ["facts", "conventions", "failures", "decisions", "architecture", "sessions"]
@@ -389,7 +391,7 @@ def main():
     cmd = sys.argv[1]
     args = sys.argv[2:]
 
-    # Global --project flag: override project root detection
+    # Global --project flag: override project root detection (per-invocation only)
     project_override = None
     filtered_args = []
     i = 0
@@ -402,13 +404,10 @@ def main():
             i += 1
     args = filtered_args
 
-    # If --project is given, write it to the cache so detect_project_root() uses it
+    # Set the module-level override (no file writes, no global state)
+    global _project_override
     if project_override:
-        override_path = Path(project_override).resolve()
-        if override_path.is_dir():
-            state_dir = Path(os.environ.get("KIRO_DIR", Path.home() / ".kiro")) / "kodama"
-            state_dir.mkdir(parents=True, exist_ok=True)
-            (state_dir / ".project-root").write_text(str(override_path), encoding="utf-8")
+        _project_override = project_override
 
     if cmd == "context":
         cmd_context()

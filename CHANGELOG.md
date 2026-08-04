@@ -5,6 +5,16 @@ All notable changes to kodama will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.3] - 2026-08-04
+
+### Fixed
+
+- **Memory project-root detection rewritten** — removed unsafe global cache, replaced with `KODAMA_PROJECT_ROOT` env var exported by the wrapper
+- `--project` flag is now per-invocation only (no global side effects)
+- Detection fails closed instead of writing to arbitrary directories
+- Memory tests now use isolated `KIRO_DIR` (no interference with real installation)
+- Added multi-project isolation test and `--project` isolation test
+
 ## [0.7.2] - 2026-08-04
 
 ### Fixed
@@ -164,6 +174,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Actions CI workflow
 - MIT license
 
+[0.7.3]: https://github.com/amergrgic/kodama/releases/tag/v0.7.3
 [0.7.2]: https://github.com/amergrgic/kodama/releases/tag/v0.7.2
 [0.7.1]: https://github.com/amergrgic/kodama/releases/tag/v0.7.1
 [0.7.0]: https://github.com/amergrgic/kodama/releases/tag/v0.7.0
