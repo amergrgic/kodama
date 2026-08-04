@@ -98,7 +98,9 @@ def detect_project_root():
             break
         current = parent
 
-    # 5. Fall back to CWD (least surprising default)
+    # 5. Fall back to CWD — but refuse HOME to avoid polluting the home directory
+    if cwd == Path.home():
+        return None
     return cwd
 
 
@@ -106,6 +108,13 @@ def memory_dir(project_root=None):
     """Return the memory directory path for the given project root."""
     if project_root is None:
         project_root = detect_project_root()
+    if project_root is None:
+        print(
+            f"  {YELLOW}⚠{RESET} Could not detect project root (CWD is HOME). "
+            "Run from a project directory or use the 'kodama' command.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
     return project_root / ".kiro" / "kodama" / "memory"
 
 
