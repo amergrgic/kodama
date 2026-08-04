@@ -7,6 +7,7 @@
   "license": "MIT",
   "tags": ["agents", "multi-agent", "orchestration", "delegation", "code-review"],
   "iconPath": "ui/icon.png",
+  "screenshots": ["assets/screenshot-dashboard.png"],
   "agents": [
     "agents/kodama.json",
     "agents/kodama-scout.json",
