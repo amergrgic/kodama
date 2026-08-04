@@ -51,12 +51,16 @@ def detect_project_root():
     """Detect the project root directory.
 
     Strategy:
-    1. Read cached project root from STATE_DIR/.project-root (set by context hook)
-    2. git rev-parse --show-toplevel (preferred)
-    3. Walk up from CWD looking for .kiro/ directory
-    4. Fall back to CWD
+    1. Read --project argument if provided (passed by orchestrator)
+    2. Read cached project root from STATE_DIR/.project-root (set by context hook)
+    3. git rev-parse --show-toplevel
+    4. Walk up from CWD looking for .kiro/ directory
+    5. Fall back to CWD
     """
     # Check cached project root (written by the context hook at session start)
+    # This is acceptable for single-session use; concurrent sessions on
+    # different projects may conflict, but the orchestrator should pass --project
+    # explicitly in that case.
     state_dir = Path(os.environ.get("KIRO_DIR", Path.home() / ".kiro")) / "kodama"
     cache_file = state_dir / ".project-root"
     if cache_file.exists():
@@ -384,6 +388,27 @@ def main():
 
     cmd = sys.argv[1]
     args = sys.argv[2:]
+
+    # Global --project flag: override project root detection
+    project_override = None
+    filtered_args = []
+    i = 0
+    while i < len(args):
+        if args[i] == "--project" and i + 1 < len(args):
+            project_override = args[i + 1]
+            i += 2
+        else:
+            filtered_args.append(args[i])
+            i += 1
+    args = filtered_args
+
+    # If --project is given, write it to the cache so detect_project_root() uses it
+    if project_override:
+        override_path = Path(project_override).resolve()
+        if override_path.is_dir():
+            state_dir = Path(os.environ.get("KIRO_DIR", Path.home() / ".kiro")) / "kodama"
+            state_dir.mkdir(parents=True, exist_ok=True)
+            (state_dir / ".project-root").write_text(str(override_path), encoding="utf-8")
 
     if cmd == "context":
         cmd_context()
