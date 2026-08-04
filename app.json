@@ -1,12 +1,12 @@
 {
   "name": "kodama",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "displayName": "Kodama",
   "description": "A portable, provider-neutral multi-agent pack. One orchestrator, eight specialists, zero lock-in.",
   "author": "amergrgic",
   "license": "MIT",
   "tags": ["agents", "multi-agent", "orchestration", "delegation", "code-review"],
-  "iconPath": "assets/icon.png",
+  "iconPath": "ui/icon.png",
   "agents": [
     "agents/kodama.json",
     "agents/kodama-scout.json",
@@ -32,6 +32,21 @@
   ],
   "dependencies": {
     "commands": ["python3"]
+  },
+  "ui": {
+    "entry": "dist/index.mjs",
+    "pages": [
+      {
+        "route": "/apps/kodama",
+        "label": "Kodama",
+        "icon": "Sprout",
+        "iconUrl": "icon.png"
+      }
+    ]
+  },
+  "setup": {
+    "onInstall": "cd ui && npm install && npm run build",
+    "onUpdate": "cd ui && npm install && npm run build"
   },
   "platform": {
     "os": ["macos", "linux"]
