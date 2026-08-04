@@ -98,23 +98,18 @@ def detect_project_root():
             break
         current = parent
 
-    # 5. Fall back to CWD — but refuse HOME to avoid polluting the home directory
-    if cwd == Path.home():
-        return None
+    # 5. Fall back to CWD
     return cwd
 
 
 def memory_dir(project_root=None):
-    """Return the memory directory path for the given project root."""
+    """Return the memory directory path for the given project root.
+    Returns None if the root is HOME (to avoid polluting the home directory).
+    """
     if project_root is None:
         project_root = detect_project_root()
-    if project_root is None:
-        print(
-            f"  {YELLOW}⚠{RESET} Could not detect project root (CWD is HOME). "
-            "Run from a project directory or use the 'kodama' command.",
-            file=sys.stderr,
-        )
-        sys.exit(1)
+    if project_root == Path.home():
+        return None
     return project_root / ".kiro" / "kodama" / "memory"
 
 
@@ -179,6 +174,8 @@ def cmd_context():
     """Generate context.md from all memory files within budget."""
     root = detect_project_root()
     mem = memory_dir(root)
+    if mem is None:
+        return
     context_path = mem / CONTEXT_FILE
 
     # Priority order for budget allocation
@@ -254,6 +251,9 @@ def cmd_write(category, entry):
 
     root = detect_project_root()
     mem = memory_dir(root)
+    if mem is None:
+        print(f"  {YELLOW}⚠{RESET} Skipped: cannot write memory from HOME directory.")
+        return
     path = ensure_category_file(mem, category)
 
     today = date.today().isoformat()
@@ -269,6 +269,8 @@ def cmd_show(category=None):
     """Print current memory for the detected project."""
     root = detect_project_root()
     mem = memory_dir(root)
+    if mem is None:
+        return
 
     if not mem.exists():
         print(f"  {CYAN}▸{RESET} No project memory recorded yet.")
@@ -301,6 +303,8 @@ def cmd_reset():
     """Delete all memory files for the detected project."""
     root = detect_project_root()
     mem = memory_dir(root)
+    if mem is None:
+        return
 
     if not mem.exists():
         print(f"  {CYAN}▸{RESET} No memory directory to reset.")
@@ -315,6 +319,8 @@ def cmd_audit():
     """Scan memory files for potential secrets."""
     root = detect_project_root()
     mem = memory_dir(root)
+    if mem is None:
+        return
 
     if not mem.exists():
         print(f"  {GREEN}✓{RESET} No memory files to audit.")
@@ -351,6 +357,8 @@ def cmd_compact():
     """Compact memory files by trimming old entries."""
     root = detect_project_root()
     mem = memory_dir(root)
+    if mem is None:
+        return
 
     if not mem.exists():
         print(f"  {CYAN}▸{RESET} No memory files to compact.")
