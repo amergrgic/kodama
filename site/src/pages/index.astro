@@ -16,7 +16,7 @@ const agents = [
 const features = [
   { title: 'Portable', desc: 'No provider lock-in. Works with any model supported by Kiro CLI.', icon: '📦' },
   { title: 'Safe by default', desc: 'Implementation tools require approval. Read-only agents stay read-only.', icon: '🛡️' },
-  { title: 'Small roster', desc: '9 purpose-built agents. Clear boundaries, no overlap.', icon: '🎯' },
+  { title: 'Learns your project', desc: 'Persistent memory across sessions. No repeated discovery.', icon: '🧠' },
   { title: 'Evidence-based', desc: 'Work is reviewed and validated before completion.', icon: '✅' },
 ];
 ---
@@ -26,6 +26,14 @@ const features = [
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Kodama — A portable, provider-neutral Kiro CLI agent pack" />
+  <meta property="og:title" content="Kodama — Kiro CLI Agent Pack" />
+  <meta property="og:description" content="A portable, provider-neutral agent pack for the Kiro CLI. One orchestrator. Eight specialists. Zero lock-in." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://getkodama.dev" />
+  <meta property="og:image" content="https://getkodama.dev/og-image.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Kodama — Kiro CLI Agent Pack" />
+  <meta name="twitter:description" content="One orchestrator. Eight specialists. Zero lock-in." />
   <title>Kodama — Kiro CLI Agent Pack</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 </head>
@@ -128,14 +136,44 @@ cd kodama && ./setup.sh</code></pre>
     <div class="mt-6 text-center">
       <p class="text-zinc-500 text-sm">Then start a session:</p>
       <code class="inline-block mt-2 px-4 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-emerald-400 font-mono text-sm">
-        kiro-cli chat --agent kodama
+        kodama
       </code>
       <p class="text-zinc-500 text-sm mt-4">
-        Or install with <code class="text-zinc-300">--alias</code> to just type <code class="text-emerald-400">kodama</code>:
+        The alias is added by default. Use <code class="text-zinc-300">--no-alias</code> to skip it.
       </p>
-      <code class="inline-block mt-2 px-4 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 font-mono text-sm">
-        ./setup.sh --alias
-      </code>
+    </div>
+  </section>
+
+  <!-- CLI -->
+  <section class="max-w-3xl mx-auto px-6 py-20">
+    <h2 class="text-3xl font-bold text-center mb-4">More than a chat alias</h2>
+    <p class="text-center text-zinc-400 mb-8">
+      The <code class="text-emerald-400">kodama</code> command is a unified entrypoint.
+    </p>
+    <div class="rounded-xl bg-zinc-900 border border-zinc-800 p-6 font-mono text-sm space-y-2">
+      <div><span class="text-zinc-500">$</span> <span class="text-emerald-400">kodama</span> <span class="text-zinc-400">              # start a chat session</span></div>
+      <div><span class="text-zinc-500">$</span> <span class="text-emerald-400">kodama stats</span> <span class="text-zinc-400">        # usage insights</span></div>
+      <div><span class="text-zinc-500">$</span> <span class="text-emerald-400">kodama memory</span> <span class="text-zinc-400">       # view project memory</span></div>
+      <div><span class="text-zinc-500">$</span> <span class="text-emerald-400">kodama doctor</span> <span class="text-zinc-400">       # check installation health</span></div>
+      <div><span class="text-zinc-500">$</span> <span class="text-emerald-400">kodama update</span> <span class="text-zinc-400">       # self-update</span></div>
+    </div>
+  </section>
+
+  <!-- Memory -->
+  <section class="max-w-3xl mx-auto px-6 py-20">
+    <h2 class="text-3xl font-bold text-center mb-4">🧠 Project memory</h2>
+    <p class="text-center text-zinc-400 mb-8 max-w-xl mx-auto">
+      Kodama remembers what it learns. Build tools, architecture decisions, failed approaches, and team conventions persist across sessions automatically.
+    </p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="p-5 rounded-xl bg-zinc-900 border border-zinc-800">
+        <p class="text-sm text-zinc-500 uppercase tracking-wide mb-2">Session 1</p>
+        <p class="text-sm text-zinc-400">Scout discovers: vitest, pnpm, React 18, tRPC. Facts are saved automatically.</p>
+      </div>
+      <div class="p-5 rounded-xl bg-zinc-900 border border-emerald-900">
+        <p class="text-sm text-emerald-500 uppercase tracking-wide mb-2">Session 2+</p>
+        <p class="text-sm text-zinc-400">Kodama already knows your stack. No re-discovery, no wasted context. Faster and more accurate.</p>
+      </div>
     </div>
   </section>
 
