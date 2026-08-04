@@ -5,6 +5,14 @@ All notable changes to kodama will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.4] - 2026-08-04
+
+### Fixed
+
+- Memory now works from any project directory (with or without git/`.kiro/`) — uses CWD as fallback
+- Only `$HOME` is blocked as a write target (prevents accidental pollution)
+- All memory commands silently skip instead of crashing when project root can't be determined
+
 ## [0.7.3] - 2026-08-04
 
 ### Fixed
@@ -174,6 +182,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Actions CI workflow
 - MIT license
 
+[0.7.4]: https://github.com/amergrgic/kodama/releases/tag/v0.7.4
 [0.7.3]: https://github.com/amergrgic/kodama/releases/tag/v0.7.3
 [0.7.2]: https://github.com/amergrgic/kodama/releases/tag/v0.7.2
 [0.7.1]: https://github.com/amergrgic/kodama/releases/tag/v0.7.1
