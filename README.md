@@ -90,6 +90,12 @@ The installer requires `kiro-cli` and `python3`. It validates every generated ag
 ~/.kiro/skills/kodama-*/SKILL.md
 ~/.kiro/kodama/manifest.json
 ~/.kiro/kodama/setup.sh
+~/.kiro/kodama/kodama.sh
+~/.kiro/kodama/kodama-memory.py
+~/.kiro/kodama/kodama-telemetry.py
+~/.kiro/kodama/kodama-telemetry-emit.sh
+~/.kiro/kodama/kodama-stats.sh
+~/.kiro/kodama/kodama-doctor.sh
 ~/.kiro/kodama/check-update.sh
 ~/.kiro/kodama/update.sh
 ~/.kiro/kodama/backups/<timestamp>/  # on update
@@ -126,7 +132,9 @@ The installer adds a `kodama` alias to your shell by default. Use it as a unifie
 kodama                    # start a chat session
 kodama stats              # usage insights
 kodama memory             # view project memory
+kodama doctor             # check installation health
 kodama update             # self-update
+kodama uninstall          # remove kodama
 kodama version            # print version
 kodama help               # show subcommands
 ```
@@ -135,7 +143,7 @@ To skip the alias on install, use `--no-alias`. If you installed before v0.6.0, 
 
 ## Update
 
-Kodama automatically checks for updates when a session starts (cached, once per day). To update manually:
+Kodama checks for updates when a session starts. To update manually:
 
 ```bash
 kodama update
