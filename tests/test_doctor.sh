@@ -75,7 +75,7 @@ setup_healthy() {
   done
 
   # Copy scripts from repo to state dir and make executable
-  for script in kodama.sh kodama-telemetry-emit.sh kodama-stats.sh check-update.sh update.sh; do
+  for script in kodama.sh check-update.sh update.sh; do
     cp "$ROOT/scripts/$script" "$state_dir/$script"
     chmod +x "$state_dir/$script"
   done
@@ -192,32 +192,6 @@ rm -f "$MISSINGSCRIPT_DIR/kodama/check-update.sh"
 output="$(run_doctor "$MISSINGSCRIPT_DIR")"
 has_missing_script="$([[ "$output" == *"check-update.sh"*"missing"* ]] && echo true || echo false)"
 assert_eq "missing script reports 'check-update.sh — missing'" "true" "$has_missing_script"
-
-# ──────────────────────────────────────────────────────────────────────────────
-printf '%s\n' 'Test: stale session — doctor warns about inactive session'
-# ──────────────────────────────────────────────────────────────────────────────
-STALE_DIR="$BASE/stale"
-mkdir -p "$STALE_DIR"
-setup_healthy "$STALE_DIR"
-
-# Create a telemetry directory and a session file with old last_activity
-mkdir -p "$STALE_DIR/kodama/telemetry"
-python3 -c "
-import json, time
-from datetime import datetime, timezone, timedelta
-old_time = datetime.now(timezone.utc) - timedelta(hours=2)
-session = {
-    'sid': 'test-stale-session',
-    'started': old_time.isoformat(),
-    'last_activity': old_time.isoformat()
-}
-with open('$STALE_DIR/kodama/telemetry/current-session.json', 'w') as f:
-    json.dump(session, f)
-"
-
-output="$(run_doctor "$STALE_DIR")"
-has_stale="$([[ "$output" == *"Stale session"* ]] && echo true || echo false)"
-assert_eq "stale session warns 'Stale session detected'" "true" "$has_stale"
 
 # ──────────────────────────────────────────────────────────────────────────────
 printf '\nResults: %s passed, %s failed\n' "$pass" "$fail"

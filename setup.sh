@@ -40,7 +40,7 @@ AGENTS_DIR="$KIRO_DIR/agents"
 SKILLS_DIR="$KIRO_DIR/skills"
 STATE_DIR="$KIRO_DIR/kodama"
 MANIFEST="$STATE_DIR/manifest.json"
-KODAMA_VERSION="0.8.1"
+KODAMA_VERSION="0.9.0"
 
 AGENT_NAMES=(
   kodama
@@ -370,15 +370,10 @@ success "Scripts: setup.sh, check-update.sh, update.sh"
 
 cp "$SCRIPT_DIR/scripts/kodama.sh" "$STATE_DIR/kodama.sh"
 chmod +x "$STATE_DIR/kodama.sh"
-cp "$SCRIPT_DIR/scripts/kodama-telemetry.py" "$STATE_DIR/kodama-telemetry.py"
-cp "$SCRIPT_DIR/scripts/kodama-telemetry-emit.sh" "$STATE_DIR/kodama-telemetry-emit.sh"
-chmod +x "$STATE_DIR/kodama-telemetry-emit.sh"
-cp "$SCRIPT_DIR/scripts/kodama-stats.sh" "$STATE_DIR/kodama-stats.sh"
-chmod +x "$STATE_DIR/kodama-stats.sh"
 cp "$SCRIPT_DIR/scripts/kodama-memory.py" "$STATE_DIR/kodama-memory.py"
 cp "$SCRIPT_DIR/scripts/kodama-doctor.sh" "$STATE_DIR/kodama-doctor.sh"
 chmod +x "$STATE_DIR/kodama-doctor.sh"
-success "Scripts: kodama.sh, kodama-memory.py, kodama-telemetry.py, kodama-telemetry-emit.sh, kodama-stats.sh, kodama-doctor.sh"
+success "Scripts: kodama.sh, kodama-memory.py, kodama-doctor.sh"
 
 previous_default=""
 if [[ -f "$MANIFEST" ]]; then

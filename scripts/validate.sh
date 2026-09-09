@@ -11,7 +11,6 @@ run() {
 
 run "Installer lifecycle tests" bash "$ROOT/tests/test_install.sh"
 run "Project-local customization tests" bash "$ROOT/tests/test_project_customization.sh"
-run "Telemetry tests" bash "$ROOT/tests/test_telemetry.sh"
 run "Doctor tests" bash "$ROOT/tests/test_doctor.sh"
 run "Memory tests" bash "$ROOT/tests/test_memory.sh"
 run "Shell syntax" bash -n \
@@ -19,12 +18,9 @@ run "Shell syntax" bash -n \
   "$ROOT/scripts/check-update.sh" \
   "$ROOT/scripts/update.sh" \
   "$ROOT/scripts/kodama.sh" \
-  "$ROOT/scripts/kodama-telemetry-emit.sh" \
-  "$ROOT/scripts/kodama-stats.sh" \
   "$ROOT/scripts/kodama-doctor.sh" \
   "$ROOT/tests/test_install.sh" \
   "$ROOT/tests/test_project_customization.sh" \
-  "$ROOT/tests/test_telemetry.sh" \
   "$ROOT/tests/test_doctor.sh" \
   "$ROOT/tests/test_memory.sh" \
   "$ROOT/scripts/validate.sh"

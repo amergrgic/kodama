@@ -12,10 +12,6 @@ case "${1:-}" in
   doctor)
     exec "$STATE_DIR/kodama-doctor.sh"
     ;;
-  stats)
-    shift
-    exec "$STATE_DIR/kodama-stats.sh" "$@"
-    ;;
   update)
     exec "$STATE_DIR/update.sh"
     ;;
@@ -36,7 +32,6 @@ Usage: kodama [subcommand] [options]
 Subcommands:
   doctor      Check installation health
   memory      Show or manage project memory
-  stats       Show usage insights (local-only telemetry)
   update      Update kodama to the latest release
   uninstall   Remove kodama and all owned files
   version     Print the installed version
@@ -48,9 +43,6 @@ Any flags not matching a subcommand are passed through to kiro-cli.
 Examples:
   kodama                  Start a chat session
   kodama memory             Show project memory
-  kodama stats            Show agent usage for the last 30 days
-  kodama stats --json     Machine-readable usage data
-  kodama stats --enable   Enable usage tracking
   kodama update           Self-update to latest release
 EOF
     exit 0

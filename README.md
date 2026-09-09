@@ -92,9 +92,6 @@ The installer requires `kiro-cli` and `python3`. It validates every generated ag
 ~/.kiro/kodama/setup.sh
 ~/.kiro/kodama/kodama.sh
 ~/.kiro/kodama/kodama-memory.py
-~/.kiro/kodama/kodama-telemetry.py
-~/.kiro/kodama/kodama-telemetry-emit.sh
-~/.kiro/kodama/kodama-stats.sh
 ~/.kiro/kodama/kodama-doctor.sh
 ~/.kiro/kodama/check-update.sh
 ~/.kiro/kodama/update.sh
@@ -130,7 +127,6 @@ The installer adds a `kodama` alias to your shell by default. Use it as a unifie
 
 ```bash
 kodama                    # start a chat session
-kodama stats              # usage insights
 kodama memory             # view project memory
 kodama doctor             # check installation health
 kodama update             # self-update
@@ -154,49 +150,6 @@ This downloads the latest release, backs up your current installation, and re-ru
 ```bash
 kodama version
 ```
-
-## Usage Insights
-
-Kodama includes opt-in, local-only telemetry to help you understand your usage patterns. No data leaves your machine.
-
-Enable tracking:
-
-```bash
-kodama stats --enable
-```
-
-View your stats:
-
-```bash
-kodama stats              # last 30 days
-kodama stats --period 7   # last week
-kodama stats --json       # machine-readable output
-```
-
-Example output:
-
-```
-━━ Kodama Usage (last 30 days) ━━
-
-  Sessions
-    Total:        47
-    Avg duration: 8m 32s
-    Completed:    41 (87%)
-
-  Agent Activity
-    kodama-smith    38 spawns  │████████████████████░│ 81%
-    kodama-scout    31 spawns  │████████████████░░░░░│ 66%
-    kodama-critic   22 spawns  │███████████░░░░░░░░░░│ 47%
-    ...
-```
-
-Disable at any time:
-
-```bash
-kodama stats --disable
-```
-
-Only agent names, timestamps, and session metadata are recorded. Prompts, code, file contents, and file paths are never captured. Data is stored in `~/.kiro/kodama/telemetry/` and automatically rotated (max ~5 MB).
 
 ## Project Memory
 

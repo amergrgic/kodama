@@ -5,6 +5,18 @@ All notable changes to kodama will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [0.9.0] - 2026-09-09
+
+### Removed
+
+- **Telemetry subsystem** — removed the local usage-insights/telemetry feature entirely: the `kodama stats` subcommand, the `kodama-telemetry.py`, `kodama-telemetry-emit.sh`, and `kodama-stats.sh` scripts, the `agentSpawn` telemetry hooks in all agent configs, and the doctor telemetry/session checks. No usage data is collected. Its delegation metric was only emitted from tests and its completion metric was an unreliable proxy, so the feature misreported while conflicting with the pack's small-roster, portability focus.
+
+### Changed
+
+- **Single source of truth for delegation** — the specialist roster, parallelism rule, and failure-recovery loop now live only in the `kodama-behavior` skill. The `kodama` orchestrator prompt was trimmed to a thin contract that points to the skill, eliminating the previously triplicated routing list and the risk of prompt/skill drift. Role, safety rules, the delegation contract, and the memory mandate are unchanged.
+
 ## [0.8.1] - 2026-08-04
 
 ### Added
@@ -210,6 +222,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Actions CI workflow
 - MIT license
 
+[0.9.0]: https://github.com/amergrgic/kodama/releases/tag/v0.9.0
 [0.8.1]: https://github.com/amergrgic/kodama/releases/tag/v0.8.1
 [0.8.0]: https://github.com/amergrgic/kodama/releases/tag/v0.8.0
 [0.7.6]: https://github.com/amergrgic/kodama/releases/tag/v0.7.6

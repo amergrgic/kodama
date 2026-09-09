@@ -159,7 +159,7 @@ PY
 # ---------------------------------------------------------------------------
 section "Scripts"
 
-EXPECTED_SCRIPTS=(kodama.sh kodama-telemetry-emit.sh kodama-stats.sh check-update.sh update.sh)
+EXPECTED_SCRIPTS=(kodama.sh check-update.sh update.sh)
 for script in "${EXPECTED_SCRIPTS[@]}"; do
   script_path="$STATE_DIR/$script"
   if [[ ! -f "$script_path" ]]; then
@@ -207,79 +207,10 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-# 8. Telemetry status
-# ---------------------------------------------------------------------------
-section "Telemetry"
-
-TELEMETRY_DIR="$STATE_DIR/telemetry"
-if [[ -f "$TELEMETRY_DIR/enabled" ]]; then
-  pass "Collection: enabled"
-else
-  pass "Collection: disabled"
-fi
-
-if [[ -d "$TELEMETRY_DIR" ]]; then
-  tele_size="$(du -sh "$TELEMETRY_DIR" 2>/dev/null | cut -f1 | xargs)"
-  pass "Data size: ${tele_size:-0B}"
-else
-  pass "Data size: (no data directory)"
-fi
-
-# ---------------------------------------------------------------------------
-# 9. Update check
+# 8. Update check
 # ---------------------------------------------------------------------------
 section "Update check"
 pass "Updates checked on every session start"
-
-# ---------------------------------------------------------------------------
-# 10. Stale session
-# ---------------------------------------------------------------------------
-section "Sessions"
-
-CURRENT_SESSION="$TELEMETRY_DIR/current-session.json"
-if [[ -f "$CURRENT_SESSION" ]]; then
-  stale_result="$(python3 -c "
-import json, sys, time
-from datetime import datetime, timezone
-try:
-    with open(sys.argv[1], encoding='utf-8') as f:
-        session = json.load(f)
-    last_activity = session.get('last_activity', '')
-    if not last_activity:
-        print('NO_TIMESTAMP')
-    else:
-        if isinstance(last_activity, (int, float)):
-            ts = last_activity
-        else:
-            dt = datetime.fromisoformat(last_activity)
-            ts = dt.timestamp()
-        age_min = (time.time() - ts) / 60
-        if age_min > 30:
-            print(f'STALE|{int(age_min)}m')
-        else:
-            print(f'ACTIVE|{int(age_min)}m')
-except Exception:
-    print('ERROR')
-" "$CURRENT_SESSION")"
-  case "$stale_result" in
-    STALE*)
-      age="${stale_result#STALE|}"
-      warn_check "Stale session detected (inactive for $age)"
-      ;;
-    ACTIVE*)
-      age="${stale_result#ACTIVE|}"
-      pass "Active session (last activity ${age} ago)"
-      ;;
-    NO_TIMESTAMP)
-      pass "Session file exists (no timestamp)"
-      ;;
-    *)
-      warn_check "Could not parse current session file"
-      ;;
-  esac
-else
-  pass "No active session"
-fi
 
 # ---------------------------------------------------------------------------
 # Summary
