@@ -1,6 +1,6 @@
 {
   "name": "kodama",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "displayName": "Kodama",
   "description": "A portable, provider-neutral multi-agent pack. One orchestrator, eight specialists, zero lock-in.",
   "author": "amergrgic",

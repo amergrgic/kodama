@@ -187,5 +187,29 @@ assert_eq "subsequent write targets env project (no side effect)" "true" \
   "$( [[ "$has_a_entry" -gt 0 ]] && echo true || echo false )"
 
 # ──────────────────────────────────────────────────────────────────────────────
+printf '%s\n' 'Test: writes persist even when Kiro Crew is installed (regression)'
+# ──────────────────────────────────────────────────────────────────────────────
+# Reset env to project A and simulate Crew being installed
+export KODAMA_PROJECT_ROOT="$PROJECT"
+mkdir -p "$KIRO_DIR/crew"
+echo '{}' > "$KIRO_DIR/crew/config.json"
+
+memory write --category facts --entry "Entry written while Crew is present"
+crew_entry_count="$(grep -c 'Entry written while Crew is present' "$MEMORY_DIR/facts.md" 2>/dev/null || echo 0)"
+assert_eq "write persists with crew/config.json present" "true" \
+  "$( [[ "$crew_entry_count" -gt 0 ]] && echo true || echo false )"
+
+# context generation must produce real content, not a Crew stub
+memory context
+if grep -q 'Managed by Kiro Crew' "$MEMORY_DIR/context.md" 2>/dev/null; then
+  has_crew_stub="yes"
+else
+  has_crew_stub="no"
+fi
+assert_eq "context.md is not a Crew deference stub" "no" "$has_crew_stub"
+
+rm -rf "$KIRO_DIR/crew"
+
+# ──────────────────────────────────────────────────────────────────────────────
 printf '\nResults: %s passed, %s failed\n' "$pass" "$fail"
 [[ "$fail" -eq 0 ]]

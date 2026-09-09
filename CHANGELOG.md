@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.1] - 2026-09-09
+
+### Fixed
+
+- **Memory writes silently skipped when Kiro Crew is installed** — `kodama-memory.py` deferred to Crew's memory system whenever `~/.kiro/crew/config.json` existed, causing `write` to no-op while exiting 0 and `context` to emit a "Managed by Kiro Crew" stub. Since Crew is the recommended install path, project memory never persisted for most users. Removed the Crew-deference branches from both `cmd_write` and `cmd_context`; memory now always writes to the project's `.kiro/kodama/memory/`. Added a regression test covering writes with a Crew config present.
+
 ## [0.9.0] - 2026-09-09
 
 ### Removed
@@ -222,6 +228,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Actions CI workflow
 - MIT license
 
+[0.9.1]: https://github.com/amergrgic/kodama/releases/tag/v0.9.1
 [0.9.0]: https://github.com/amergrgic/kodama/releases/tag/v0.9.0
 [0.8.1]: https://github.com/amergrgic/kodama/releases/tag/v0.8.1
 [0.8.0]: https://github.com/amergrgic/kodama/releases/tag/v0.8.0
