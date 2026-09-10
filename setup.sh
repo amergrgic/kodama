@@ -40,7 +40,7 @@ AGENTS_DIR="$KIRO_DIR/agents"
 SKILLS_DIR="$KIRO_DIR/skills"
 STATE_DIR="$KIRO_DIR/kodama"
 MANIFEST="$STATE_DIR/manifest.json"
-KODAMA_VERSION="0.9.1"
+KODAMA_VERSION="0.9.2"
 
 AGENT_NAMES=(
   kodama
@@ -64,6 +64,8 @@ UNINSTALL=false
 SET_DEFAULT=false
 SETUP_ALIAS=false
 SKIP_ALIAS=false
+ALIAS_PROFILE=""       # resolved shell profile if an alias was newly added
+ALIAS_JUST_ADDED=false # true only when this run appended a new alias line
 
 usage() {
   cat <<'EOF'
@@ -260,7 +262,9 @@ if [[ ! -d "$SCRIPT_DIR/agents" ]]; then
       success "Alias already in $SHELL_PROFILE"
     else
       printf '\n# kodama\n%s\n' "$ALIAS_LINE" >> "$SHELL_PROFILE"
-      success "Added 'kodama' alias to $SHELL_PROFILE (reload your shell to use it)"
+      ALIAS_PROFILE="$SHELL_PROFILE"
+      ALIAS_JUST_ADDED=true
+      success "Added 'kodama' alias to $SHELL_PROFILE"
     fi
   fi
   if ! $SET_DEFAULT && ! $SETUP_ALIAS; then
@@ -438,7 +442,9 @@ if ! $SETUP_ALIAS && ! $SKIP_ALIAS && $IS_FRESH_INSTALL; then
     success "Alias already in $SHELL_PROFILE"
   else
     printf '\n# kodama\n%s\n' "$ALIAS_LINE" >> "$SHELL_PROFILE"
-    success "Added 'kodama' alias to $SHELL_PROFILE (reload your shell to use it)"
+    ALIAS_PROFILE="$SHELL_PROFILE"
+    ALIAS_JUST_ADDED=true
+    success "Added 'kodama' alias to $SHELL_PROFILE"
   fi
 fi
 
@@ -479,6 +485,12 @@ printf '\n'
 printf '  Kodama and %d specialists are ready (v%s).\n' "$(( ${#AGENT_NAMES[@]} - 1 ))" "$KODAMA_VERSION"
 printf '  Installed independently of other Kiro packs.\n'
 printf '\n'
+if $ALIAS_JUST_ADDED && [[ -n "$ALIAS_PROFILE" ]]; then
+  printf '  %bActivate the '"'"'kodama'"'"' command in this terminal:%b\n' "$BOLD" "$RESET"
+  printf '    source %s\n' "$ALIAS_PROFILE"
+  printf '  %b(new terminals pick it up automatically)%b\n' "$DIM" "$RESET"
+  printf '\n'
+fi
 printf '  %bStart:%b  kodama\n' "$GREEN" "$RESET"
 printf '  %bUpdate:%b kodama update\n' "$DIM" "$RESET"
 printf '  %bRemove:%b kodama uninstall\n' "$DIM" "$RESET"
