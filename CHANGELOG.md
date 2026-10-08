@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.0] - 2026-10-08
+
+### Added
+
+- **Kiro IDE support** — all nine agents now appear in the Kiro IDE agent picker. Previously the agents loaded only in the Kiro CLI; the IDE silently skipped them because their `tools` arrays used CLI-only tool identifiers the IDE's unified agent harness could not resolve. The agent configs were migrated to the universal (V2 + V3) format so the same files work across Kiro CLI v2, Kiro CLI v3, and the Kiro IDE.
+
+### Changed
+
+- **Agent configs use the universal (V2 + V3) format** — each `tools` array now lists both the V2 raw tool names (`code`, `grep`, `glob`, `web_search`, `web_fetch`) and the V3 category tags (`read`, `write`, `shell`, `web`), and the orchestrator expresses delegation as explicit `subagent/<agent>` entries. A capability-based `permissions.rules` block was added alongside the retained `toolsSettings` so both the legacy and current access-control schemas are honored. kodama's `agentSpawn` hooks intentionally keep the legacy embedded object form (`{"agentSpawn": [{"command": …}]}`), the only embedded hook form documented to work on both CLI v2 and v3.
+- **`allowedTools` subset check is alias-aware** — the pack's validation (`scripts/validate.sh` and the installer lifecycle test) now treats V2/V3 tool-name aliases as equal (`todo` ≡ `todo_list`, `subagent` ≡ `subagent/<agent>`) when enforcing that `allowedTools` is a subset of `tools`, matching the behavior of the real `kiro-cli` validator.
+
+### Note
+
+- The Kiro IDE ignores agent-config embedded hooks by design, so kodama's automatic update check and project-memory loading do not fire in the IDE (they continue to work in the CLI). Project memory is still read in the IDE through the `file://.kiro/kodama/memory/context.md` resource. Full IDE hook parity would require a separate standalone `.kiro/hooks/*.json` with a `SessionStart` trigger.
+
 ## [0.10.0] - 2026-10-08
 
 ### Added

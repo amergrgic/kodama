@@ -54,7 +54,20 @@ for path in agent_paths:
     allowed = config.get("allowedTools", [])
     if not isinstance(tools, list) or not isinstance(allowed, list):
         raise SystemExit(f"{path}: tools and allowedTools must be lists")
-    if not set(allowed) <= set(tools):
+
+    def _normalize_tool(tool):
+        # Universal (V2+V3) configs name the same capability differently in
+        # `tools` (V3 tokens) vs `allowedTools` (V2 tokens). Normalize known
+        # aliases so the subset invariant matches the real kiro-cli validator.
+        if tool == "todo_list":
+            return "todo"
+        if tool.startswith("subagent/"):
+            return "subagent"
+        return tool
+
+    norm_tools = {_normalize_tool(t) for t in tools}
+    norm_allowed = {_normalize_tool(t) for t in allowed}
+    if not norm_allowed <= norm_tools:
         raise SystemExit(f"{path}: allowedTools must be a subset of tools")
 
 for path in skill_paths:

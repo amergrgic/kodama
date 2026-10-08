@@ -54,7 +54,24 @@ config = json.loads(path.read_text(encoding="utf-8"))
 assert config["name"] == path.stem
 assert config["prompt"]
 assert "__KODAMA_PROMPT_DIR__" not in config["prompt"]
-assert set(config.get("allowedTools", [])) <= set(config.get("tools", []))
+
+
+def _normalize_tool(tool):
+    # Universal (V2+V3) configs may name the same capability differently in
+    # `tools` (V3 tokens) vs `allowedTools` (V2 tokens). Normalize the known
+    # aliases so the subset invariant matches the real kiro-cli validator,
+    # which accepts e.g. allowedTools "subagent"/"todo" against tools
+    # "subagent/<agent>"/"todo_list".
+    if tool == "todo_list":
+        return "todo"
+    if tool.startswith("subagent/"):
+        return "subagent"
+    return tool
+
+
+_tools = {_normalize_tool(t) for t in config.get("tools", [])}
+_allowed = {_normalize_tool(t) for t in config.get("allowedTools", [])}
+assert _allowed <= _tools, f"allowedTools not a subset of tools: {_allowed - _tools}"
 assert all("__KODAMA_SKILLS_DIR__" not in resource for resource in config.get("resources", []))
 for trigger, commands in config.get("hooks", {}).items():
     for entry in commands:

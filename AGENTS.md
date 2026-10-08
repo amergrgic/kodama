@@ -26,7 +26,8 @@ This is the kodama agent pack repository. Kodama is the entrypoint; the `kodama-
 ## Conventions
 
 - Agents use `model: "auto"` — no provider lock-in.
-- `allowedTools` must be a subset of `tools`. Tools outside `allowedTools` require user approval.
+- Agents use the universal (V2 + V3) config shape: `tools` lists both V2 raw names (`code`, `grep`, `glob`, `web_search`, `web_fetch`) and V3 category tags (`read`, `write`, `shell`, `web`), plus `permissions.rules` alongside the retained `toolsSettings`. This keeps configs working on Kiro CLI v2, Kiro CLI v3, and the Kiro IDE picker.
+- `allowedTools` must be a subset of `tools`, treating V2/V3 aliases as equal: `todo` ≡ `todo_list`, and `subagent` ≡ `subagent/<agent>`. The orchestrator's delegation is expressed as explicit `subagent/<agent>` entries in `tools`.
 - Resource paths use `__KODAMA_SKILLS_DIR__` as a placeholder; the installer resolves it at install time.
 - Skills use YAML frontmatter with `name` (must match directory) and `description`.
 - The pack never modifies files outside its own manifest (no global MCP, no other agents).
