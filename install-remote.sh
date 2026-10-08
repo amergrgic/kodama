@@ -45,13 +45,19 @@ curl -fsSL --max-time 30 "$tarball_url" | tar xz -C "$TEMP_DIR" --strip-componen
 
 success "Downloaded"
 
-# Ask about alias if interactive
+# Ask about alias and default agent if interactive
 EXTRA_FLAGS=""
 if [[ -e /dev/tty ]]; then
   printf '  Add %bkodama%b alias to your shell? [Y/n] ' "$BOLD" "$RESET" > /dev/tty
   read -r add_alias < /dev/tty
   if [[ "$add_alias" =~ ^[Nn]$ ]]; then
     EXTRA_FLAGS="--no-alias"
+  fi
+
+  printf '  Make %bkodama%b your default Kiro agent? [Y/n] ' "$BOLD" "$RESET" > /dev/tty
+  read -r set_default < /dev/tty
+  if [[ "$set_default" =~ ^[Nn]$ ]]; then
+    EXTRA_FLAGS="$EXTRA_FLAGS --no-default"
   fi
 fi
 

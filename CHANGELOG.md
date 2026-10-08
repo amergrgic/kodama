@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.10.0] - 2026-10-08
+
+### Added
+
+- **Kodama is set as the default Kiro agent on fresh install** — a fresh install now sets `chat.defaultAgent` to `kodama` so a bare `kiro-cli chat` starts Kodama, with the previous default recorded in the manifest and restored on uninstall. Opt out with the new `--no-default` flag, and the standalone `curl | bash` one-liner prompts interactively before changing it (non-interactive runs default to yes). Updates never touch an existing default, and `--set-default` still forces the change for lifecycle re-runs. `--set-default` and `--no-default` are mutually exclusive.
+
 ## [0.9.2] - 2026-09-10
 
 ### Fixed
@@ -234,6 +240,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Actions CI workflow
 - MIT license
 
+[0.10.0]: https://github.com/amergrgic/kodama/releases/tag/v0.10.0
 [0.9.2]: https://github.com/amergrgic/kodama/releases/tag/v0.9.2
 [0.9.1]: https://github.com/amergrgic/kodama/releases/tag/v0.9.1
 [0.9.0]: https://github.com/amergrgic/kodama/releases/tag/v0.9.0

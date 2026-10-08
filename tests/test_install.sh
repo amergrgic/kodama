@@ -109,6 +109,13 @@ for name in kodama-behavior kodama-verification kodama-constraints; do
 done
 assert_file "preserves foreign internal agent" "$HOME_DIR/.kiro/agents/sisyphus.json"
 assert_file "writes ownership manifest" "$HOME_DIR/.kiro/kodama/manifest.json"
+assert_eq "fresh install sets Kodama as default agent" "kodama" "$(cat "$HOME_DIR/default-agent")"
+assert_eq "fresh install records previous default" "legacy-agent" "$(python3 - "$HOME_DIR/.kiro/kodama/manifest.json" <<'PY'
+import json
+import sys
+print(json.load(open(sys.argv[1], encoding="utf-8")).get("previousDefaultAgent", ""))
+PY
+)"
 assert_eq "does not create global MCP config" "false" "$([[ -e "$HOME_DIR/.kiro/settings/mcp.json" ]] && echo true || echo false)"
 assert_eq "installs a self-contained Kodama prompt" "true" "$(python3 - "$HOME_DIR/.kiro/agents/kodama.json" <<'PY'
 import json
@@ -130,11 +137,28 @@ print(str(expected.issubset(set(config["resources"]))).lower())
 PY
 )"
 
-printf '%s\n' 'Test: install updates owned files and only changes default when requested'
+printf '%s\n' 'Test: install updates owned files and keeps default on reinstall'
 run_installer "$HOME_DIR" --set-default > "$BASE/update.log"
-assert_eq "sets Kodama only with opt-in" "kodama" "$(cat "$HOME_DIR/default-agent")"
+assert_eq "update keeps Kodama as default" "kodama" "$(cat "$HOME_DIR/default-agent")"
 assert_eq "backs up agent on update" "true" "$(find "$HOME_DIR/.kiro/kodama/backups" -name kodama.json -print -quit | grep -q . && echo true || echo false)"
 assert_eq "backs up skill on update" "true" "$(find "$HOME_DIR/.kiro/kodama/backups" -path '*/skills/kodama-behavior/SKILL.md' -print -quit | grep -q . && echo true || echo false)"
+
+printf '%s\n' 'Test: fresh install with --no-default leaves the default untouched'
+NODEF_HOME="$BASE/nodefault"
+mkdir -p "$NODEF_HOME/.kiro/agents"
+printf '%s' 'legacy-agent' > "$NODEF_HOME/default-agent"
+run_installer "$NODEF_HOME" --no-default > "$BASE/nodefault.log"
+assert_file "no-default install still installs Kodama" "$NODEF_HOME/.kiro/agents/kodama.json"
+assert_eq "no-default install does not change default" "legacy-agent" "$(cat "$NODEF_HOME/default-agent")"
+
+printf '%s\n' 'Test: --set-default and --no-default are mutually exclusive'
+MUTEX_HOME="$BASE/mutex"
+mkdir -p "$MUTEX_HOME/.kiro/agents"
+if run_installer "$MUTEX_HOME" --set-default --no-default > "$BASE/mutex.log" 2>&1; then
+  assert_eq "conflicting default flags exit non-zero" "false" "true"
+else
+  assert_eq "conflicting default flags exit non-zero" "true" "true"
+fi
 
 printf '%s\n' 'Test: uninstall preserves modified skills and removes unmodified owned files'
 printf '\nLocal customization\n' >> "$HOME_DIR/.kiro/skills/kodama-constraints/SKILL.md"

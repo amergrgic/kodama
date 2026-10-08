@@ -40,7 +40,7 @@ AGENTS_DIR="$KIRO_DIR/agents"
 SKILLS_DIR="$KIRO_DIR/skills"
 STATE_DIR="$KIRO_DIR/kodama"
 MANIFEST="$STATE_DIR/manifest.json"
-KODAMA_VERSION="0.9.2"
+KODAMA_VERSION="0.10.0"
 
 AGENT_NAMES=(
   kodama
@@ -62,6 +62,7 @@ SKILL_NAMES=(
 DRY_RUN=false
 UNINSTALL=false
 SET_DEFAULT=false
+SKIP_DEFAULT=false
 SETUP_ALIAS=false
 SKIP_ALIAS=false
 ALIAS_PROFILE=""       # resolved shell profile if an alias was newly added
@@ -69,15 +70,18 @@ ALIAS_JUST_ADDED=false # true only when this run appended a new alias line
 
 usage() {
   cat <<'EOF'
-Usage: ./setup.sh [--dry-run] [--set-default] [--alias] [--no-alias] [--uninstall] [--version]
+Usage: ./setup.sh [--dry-run] [--set-default] [--no-default] [--alias] [--no-alias] [--uninstall] [--version]
 
   --dry-run      Show what would change without writing files.
   --set-default  Set Kiro CLI's default agent to Kodama after a successful install.
+  --no-default   Skip setting Kodama as the default agent on fresh installs.
   --alias        Add 'kodama' shell alias to your profile (auto on fresh install).
   --no-alias     Skip adding the shell alias on fresh installs.
   --uninstall    Remove only unmodified agent and skill files owned by this pack.
   --version      Print the pack version and exit.
 
+On a fresh install, Kodama is set as the default agent unless --no-default is
+given. The previous default is recorded and restored on uninstall.
 The setup script never modifies other agent packs or global MCP settings.
 EOF
 }
@@ -91,6 +95,7 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --dry-run) DRY_RUN=true ;;
     --set-default) SET_DEFAULT=true ;;
+    --no-default) SKIP_DEFAULT=true ;;
     --alias) SETUP_ALIAS=true ;;
     --no-alias) SKIP_ALIAS=true ;;
     --uninstall) UNINSTALL=true ;;
@@ -102,6 +107,8 @@ while [[ $# -gt 0 ]]; do
 done
 
 $UNINSTALL && $SET_DEFAULT && fail "--set-default cannot be used with --uninstall"
+$UNINSTALL && $SKIP_DEFAULT && fail "--no-default cannot be used with --uninstall"
+$SET_DEFAULT && $SKIP_DEFAULT && fail "--set-default and --no-default are mutually exclusive"
 
 banner
 
@@ -284,12 +291,24 @@ if [[ ! -f "$MANIFEST" ]]; then
   done
 fi
 
+# Decide whether to set Kodama as the default agent. Explicit --set-default
+# always wins; --no-default always opts out. Otherwise, a fresh install sets
+# the default by default, while updates leave the existing default untouched.
+WANT_DEFAULT=false
+if $SET_DEFAULT; then
+  WANT_DEFAULT=true
+elif $SKIP_DEFAULT; then
+  WANT_DEFAULT=false
+elif $IS_FRESH_INSTALL; then
+  WANT_DEFAULT=true
+fi
+
 if $DRY_RUN; then
   step "Dry run"
   info "Would install agents: ${AGENT_NAMES[*]}"
   info "Would install skills: ${SKILL_NAMES[*]}"
   info "Target: $KIRO_DIR"
-  $SET_DEFAULT && info "Would set default agent to: kodama"
+  $WANT_DEFAULT && info "Would set default agent to: kodama"
   printf '\n'
   success "No files modified"
   exit 0
@@ -383,7 +402,7 @@ previous_default=""
 if [[ -f "$MANIFEST" ]]; then
   previous_default="$(manifest_value previousDefaultAgent)"
 fi
-if $SET_DEFAULT; then
+if $WANT_DEFAULT; then
   current_default="$(kiro-cli settings chat.defaultAgent 2>/dev/null || true)"
   [[ "$current_default" != "kodama" ]] && previous_default="$current_default"
   kiro-cli settings chat.defaultAgent kodama

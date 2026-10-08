@@ -102,13 +102,15 @@ It does **not** modify:
 
 - other agent packs or their configuration
 - global MCP settings
-- your Kiro default agent, unless requested explicitly
+
+On a fresh install it sets `chat.defaultAgent` to `kodama` so a bare `kiro-cli chat` starts Kodama. The previous default is recorded in the manifest and restored on uninstall. Opt out with `--no-default`, and the standalone one-liner prompts before changing it (non-interactive runs, such as a piped `curl | bash`, default to yes). Updates never touch an existing default.
 
 Use the optional lifecycle commands:
 
 ```bash
 ./setup.sh --dry-run       # preview without writes
-./setup.sh --set-default   # set chat.defaultAgent to kodama
+./setup.sh --set-default   # force setting chat.defaultAgent to kodama
+./setup.sh --no-default    # skip setting the default agent on fresh install
 ./setup.sh --no-alias      # skip adding shell alias (added by default on fresh install)
 ./setup.sh --uninstall     # remove only unmodified files owned by this pack
 ```
