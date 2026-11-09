@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.1] - 2026-11-09
+
+### Fixed
+
+- **Kiro Crew reported "2 specs declare the name 'kodama' with differing content"** — the Kodama app manifest (`app.json`) listed all nine agents and three skills, so Kiro Crew projected its own copies as `~/.kiro/agents/kodama--<agent>.json` alongside the `~/.kiro/agents/<agent>.json` files installed by `setup.sh`. Both declared the same `name`, and Crew refused to load them. The `agents` and `skills` arrays were removed from `app.json`, and the app's `setup.onInstall` / `setup.onUpdate` now run `./setup.sh --no-alias --no-default` before building the UI, so a Crew-only install still gets the agents through the single `setup.sh` path. Updating the Kodama app in Crew deregisters the old `kodama--*` files. `setup.sh` now warns after install or update if any `kodama--*.json` duplicates remain (they are not in the manifest, so they are never deleted automatically), and `kodama doctor` gained a "Duplicate agents" check that flags each one with the same remediation.
+
 ## [0.11.0] - 2026-10-08
 
 ### Added

@@ -40,7 +40,7 @@ AGENTS_DIR="$KIRO_DIR/agents"
 SKILLS_DIR="$KIRO_DIR/skills"
 STATE_DIR="$KIRO_DIR/kodama"
 MANIFEST="$STATE_DIR/manifest.json"
-KODAMA_VERSION="0.11.0"
+KODAMA_VERSION="0.11.1"
 
 AGENT_NAMES=(
   kodama
@@ -498,6 +498,21 @@ manifest.write_text(json.dumps({
     "previousDefaultAgent": sys.argv[2]
 }, indent=2) + "\n", encoding="utf-8")
 PY
+
+# Older Kiro Crew Kodama app versions projected agent specs as
+# kodama--<agent>.json, which collide by "name" with the files above.
+# They are not in our manifest, so warn instead of deleting them.
+shopt -s nullglob
+crew_duplicates=("$AGENTS_DIR"/kodama--*.json)
+shopt -u nullglob
+if (( ${#crew_duplicates[@]} > 0 )); then
+  step "Duplicate agents"
+  for duplicate in "${crew_duplicates[@]}"; do
+    warn "Duplicate agent spec: $duplicate"
+  done
+  warn "These were projected by an older Kiro Crew Kodama app and collide with the installed agents."
+  warn "Update the Kodama app in Kiro Crew (or delete these files) to resolve it."
+fi
 
 printf '\n%b━━ Done%b\n' "$BOLD" "$RESET"
 printf '\n'

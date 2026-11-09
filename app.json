@@ -1,6 +1,6 @@
 {
   "name": "kodama",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "displayName": "Kodama",
   "description": "A portable, provider-neutral multi-agent pack. One orchestrator, eight specialists, zero lock-in.",
   "author": "amergrgic",
@@ -8,22 +8,6 @@
   "tags": ["agents", "multi-agent", "orchestration", "delegation", "code-review"],
   "iconPath": "ui/icon.png",
   "screenshots": ["assets/screenshot-dashboard.png"],
-  "agents": [
-    "agents/kodama.json",
-    "agents/kodama-scout.json",
-    "agents/kodama-scholar.json",
-    "agents/kodama-sage.json",
-    "agents/kodama-artist.json",
-    "agents/kodama-smith.json",
-    "agents/kodama-critic.json",
-    "agents/kodama-forge.json",
-    "agents/kodama-scribe.json"
-  ],
-  "skills": [
-    "skills/kodama-behavior",
-    "skills/kodama-verification",
-    "skills/kodama-constraints"
-  ],
   "highlights": [
     "9 purpose-built agents with clear permission boundaries",
     "Structured delegation with success criteria and feedback loops",
@@ -46,8 +30,8 @@
     ]
   },
   "setup": {
-    "onInstall": "cd ui && npm install && npm run build",
-    "onUpdate": "cd ui && npm install && npm run build"
+    "onInstall": "./setup.sh --no-alias --no-default && cd ui && npm install && npm run build",
+    "onUpdate": "./setup.sh --no-alias --no-default && cd ui && npm install && npm run build"
   },
   "platform": {
     "os": ["macos", "linux"]

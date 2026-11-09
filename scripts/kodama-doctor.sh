@@ -155,7 +155,23 @@ PY
 )
 
 # ---------------------------------------------------------------------------
-# 6. Scripts present and executable
+# 6. No duplicate agent specs projected by an older Kiro Crew Kodama app
+# ---------------------------------------------------------------------------
+section "Duplicate agents"
+
+shopt -s nullglob
+crew_duplicates=("$KIRO_DIR"/agents/kodama--*.json)
+shopt -u nullglob
+if (( ${#crew_duplicates[@]} == 0 )); then
+  pass "No duplicate agent specs"
+else
+  for duplicate in "${crew_duplicates[@]}"; do
+    fail_check "$duplicate — duplicate projected by an older Kiro Crew Kodama app; update the Kodama app in Kiro Crew (or delete this file)"
+  done
+fi
+
+# ---------------------------------------------------------------------------
+# 7. Scripts present and executable
 # ---------------------------------------------------------------------------
 section "Scripts"
 
@@ -172,7 +188,7 @@ for script in "${EXPECTED_SCRIPTS[@]}"; do
 done
 
 # ---------------------------------------------------------------------------
-# 7. Shell alias check
+# 8. Shell alias check
 # ---------------------------------------------------------------------------
 section "Shell alias"
 
@@ -207,7 +223,7 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-# 8. Update check
+# 9. Update check
 # ---------------------------------------------------------------------------
 section "Update check"
 pass "Updates checked on every session start"

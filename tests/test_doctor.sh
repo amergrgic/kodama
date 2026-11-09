@@ -194,5 +194,24 @@ has_missing_script="$([[ "$output" == *"check-update.sh"*"missing"* ]] && echo t
 assert_eq "missing script reports 'check-update.sh — missing'" "true" "$has_missing_script"
 
 # ──────────────────────────────────────────────────────────────────────────────
+printf '%s\n' 'Test: Crew duplicate agent spec — doctor reports it and exits non-zero'
+# ──────────────────────────────────────────────────────────────────────────────
+DUPLICATE_DIR="$BASE/duplicate"
+DUPLICATE_HOME="$BASE/duplicate-home"
+mkdir -p "$DUPLICATE_DIR" "$DUPLICATE_HOME"
+setup_healthy "$DUPLICATE_DIR" "$DUPLICATE_HOME"
+
+# Create the duplicate after setup_healthy so it stays out of the manifest
+printf '{"name":"kodama","prompt":"crew","model":"auto","tools":[],"allowedTools":[]}' \
+  > "$DUPLICATE_DIR/agents/kodama--kodama.json"
+
+output="$(run_doctor "$DUPLICATE_DIR" "$DUPLICATE_HOME")"
+exit_code="$(run_doctor_exit "$DUPLICATE_DIR" "$DUPLICATE_HOME" || true)"
+assert_eq "duplicate agent spec exits non-zero" "true" "$([[ "$exit_code" -ne 0 ]] && echo true || echo false)"
+
+has_duplicate="$([[ "$output" == *"kodama--kodama.json"* ]] && echo true || echo false)"
+assert_eq "duplicate agent spec reports 'kodama--kodama.json'" "true" "$has_duplicate"
+
+# ──────────────────────────────────────────────────────────────────────────────
 printf '\nResults: %s passed, %s failed\n' "$pass" "$fail"
 [[ "$fail" -eq 0 ]]
